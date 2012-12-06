@@ -33,5 +33,7 @@ namespace BattleNet.D3.Models
 
         public Progression Progression { get; set; }
         public Progression HardcoreProgression { get; set; }
+
+        public string Json { get; set; }
     }
 }

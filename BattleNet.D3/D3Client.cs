@@ -23,7 +23,10 @@ namespace BattleNet.D3
 
             String json = await GetJsonFromUri(profileUri);
 
-            return JsonConvert.DeserializeObject<Profile>(json);
+            Profile profile = JsonConvert.DeserializeObject<Profile>(json);
+            //profile.Json = json;
+
+            return profile;
         }
     }
 }

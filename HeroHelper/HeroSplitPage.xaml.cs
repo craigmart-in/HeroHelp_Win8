@@ -1,13 +1,7 @@
-﻿using BattleNet;
-using BattleNet.D3;
-using BattleNet.D3.Models;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.ViewManagement;
@@ -27,12 +21,9 @@ namespace HeroHelper
     /// A page that displays a group title, a list of items within the group, and details for
     /// the currently selected item.
     /// </summary>
-    public sealed partial class MainPage : HeroHelper.Common.LayoutAwarePage
+    public sealed partial class HeroSplitPage : HeroHelper.Common.LayoutAwarePage
     {
-        private D3Client _d3Client;
-        private ObservableCollection<Profile> _recentProfiles;
-
-        public MainPage()
+        public HeroSplitPage()
         {
             this.InitializeComponent();
         }
@@ -53,10 +44,6 @@ namespace HeroHelper
             // TODO: Assign a bindable group to this.DefaultViewModel["Group"]
             // TODO: Assign a collection of bindable items to this.DefaultViewModel["Items"]
 
-            PopulateRegionListBox();
-            _recentProfiles = new ObservableCollection<Profile>();
-            this.DefaultViewModel["Items"] = _recentProfiles;
-            
             if (pageState == null)
             {
                 // When this is a new page, select the first item automatically unless logical page
@@ -77,15 +64,6 @@ namespace HeroHelper
             }
         }
 
-        private void PopulateRegionListBox()
-        {
-            // Populate the region list box from the Enums.
-            regionComboBox.ItemsSource = Enum.GetNames(typeof(BattleNet.Region));
-
-            // Default the selection to US.
-            regionComboBox.SelectedItem = regionComboBox.Items[0];
-        }
-
         /// <summary>
         /// Preserves state associated with this page in case the application is suspended or the
         /// page is discarded from the navigation cache.  Values must conform to the serialization
@@ -98,7 +76,7 @@ namespace HeroHelper
             {
                 var selectedItem = this.itemsViewSource.View.CurrentItem;
                 // TODO: Derive a serializable navigation parameter and assign it to
-                pageState["SelectedItem"] = selectedItem;
+                //       pageState["SelectedItem"]
             }
         }
 
@@ -144,17 +122,6 @@ namespace HeroHelper
             // to showing the selected item's details.  When the selection is cleared this has the
             // opposite effect.
             if (this.UsingLogicalPageNavigation()) this.InvalidateVisualState();
-
-            Selector list = sender as Selector;
-            Profile selectedItem = list.SelectedItem as Profile;
-            if (selectedItem != null)
-            {
-                heroesGridView.ItemsSource = new ObservableCollection<ProfileHero>(selectedItem.Heroes);
-            }
-            else
-            {
-                
-            }
         }
 
         /// <summary>
@@ -214,74 +181,5 @@ namespace HeroHelper
         }
 
         #endregion
-
-        private void viewHeroesButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewHeroes();
-        }
-
-        private void battleTagTextBox_KeyUp(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                ViewHeroes();
-            }
-        }
-
-        private async void ViewHeroes()
-        {
-            string battleTag = battleTagTextBox.Text;
-            Region region = (Region)Enum.Parse(typeof(Region), regionComboBox.SelectedItem.ToString(), true);
-
-            if (!BattleNet.BattleNet.IsValidBattleTag(battleTag))
-            {
-                invalidBattleTagTextBlock.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            }
-            else
-            {
-                invalidBattleTagTextBlock.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                _d3Client = new D3Client(region);
-
-                battleTag = battleTag.Replace("#", "-");
-
-                Profile profile = await _d3Client.GetProfileAsync(battleTag);
-
-                if (profile == null)
-                {
-                    // TODO: Add warning of no profile available.
-                }
-                else
-                {
-                    profile.Region = region;
-
-                    // If the profile already exists in the list, remove it and add the new one.
-                    int index = 0;
-                    bool found = false;
-                    for (int i=0; i < _recentProfiles.Count; i++)
-                    {
-                        if (_recentProfiles[i].BattleTag.Equals(profile.BattleTag, StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            found = true;
-                            index = i;
-                            break;
-                        }
-                    }
-
-                    if(found)
-                        _recentProfiles.RemoveAt(index);
-
-                    _recentProfiles.Insert(0, profile);
-
-                    // Save the list of recent profiles for cache.
-                    //string recentProfiles = JsonConvert.SerializeObject(_recentProfiles);
-                    //Windows.Storage.ApplicationDataContainer roamingSettings =
-                    //    Windows.Storage.ApplicationData.Current.RoamingSettings;
-                    //roamingSettings.Values["recentProfiles"] = recentProfiles;
-
-                    // Select the first item in the list.
-                    itemListView.SelectedIndex = 0;
-                }
-            }
-        }
     }
 }
