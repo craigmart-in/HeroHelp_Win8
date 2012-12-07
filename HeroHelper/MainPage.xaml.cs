@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -29,6 +30,8 @@ namespace HeroHelper
     /// </summary>
     public sealed partial class MainPage : HeroHelper.Common.LayoutAwarePage
     {
+        private const String RecentProfiles = "recentProfiles";
+
         private D3Client _d3Client;
         private ObservableCollection<Profile> _recentProfiles;
 
@@ -48,13 +51,28 @@ namespace HeroHelper
         /// </param>
         /// <param name="pageState">A dictionary of state preserved by this page during an earlier
         /// session.  This will be null the first time a page is visited.</param>
-        protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
+        protected async override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             // TODO: Assign a bindable group to this.DefaultViewModel["Group"]
             // TODO: Assign a collection of bindable items to this.DefaultViewModel["Items"]
 
             PopulateRegionListBox();
             _recentProfiles = new ObservableCollection<Profile>();
+
+            try
+            {
+                StorageFile sampleFile =
+                            await ApplicationData.Current.LocalFolder.GetFileAsync(RecentProfiles + ".txt");
+
+                string recentProfiles = await FileIO.ReadTextAsync(sampleFile);
+
+                if (!String.IsNullOrEmpty(recentProfiles))
+                {
+                    _recentProfiles = JsonConvert.DeserializeObject <ObservableCollection<Profile>>(recentProfiles);
+                }
+            }
+            catch { } // File doesn't exist.
+
             this.DefaultViewModel["Items"] = _recentProfiles;
             
             if (pageState == null)
@@ -69,10 +87,9 @@ namespace HeroHelper
             else
             {
                 // Restore the previously saved state associated with this page
-                if (pageState.ContainsKey("SelectedItem") && this.itemsViewSource.View != null)
+                if (pageState.ContainsKey("SelectedProfile"))
                 {
-                    // TODO: Invoke this.itemsViewSource.View.MoveCurrentTo() with the selected
-                    //       item as specified by the value of pageState["SelectedItem"]
+                    itemListView.SelectedIndex = (int) pageState["SelectedProfile"];
                 }
             }
         }
@@ -98,7 +115,7 @@ namespace HeroHelper
             {
                 var selectedItem = this.itemsViewSource.View.CurrentItem;
                 // TODO: Derive a serializable navigation parameter and assign it to
-                pageState["SelectedItem"] = selectedItem;
+                pageState["SelectedProfile"] = this.itemsViewSource.View.CurrentPosition;
             }
         }
 
@@ -231,6 +248,7 @@ namespace HeroHelper
         private async void ViewHeroes()
         {
             string battleTag = battleTagTextBox.Text;
+            battleTagTextBox.Text = "";
             Region region = (Region)Enum.Parse(typeof(Region), regionComboBox.SelectedItem.ToString(), true);
 
             if (!BattleNet.BattleNet.IsValidBattleTag(battleTag))
@@ -273,15 +291,37 @@ namespace HeroHelper
                     _recentProfiles.Insert(0, profile);
 
                     // Save the list of recent profiles for cache.
-                    //string recentProfiles = JsonConvert.SerializeObject(_recentProfiles);
-                    //Windows.Storage.ApplicationDataContainer roamingSettings =
-                    //    Windows.Storage.ApplicationData.Current.RoamingSettings;
-                    //roamingSettings.Values["recentProfiles"] = recentProfiles;
+                    string recentProfiles = JsonConvert.SerializeObject(_recentProfiles);
+
+                    StorageFile sampleFile = 
+                        await ApplicationData.Current.LocalFolder.CreateFileAsync(RecentProfiles + ".txt", 
+                        CreationCollisionOption.ReplaceExisting);
+
+                    await FileIO.WriteTextAsync(sampleFile, recentProfiles);
 
                     // Select the first item in the list.
                     itemListView.SelectedIndex = 0;
                 }
             }
+        }
+
+        private void heroesGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Profile profile = (Profile) this.itemListView.SelectedItem;
+            int heroIndex = this.heroesGridView.SelectedIndex;
+            ProfileHero profileHero = (ProfileHero)e.ClickedItem;
+
+            for (int i=0; i<profile.Heroes.Count; i++)
+            {
+                if(profile.Heroes[i].Id == profileHero.Id)
+                    heroIndex = i;
+            }
+
+            Selector list = sender as Selector;
+
+            SelectedHero selectedHero = new SelectedHero() {HeroIndex=heroIndex, Profile=profile};
+
+            this.Frame.Navigate(typeof(HeroSplitPage), selectedHero);
         }
     }
 }

@@ -43,6 +43,8 @@ namespace HeroHelper
         {
             // TODO: Assign a bindable group to this.DefaultViewModel["Group"]
             // TODO: Assign a collection of bindable items to this.DefaultViewModel["Items"]
+            SelectedHero selectedHero = (SelectedHero)navigationParameter;
+            this.DefaultViewModel["Items"] = selectedHero.Profile.Heroes;
 
             if (pageState == null)
             {
@@ -50,7 +52,8 @@ namespace HeroHelper
                 // navigation is being used (see the logical page navigation #region below.)
                 if (!this.UsingLogicalPageNavigation() && this.itemsViewSource.View != null)
                 {
-                    this.itemsViewSource.View.MoveCurrentToFirst();
+                    //this.itemsViewSource.View.MoveCurrentToFirst();
+                    this.itemsViewSource.View.MoveCurrentTo(selectedHero.HeroIndex);
                 }
             }
             else

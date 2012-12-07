@@ -108,10 +108,14 @@
                 ItemTemplate="{StaticResource ProfileItemTemplate}"/>
 
         </StackPanel>
-        <GridView x:Name="heroesGridView" 
+        <GridView
+            x:Name="heroesGridView" 
             Grid.Row="1"
             Grid.Column="1"
-            ItemTemplate="{StaticResource HeroItemTemplate}" Margin="50,50,0,0"/>
+            ItemTemplate="{StaticResource HeroItemTemplate}" Margin="50,50,0,0"
+            ItemClick="heroesGridView_ItemClick"
+            SelectionMode="None"
+            IsItemClickEnabled="True"/>
 
         <!-- Vertical scrolling item list -->
 
