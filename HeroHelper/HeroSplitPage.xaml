@@ -15,7 +15,7 @@
         <!-- Collection of items displayed by this page -->
         <CollectionViewSource
             x:Name="itemsViewSource"
-            Source="{Binding Items}"/>
+            Source="{Binding Heroes}"/>
         <DataTemplate x:Key="HeroItemTemplate">
             <Grid Height="110" Margin="6">
                 <Grid.ColumnDefinitions>
