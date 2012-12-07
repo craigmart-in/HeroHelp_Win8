@@ -26,9 +26,19 @@
                     <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
-                    <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
-                    <TextBlock Text="{Binding Level}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
-                    <TextBlock Text="{Binding FriendlyClass}" Style="{StaticResource BodyTextStyle}" MaxHeight="60"/>
+                    <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Margin="0,0,0,20"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Class:" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding FriendlyClass}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Level:" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding Level}" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Paragon Level:" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap" Margin="0,0,10,0"/>
+                        <TextBlock Text="{Binding ParagonLevel}" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap"/>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -60,7 +70,11 @@
                 Click="GoBack"
                 IsEnabled="{Binding DefaultViewModel.CanGoBack, ElementName=pageRoot}"
                 Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{Binding Group.Title}" Style="{StaticResource PageHeaderTextStyle}"/>
+            <StackPanel Grid.Column="1" Margin="0,60,30,40" Orientation="Horizontal">
+                <TextBlock x:Name="battleTagTitle" Text="{Binding Group.BattleTag}" Style="{StaticResource PageHeaderTextStyle}" Margin="0"/>
+                <TextBlock Text=" - " Style="{StaticResource PageHeaderTextStyle}" Margin="10,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock x:Name="regionTitle" Text="{Binding Group.Region}" Style="{StaticResource PageHeaderTextStyle}" Margin="10,0,0,0"/>
+            </StackPanel>
         </Grid>
 
         <!-- Vertical scrolling item list -->

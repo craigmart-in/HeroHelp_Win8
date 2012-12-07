@@ -68,7 +68,7 @@ namespace HeroHelper
 
                 if (!String.IsNullOrEmpty(recentProfiles))
                 {
-                    _recentProfiles = JsonConvert.DeserializeObject <ObservableCollection<Profile>>(recentProfiles);
+                    _recentProfiles = JsonConvert.DeserializeObject<ObservableCollection<Profile>>(recentProfiles);
                 }
             }
             catch { } // File doesn't exist.
@@ -167,10 +167,6 @@ namespace HeroHelper
             if (selectedItem != null)
             {
                 heroesGridView.ItemsSource = new ObservableCollection<ProfileHero>(selectedItem.Heroes);
-            }
-            else
-            {
-                
             }
         }
 
@@ -321,7 +317,7 @@ namespace HeroHelper
 
             SelectedHero selectedHero = new SelectedHero() {HeroIndex=heroIndex, Profile=profile};
 
-            this.Frame.Navigate(typeof(HeroSplitPage), selectedHero);
+            this.Frame.Navigate(typeof(HeroSplitPage), JsonConvert.SerializeObject(selectedHero));
         }
     }
 }

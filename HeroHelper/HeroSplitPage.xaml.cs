@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -43,7 +44,9 @@ namespace HeroHelper
         {
             // TODO: Assign a bindable group to this.DefaultViewModel["Group"]
             // TODO: Assign a collection of bindable items to this.DefaultViewModel["Items"]
-            SelectedHero selectedHero = (SelectedHero)navigationParameter;
+            string selectedHeroJson = (string)navigationParameter;
+            SelectedHero selectedHero = JsonConvert.DeserializeObject<SelectedHero>(selectedHeroJson);
+            this.DefaultViewModel["Group"] = selectedHero.Profile;
             this.DefaultViewModel["Heroes"] = selectedHero.Profile.Heroes;
 
             if (pageState == null)
@@ -59,10 +62,9 @@ namespace HeroHelper
             else
             {
                 // Restore the previously saved state associated with this page
-                if (pageState.ContainsKey("SelectedItem") && this.itemsViewSource.View != null)
+                if (pageState.ContainsKey("SelectedHero") && this.itemsViewSource.View != null)
                 {
-                    // TODO: Invoke this.itemsViewSource.View.MoveCurrentTo() with the selected
-                    //       item as specified by the value of pageState["SelectedItem"]
+                    itemListView.SelectedIndex = (int)pageState["SelectedHero"];
                 }
             }
         }
@@ -79,7 +81,7 @@ namespace HeroHelper
             {
                 var selectedItem = this.itemsViewSource.View.CurrentItem;
                 // TODO: Derive a serializable navigation parameter and assign it to
-                //       pageState["SelectedItem"]
+                pageState["SelectedHero"] = this.itemsViewSource.View.CurrentPosition;
             }
         }
 
