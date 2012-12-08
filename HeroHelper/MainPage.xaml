@@ -63,6 +63,18 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
+    
+    <common:LayoutAwarePage.BottomAppBar>
+        <AppBar>
+            <Grid HorizontalAlignment="Left" Height="100" Width="1346">
+                <Button x:Name="DeleteProfileButton"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="DeleteProfileButton_Click"
+                        Style="{StaticResource DeleteAppBarButtonStyle}"/>
+            </Grid>
+        </AppBar>
+    </common:LayoutAwarePage.BottomAppBar>
 
     <!--
         This grid acts as a root panel for the page that defines two rows:

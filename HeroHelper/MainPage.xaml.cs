@@ -331,7 +331,7 @@ namespace HeroHelper
 
         private void heroesGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Profile profile = (Profile) this.itemListView.SelectedItem;
+            Profile profile = this.itemListView.SelectedItem as Profile;
             int heroIndex = this.heroesGridView.SelectedIndex;
             ProfileHero profileHero = (ProfileHero)e.ClickedItem;
 
@@ -350,6 +350,20 @@ namespace HeroHelper
 
         private void itemListView_Drop(object sender, DragEventArgs e)
         {
+            SaveRecentProfiles();
+        }
+
+        private void DeleteProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            Profile selectedProfile = this.itemListView.SelectedItem as Profile;
+
+            if (selectedProfile != null && this.Frame != null)
+            {
+                // TODO: Ask user if they are sure they want to remove profile.
+
+                _recentProfiles.RemoveAt(this.itemListView.SelectedIndex);
+            }
+
             SaveRecentProfiles();
         }
     }
