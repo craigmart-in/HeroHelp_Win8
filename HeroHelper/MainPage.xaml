@@ -17,7 +17,7 @@
             x:Name="itemsViewSource"
             Source="{Binding Items}"/>
         <DataTemplate x:Key="ProfileItemTemplate">
-            <Grid Height="195" Margin="6" Width="330">
+            <Grid Height="195" Margin="3" Width="330">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -92,7 +92,7 @@
                 Style="{StaticResource BackButtonStyle}"/>
             <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource ApplicationName}" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
-        <StackPanel Orientation="Vertical" Margin="0" Grid.Row="1" Height="200" VerticalAlignment="Top">
+        <StackPanel Orientation="Vertical" Margin="0,0,20,0" Grid.Row="1" Height="200" VerticalAlignment="Top">
         	<StackPanel Margin="100,0,0,0">
         		<StackPanel Orientation="Horizontal">
         			<TextBlock TextWrapping="Wrap" Text="Battle Tag" Style="{StaticResource BasicTextStyle}" Width="200"/>
