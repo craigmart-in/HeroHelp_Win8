@@ -137,10 +137,22 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\career-portraits.jpg" />
+    <Content Include="Assets\demon-hunter-female.png" />
+    <Content Include="Assets\demon-hunter-male.png" />
+    <Content Include="Assets\hero-nav-portraits.jpg" />
     <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\barbarian-female.png" />
+    <Content Include="Assets\barbarian-male.png" />
+    <Content Include="Assets\monk-female.png" />
+    <Content Include="Assets\monk-male.png" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\witch-doctor-female.png" />
+    <Content Include="Assets\witch-doctor-male.png" />
+    <Content Include="Assets\wizard-female.png" />
+    <Content Include="Assets\wizard-male.png" />
     <Content Include="Common\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\ProfileTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -17,13 +17,13 @@
             x:Name="itemsViewSource"
             Source="{Binding Items}"/>
         <DataTemplate x:Key="ProfileItemTemplate">
-            <Grid Height="110" Margin="6">
+            <Grid Height="195" Margin="6" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="375">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
-                    <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="168" Height="130" VerticalAlignment="Top">
+                    <Image Source="{Binding ProfilePortrait}" AutomationProperties.Name="{Binding Title}" Stretch="None" HorizontalAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
                     <TextBlock Text="{Binding BattleTag}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
@@ -43,7 +43,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
-                    <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
+                    <Image Source="{Binding Portrait}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
                     <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Margin="0,0,0,20"/>

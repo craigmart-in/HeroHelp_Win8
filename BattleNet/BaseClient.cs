@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -11,17 +12,17 @@ namespace BattleNet
     {
         HttpClient _httpClient;
 
-        private Region _region;
+        public Region Region { get; set; }
 
-        public Region Region
-        {
-            get { return _region; }
-            set { _region = value; }
-        }
+        public Localization Localization { get; set; }
+
+        public Uri BaseUri { get; set; }
 
         public BaseClient(Region region)
         {
             this.Region = region;
+            this.Localization = (Localization)Enum.Parse(typeof(Localization), CultureInfo.CurrentCulture.Name.Replace("-", "_"), true);
+            this.BaseUri = BattleNet.GetBaseUriByRegion(Region);
 
             HttpMessageHandler handler = new HttpClientHandler();
             _httpClient = new HttpClient(handler);

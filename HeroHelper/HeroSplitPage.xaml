@@ -23,7 +23,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
-                    <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
+                    <Image Source="{Binding Portrait}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
                     <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Margin="0,0,0,20"/>
@@ -89,36 +89,31 @@
             IsSwipeEnabled="False"
             SelectionChanged="ItemListView_SelectionChanged"
             ItemTemplate="{StaticResource HeroItemTemplate}" Grid.RowSpan="2"/>
+        <ScrollViewer x:Name="heroScrollView"
+        	Grid.Column="1"
+        	Grid.RowSpan="1" Grid.Row="1">
+            <Grid
+            Height="618" Width="966">
+
+                <!-- Item Images -->
+                <Grid Width="305" Height="425"
+        			Margin="0,0,150,0"
+        			HorizontalAlignment="Right"
+        			VerticalAlignment="Top">
+                    <TextBlock 
+        				Margin="121,4,0,0"
+        				Height="66" Width="66"
+        				HorizontalAlignment="Left"
+        				VerticalAlignment="Top"
+        				Text="{Binding Items.Head.Name}"
+                    />
+
+                </Grid>
+            </Grid>
+
+        </ScrollViewer>
 
         <!-- Details for selected item -->
-        <ScrollViewer
-            x:Name="itemDetail"
-            AutomationProperties.AutomationId="ItemDetailScrollViewer"
-            Grid.Column="1"
-            Grid.RowSpan="2"
-            Padding="70,0,120,0"
-            DataContext="{Binding SelectedItem, ElementName=itemListView}"
-            Style="{StaticResource VerticalScrollViewerStyle}">
-
-            <Grid x:Name="itemDetailGrid" Margin="0,60,0,50">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Image Grid.Row="1" Margin="0,0,20,0" Width="180" Height="180" Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
-                <StackPanel x:Name="itemDetailTitlePanel" Grid.Row="1" Grid.Column="1">
-                    <TextBlock x:Name="itemTitle" Margin="0,-10,0,0" Text="{Binding Title}" Style="{StaticResource SubheaderTextStyle}"/>
-                    <TextBlock x:Name="itemSubtitle" Margin="0,0,0,20" Text="{Binding Subtitle}" Style="{StaticResource SubtitleTextStyle}"/>
-                </StackPanel>
-                <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Margin="0,20,0,0" Text="{Binding Content}" Style="{StaticResource BodyTextStyle}"/>
-            </Grid>
-        </ScrollViewer>
 
         <VisualStateManager.VisualStateGroups>
 

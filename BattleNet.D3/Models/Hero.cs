@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BattleNet.D3.Models
 {
-    public class Hero : D3Object
+    public class Hero : HeroBaseExtended
     {
         public Skills Skills { get; set; }
         public Followers Followers { get; set; }

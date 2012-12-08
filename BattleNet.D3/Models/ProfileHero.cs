@@ -13,5 +13,7 @@ namespace BattleNet.D3.Models
 
         [JsonProperty("last-updated")]
         public long LastUpdated { get; set; }
+
+        public Windows.UI.Xaml.Media.Imaging.BitmapImage Portrait { get; set; }
     }
 }

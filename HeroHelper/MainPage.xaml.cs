@@ -241,7 +241,7 @@ namespace HeroHelper
             }
         }
 
-        private async void ViewHeroes()
+        private void ViewHeroes()
         {
             string battleTag = battleTagTextBox.Text;
             battleTagTextBox.Text = "";
@@ -258,46 +258,63 @@ namespace HeroHelper
 
                 battleTag = battleTag.Replace("#", "-");
 
-                Profile profile = await _d3Client.GetProfileAsync(battleTag);
+                RefreshProfile(battleTag, region);
+            }
+        }
 
-                if (profile == null)
-                {
-                    // TODO: Add warning of no profile available.
-                }
-                else
-                {
-                    profile.Region = region;
+        private async void RefreshProfile(string battleTag, Region region)
+        {
+            Profile profile = await _d3Client.GetProfileAsync(battleTag);
 
-                    // If the profile already exists in the list, remove it and add the new one.
-                    int index = 0;
-                    bool found = false;
-                    for (int i=0; i < _recentProfiles.Count; i++)
+            if (profile == null)
+            {
+                // TODO: Add warning of no profile available.
+            }
+            else
+            {
+                profile.Region = region;
+
+                // Set the Profile iamge.
+                string imageName = String.Empty;
+                foreach(ProfileHero profileHero in profile.Heroes)
+                {
+                    if (profileHero.Id == profile.LastHeroPlayed)
                     {
-                        if (_recentProfiles[i].BattleTag.Equals(profile.BattleTag, StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            found = true;
-                            index = i;
-                            break;
-                        }
+                        imageName = profileHero.Class + "-" + profileHero.Gender;
                     }
-
-                    if(found)
-                        _recentProfiles.RemoveAt(index);
-
-                    _recentProfiles.Insert(0, profile);
-
-                    // Save the list of recent profiles for cache.
-                    string recentProfiles = JsonConvert.SerializeObject(_recentProfiles);
-
-                    StorageFile sampleFile = 
-                        await ApplicationData.Current.LocalFolder.CreateFileAsync(RecentProfiles + ".txt", 
-                        CreationCollisionOption.ReplaceExisting);
-
-                    await FileIO.WriteTextAsync(sampleFile, recentProfiles);
-
-                    // Select the first item in the list.
-                    itemListView.SelectedIndex = 0;
+                    profileHero.Portrait = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/" + profileHero.Class + "-" + profileHero.Gender + ".png"));
                 }
+                profile.ProfilePortrait = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/" + imageName + ".png"));
+
+                // If the profile already exists in the list, remove it and add the new one.
+                int index = 0;
+                bool found = false;
+                for (int i = 0; i < _recentProfiles.Count; i++)
+                {
+                    if (_recentProfiles[i].BattleTag.Equals(profile.BattleTag, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        found = true;
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (found)
+                    _recentProfiles.RemoveAt(index);
+
+                _recentProfiles.Insert(0, profile);
+
+                // Save the list of recent profiles for cache.
+                string recentProfiles = JsonConvert.SerializeObject(_recentProfiles);
+
+                StorageFile sampleFile =
+                    await ApplicationData.Current.LocalFolder.CreateFileAsync(RecentProfiles + ".txt",
+                    CreationCollisionOption.ReplaceExisting);
+
+                await FileIO.WriteTextAsync(sampleFile, recentProfiles);
+
+                // Select the first item in the list.
+                itemListView.SelectedIndex = 0;
             }
         }
 

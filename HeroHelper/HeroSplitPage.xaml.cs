@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using BattleNet.D3;
+using BattleNet.D3.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +26,11 @@ namespace HeroHelper
     /// </summary>
     public sealed partial class HeroSplitPage : HeroHelper.Common.LayoutAwarePage
     {
+        private D3Client _d3Client;
+        private Profile _profile;
+
+        private Hero[] _heroes;
+
         public HeroSplitPage()
         {
             this.InitializeComponent();
@@ -42,12 +49,15 @@ namespace HeroHelper
         /// session.  This will be null the first time a page is visited.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            // TODO: Assign a bindable group to this.DefaultViewModel["Group"]
-            // TODO: Assign a collection of bindable items to this.DefaultViewModel["Items"]
             string selectedHeroJson = (string)navigationParameter;
             SelectedHero selectedHero = JsonConvert.DeserializeObject<SelectedHero>(selectedHeroJson);
-            this.DefaultViewModel["Group"] = selectedHero.Profile;
-            this.DefaultViewModel["Heroes"] = selectedHero.Profile.Heroes;
+
+            _profile = selectedHero.Profile;
+            _heroes = new Hero[_profile.Heroes.Count];
+            _d3Client = new D3Client(_profile.Region);
+
+            this.DefaultViewModel["Group"] = _profile;
+            this.DefaultViewModel["Heroes"] = _profile.Heroes;
 
             if (pageState == null)
             {
@@ -119,7 +129,7 @@ namespace HeroHelper
         /// <param name="sender">The GridView (or ListView when the application is Snapped)
         /// displaying the selected item.</param>
         /// <param name="e">Event data that describes how the selection was changed.</param>
-        void ItemListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        async void ItemListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Invalidate the view state when logical page navigation is in effect, as a change
             // in selection may cause a corresponding change in the current logical page.  When
@@ -127,6 +137,16 @@ namespace HeroHelper
             // to showing the selected item's details.  When the selection is cleared this has the
             // opposite effect.
             if (this.UsingLogicalPageNavigation()) this.InvalidateVisualState();
+
+            Selector list = sender as Selector;
+            ProfileHero selectedItem = list.SelectedItem as ProfileHero;
+            if (selectedItem != null)
+            {
+                if(_heroes[list.SelectedIndex] == null)
+                    _heroes[list.SelectedIndex] = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
+
+                heroScrollView.DataContext = _heroes[list.SelectedIndex];
+            }
         }
 
         /// <summary>
