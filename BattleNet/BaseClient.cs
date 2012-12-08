@@ -18,11 +18,17 @@ namespace BattleNet
 
         public Uri BaseUri { get; set; }
 
+        public Uri MediaUri { get; set; }
+
         public BaseClient(Region region)
         {
             this.Region = region;
             this.Localization = (Localization)Enum.Parse(typeof(Localization), CultureInfo.CurrentCulture.Name.Replace("-", "_"), true);
-            this.BaseUri = BattleNet.GetBaseUriByRegion(Region);
+            Uri baseUri;
+            Uri mediaUri;
+            BattleNet.GetBaseUriByRegion(Region, out baseUri, out mediaUri);
+            BaseUri = baseUri;
+            MediaUri = mediaUri;
 
             HttpMessageHandler handler = new HttpClientHandler();
             _httpClient = new HttpClient(handler);

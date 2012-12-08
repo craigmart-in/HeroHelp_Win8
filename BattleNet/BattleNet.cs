@@ -14,6 +14,49 @@ namespace BattleNet
         /// </summary>
         /// <param name="region"></param>
         /// <returns></returns>
+        public static void GetBaseUriByRegion(Region region, out Uri apiUri, out Uri mediaUri)
+        {
+            switch (region)
+            {
+                case Region.EU:
+                    {
+                        apiUri = new Uri("http://eu.battle.net/");
+                        mediaUri = new Uri("http://eu.media.blizzard.com/");
+                        break;
+                    }
+                case Region.KR:
+                    {
+                        apiUri = new Uri("http://kr.battle.net/");
+                        mediaUri = new Uri("http://kr.media.blizzard.com/");
+                        break;
+                    }
+                case Region.TW:
+                    {
+                        apiUri = new Uri("http://tw.battle.net/");
+                        mediaUri = new Uri("http://tw.media.blizzard.com/");
+                        break;
+                    }
+                case Region.CN:
+                    {
+                        apiUri = new Uri("http://www.battlenet.com.cn/");
+                        mediaUri = new Uri("http://us.media.blizzard.com/");
+                        break;
+                    }
+                case Region.US:
+                default:
+                    {
+                        apiUri = new Uri("http://us.battle.net/");
+                        mediaUri = new Uri("http://us.media.blizzard.com/");
+                        break;
+                    }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="region"></param>
+        /// <returns></returns>
         public static Uri GetBaseUriByRegion(Region region)
         {
             switch (region)

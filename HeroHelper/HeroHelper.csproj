@@ -146,6 +146,9 @@
     <Content Include="Assets\barbarian-male.png" />
     <Content Include="Assets\monk-female.png" />
     <Content Include="Assets\monk-male.png" />
+    <Content Include="Assets\paperdoll-barbarian-female.jpg" />
+    <Content Include="Assets\paperdoll-barbarian-male.jpg" />
+    <Content Include="Assets\paperdoll-demon-hunter-female.jpg" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\StoreLogo.png" />

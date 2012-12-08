@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -144,6 +145,8 @@ namespace HeroHelper
             {
                 if(_heroes[list.SelectedIndex] == null)
                     _heroes[list.SelectedIndex] = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
+
+                _heroes[list.SelectedIndex].Items.Head.DisplayIcon = _d3Client.GetItemIconc("large", _heroes[list.SelectedIndex].Items.Head.Icon);
 
                 heroScrollView.DataContext = _heroes[list.SelectedIndex];
             }

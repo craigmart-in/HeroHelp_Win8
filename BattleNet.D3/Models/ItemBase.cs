@@ -13,5 +13,7 @@ namespace BattleNet.D3.Models
         public string Icon { get; set; }
         public string DisplayColor { get; set; }
         public string TooltipParams { get; set; }
+
+        public Windows.UI.Xaml.Media.Imaging.BitmapImage DisplayIcon { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace BattleNet.D3
 {
@@ -43,6 +44,13 @@ namespace BattleNet.D3
             String json = await GetJsonFromUri(itemUri);
 
             return JsonConvert.DeserializeObject<Item>(json);
+        }
+
+        public BitmapImage GetItemIconc(string size, string icon)
+        {
+            Uri itemIconUri = new Uri(this.MediaUri, "d3/icons/items/" + size + "/" + icon + ".png");
+            BitmapImage itemIcon = new BitmapImage(itemIconUri);
+            return itemIcon;
         }
     }
 }
