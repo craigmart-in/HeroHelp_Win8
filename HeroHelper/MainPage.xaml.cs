@@ -31,6 +31,7 @@ namespace HeroHelper
     public sealed partial class MainPage : HeroHelper.Common.LayoutAwarePage
     {
         private const String RecentProfiles = "recentProfiles";
+        private int _recentProfileCap = 5;
 
         private D3Client _d3Client;
         private ObservableCollection<Profile> _recentProfiles;
@@ -303,6 +304,9 @@ namespace HeroHelper
                     _recentProfiles.RemoveAt(index);
 
                 _recentProfiles.Insert(0, profile);
+
+                if (_recentProfiles.Count > _recentProfileCap)
+                    _recentProfiles.RemoveAt(_recentProfileCap);
 
                 // Save the list of recent profiles for cache.
                 string recentProfiles = JsonConvert.SerializeObject(_recentProfiles);

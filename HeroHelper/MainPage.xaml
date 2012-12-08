@@ -17,7 +17,7 @@
             x:Name="itemsViewSource"
             Source="{Binding Items}"/>
         <DataTemplate x:Key="ProfileItemTemplate">
-            <Grid Height="195" Margin="6" ScrollViewer.VerticalScrollBarVisibility="Disabled" Width="375">
+            <Grid Height="195" Margin="6" Width="330">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -27,7 +27,7 @@
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
                     <TextBlock Text="{Binding BattleTag}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
                         <TextBlock Text="Region:" Margin="0,0,5,0" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
                         <TextBlock Text="{Binding Region}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
                     </StackPanel>
@@ -75,7 +75,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="primaryColumn" Width="400"/>
+            <ColumnDefinition x:Name="primaryColumn" Width="500"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -92,21 +92,23 @@
                 Style="{StaticResource BackButtonStyle}"/>
             <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource ApplicationName}" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
-        <StackPanel Orientation="Vertical" Grid.Row="1">
-        	<StackPanel Margin="20,0,0,0">
+        <StackPanel Orientation="Vertical" Margin="0" Grid.Row="1" Height="200" VerticalAlignment="Top">
+        	<StackPanel Margin="100,0,0,0">
         		<StackPanel Orientation="Horizontal">
         			<TextBlock TextWrapping="Wrap" Text="Battle Tag" Style="{StaticResource BasicTextStyle}" Width="200"/>
         			<TextBlock x:Name="invalidBattleTagTextBlock" TextWrapping="Wrap" Text="Invalid Battle Tag" Style="{StaticResource BasicTextStyle}" Foreground="#DEFF0000" Visibility="Collapsed"/>
         		</StackPanel>
         		<TextBox x:Name="battleTagTextBox" TextWrapping="Wrap" HorizontalAlignment="Right" Width="267" KeyUp="battleTagTextBox_KeyUp"/>
             </StackPanel>
-        	<StackPanel Margin="20,0,0,0">
+        	<StackPanel Margin="100,0,0,0">
         		<TextBlock TextWrapping="Wrap" Text="Region" Style="{StaticResource BasicTextStyle}"/>
-        		<ComboBox x:Name="regionComboBox" Margin="200,0,0,0"/>
+        		<ComboBox x:Name="regionComboBox" Margin="300,0,0,0"/>
         	</StackPanel>
         	<Button x:Name="viewHeroesButton" Content="View Heroes" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,10,0,20" Click="viewHeroesButton_Click"/>
 
-        	<ListView
+        </StackPanel>
+
+        <ListView
         		x:Name="itemListView"
         		AutomationProperties.AutomationId="ItemsListView"
         		AutomationProperties.Name="Items"
@@ -115,9 +117,8 @@
         		IsSwipeEnabled="False"
         		SelectionChanged="ItemListView_SelectionChanged"
                 ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
-                ItemTemplate="{StaticResource ProfileItemTemplate}"/>
+                ItemTemplate="{StaticResource ProfileItemTemplate}" Grid.Row="1" Margin="0,175,0,50"/>
 
-        </StackPanel>
         <GridView
             x:Name="heroesGridView" 
             Grid.Row="1"
