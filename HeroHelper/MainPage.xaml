@@ -114,10 +114,11 @@
         		AutomationProperties.Name="Items"
         		TabIndex="1"
         		Padding="120,0,0,60"
-        		IsSwipeEnabled="False"
+        		IsSwipeEnabled="True"
         		SelectionChanged="ItemListView_SelectionChanged"
                 ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
-                ItemTemplate="{StaticResource ProfileItemTemplate}" Grid.Row="1" Margin="0,175,0,50"/>
+                ItemTemplate="{StaticResource ProfileItemTemplate}" Grid.Row="1" Margin="0,175,0,50"
+                CanDragItems="True" CanReorderItems="True" AllowDrop="True"/>
 
         <GridView
             x:Name="heroesGridView" 

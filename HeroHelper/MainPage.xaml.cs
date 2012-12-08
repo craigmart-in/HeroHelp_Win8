@@ -39,6 +39,8 @@ namespace HeroHelper
         public MainPage()
         {
             this.InitializeComponent();
+
+            itemListView.AddHandler(Control.DropEvent, new DragEventHandler(itemListView_Drop), true);
         }
 
         #region Page state management
@@ -308,18 +310,23 @@ namespace HeroHelper
                 if (_recentProfiles.Count > _recentProfileCap)
                     _recentProfiles.RemoveAt(_recentProfileCap);
 
-                // Save the list of recent profiles for cache.
-                string recentProfiles = JsonConvert.SerializeObject(_recentProfiles);
-
-                StorageFile sampleFile =
-                    await ApplicationData.Current.LocalFolder.CreateFileAsync(RecentProfiles + ".txt",
-                    CreationCollisionOption.ReplaceExisting);
-
-                await FileIO.WriteTextAsync(sampleFile, recentProfiles);
+                SaveRecentProfiles();
 
                 // Select the first item in the list.
                 itemListView.SelectedIndex = 0;
             }
+        }
+
+        private async void SaveRecentProfiles()
+        {
+            // Save the list of recent profiles for cache.
+            string recentProfiles = JsonConvert.SerializeObject(_recentProfiles);
+
+            StorageFile sampleFile =
+                await ApplicationData.Current.LocalFolder.CreateFileAsync(RecentProfiles + ".txt",
+                CreationCollisionOption.ReplaceExisting);
+
+            await FileIO.WriteTextAsync(sampleFile, recentProfiles);
         }
 
         private void heroesGridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -339,6 +346,11 @@ namespace HeroHelper
             SelectedHero selectedHero = new SelectedHero() {HeroIndex=heroIndex, Profile=profile};
 
             this.Frame.Navigate(typeof(HeroSplitPage), JsonConvert.SerializeObject(selectedHero));
+        }
+
+        private void itemListView_Drop(object sender, DragEventArgs e)
+        {
+            SaveRecentProfiles();
         }
     }
 }
