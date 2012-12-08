@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -357,16 +358,41 @@ namespace HeroHelper
             SaveRecentProfiles();
         }
 
-        private void DeleteProfileButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteProfileButton_Click(object sender, RoutedEventArgs e)
         {
             Profile selectedProfile = this.itemListView.SelectedItem as Profile;
 
             if (selectedProfile != null && this.Frame != null)
             {
-                // TODO: Ask user if they are sure they want to remove profile.
+                var messageDialog =
+                    new Windows.UI.Popups.MessageDialog(
+                        String.Format("Are you sure you want to delete {0}?", selectedProfile.BattleTag),
+                        "Delete Confirmation");
 
-                _recentProfiles.RemoveAt(this.itemListView.SelectedIndex);
+                messageDialog.Commands.Add(new UICommand("Yes", (command) =>
+                {
+                    _recentProfiles.RemoveAt(this.itemListView.SelectedIndex);
+
+                    if (_recentProfiles.Count == 0)
+                    {
+                        heroesGridView.ItemsSource = null;
+                    }
+                    else
+                    {
+                        itemListView.SelectedIndex = 0;
+                    }
+                }));
+
+                messageDialog.Commands.Add(new UICommand("No", (command) =>
+                {
+                }));
+
+                messageDialog.DefaultCommandIndex = 1;
+                await messageDialog.ShowAsync();
             }
+            
+            // Hide the bottom app bar.
+            BottomAppBar.IsOpen = false;
 
             SaveRecentProfiles();
         }
