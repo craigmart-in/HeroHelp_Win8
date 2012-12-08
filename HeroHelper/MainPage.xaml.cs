@@ -269,9 +269,13 @@ namespace HeroHelper
         {
             Profile profile = await _d3Client.GetProfileAsync(battleTag);
 
-            if (profile == null)
+            if (profile == null || profile.Heroes == null)
             {
-                // TODO: Add warning of no profile available.
+                var messageDialog =
+                    new Windows.UI.Popups.MessageDialog(
+                        String.Format("The profile: {0} on region {1} is not valid.", new object[] { battleTag.Replace("-","#"), region }),
+                        "Profile doesn't exist");
+                await messageDialog.ShowAsync();
             }
             else
             {
