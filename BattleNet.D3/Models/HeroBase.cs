@@ -42,5 +42,7 @@ namespace BattleNet.D3.Models
                 _friendlyClass = value;
             }
         }
+
+        public Windows.UI.Xaml.Media.Imaging.BitmapImage Paperdoll { get; set; }
     }
 }

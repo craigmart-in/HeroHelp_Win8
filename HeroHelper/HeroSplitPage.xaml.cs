@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -143,10 +144,14 @@ namespace HeroHelper
             ProfileHero selectedItem = list.SelectedItem as ProfileHero;
             if (selectedItem != null)
             {
-                if(_heroes[list.SelectedIndex] == null)
-                    _heroes[list.SelectedIndex] = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
+                if (_heroes[list.SelectedIndex] == null)
+                {
+                    Hero hero = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
+                    hero.Paperdoll = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg"));
+                    _heroes[list.SelectedIndex] = hero;
+                }
 
-                _heroes[list.SelectedIndex].Items.Head.DisplayIcon = _d3Client.GetItemIconc("large", _heroes[list.SelectedIndex].Items.Head.Icon);
+                LoadHeroItems(_heroes[list.SelectedIndex]);
 
                 heroScrollView.DataContext = _heroes[list.SelectedIndex];
             }
@@ -209,5 +214,49 @@ namespace HeroHelper
         }
 
         #endregion
+
+        private void LoadHeroItems(Hero hero)
+        {
+            string size = "large";
+
+            if (hero.Items.Head != null)
+                hero.Items.Head.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Head.Icon);
+
+            if (hero.Items.Torso != null)
+                hero.Items.Torso.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Torso.Icon);
+
+            if (hero.Items.Feet != null)
+                hero.Items.Feet.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Feet.Icon);
+
+            if (hero.Items.Hands != null)
+                hero.Items.Hands.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Hands.Icon);
+
+            if (hero.Items.Shoulders != null)
+                hero.Items.Shoulders.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Shoulders.Icon);
+
+            if (hero.Items.Legs != null)
+                hero.Items.Legs.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Legs.Icon);
+
+            if (hero.Items.Bracers != null)
+                hero.Items.Bracers.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Bracers.Icon);
+
+            if (hero.Items.Waist != null)
+                hero.Items.Waist.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Waist.Icon);
+
+            if (hero.Items.MainHand != null)
+                hero.Items.MainHand.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.MainHand.Icon);
+
+            if (hero.Items.OffHand != null)
+                hero.Items.OffHand.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.OffHand.Icon);
+
+            if (hero.Items.RightFinger != null)
+                hero.Items.RightFinger.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.RightFinger.Icon);
+
+            if (hero.Items.LeftFinger != null)
+                hero.Items.LeftFinger.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.LeftFinger.Icon);
+
+            if (hero.Items.Neck != null)
+                hero.Items.Neck.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Neck.Icon);
+        }
     }
 }

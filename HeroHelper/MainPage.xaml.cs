@@ -290,9 +290,9 @@ namespace HeroHelper
                     {
                         imageName = profileHero.Class + "-" + profileHero.Gender;
                     }
-                    profileHero.Portrait = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/" + profileHero.Class + "-" + profileHero.Gender + ".png"));
+                    profileHero.Portrait = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/portrait-" + profileHero.Class + "-" + profileHero.Gender + ".png"));
                 }
-                profile.ProfilePortrait = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/" + imageName + ".png"));
+                profile.ProfilePortrait = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/portrait-" + imageName + ".png"));
 
                 // If the profile already exists in the list, remove it and add the new one.
                 int index = 0;

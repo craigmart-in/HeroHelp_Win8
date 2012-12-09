@@ -120,6 +120,9 @@
     <Compile Include="Common\LayoutAwarePage.cs" />
     <Compile Include="Common\RichTextColumns.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="Controls\ItemUserControl.xaml.cs">
+      <DependentUpon>ItemUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HeroSplitPage.xaml.cs">
       <DependentUpon>HeroSplitPage.xaml</DependentUpon>
     </Compile>
@@ -138,24 +141,31 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\career-portraits.jpg" />
-    <Content Include="Assets\demon-hunter-female.png" />
-    <Content Include="Assets\demon-hunter-male.png" />
+    <Content Include="Assets\paperdoll-demon-hunter-male.jpg" />
+    <Content Include="Assets\paperdoll-monk-female.jpg" />
+    <Content Include="Assets\paperdoll-monk-male.jpg" />
+    <Content Include="Assets\paperdoll-witch-doctor-female.jpg" />
+    <Content Include="Assets\paperdoll-witch-doctor-male.jpg" />
+    <Content Include="Assets\paperdoll-wizard-female.jpg" />
+    <Content Include="Assets\paperdoll-wizard-male.jpg" />
+    <Content Include="Assets\portrait-demon-hunter-female.png" />
+    <Content Include="Assets\portrait-demon-hunter-male.png" />
     <Content Include="Assets\hero-nav-portraits.jpg" />
     <Content Include="Assets\Logo.png" />
-    <Content Include="Assets\barbarian-female.png" />
-    <Content Include="Assets\barbarian-male.png" />
-    <Content Include="Assets\monk-female.png" />
-    <Content Include="Assets\monk-male.png" />
+    <Content Include="Assets\portrait-barbarian-female.png" />
+    <Content Include="Assets\portrait-barbarian-male.png" />
+    <Content Include="Assets\portrait-monk-female.png" />
+    <Content Include="Assets\portrait-monk-male.png" />
     <Content Include="Assets\paperdoll-barbarian-female.jpg" />
     <Content Include="Assets\paperdoll-barbarian-male.jpg" />
     <Content Include="Assets\paperdoll-demon-hunter-female.jpg" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\witch-doctor-female.png" />
-    <Content Include="Assets\witch-doctor-male.png" />
-    <Content Include="Assets\wizard-female.png" />
-    <Content Include="Assets\wizard-male.png" />
+    <Content Include="Assets\portrait-witch-doctor-female.png" />
+    <Content Include="Assets\portrait-witch-doctor-male.png" />
+    <Content Include="Assets\portrait-wizard-female.png" />
+    <Content Include="Assets\portrait-wizard-male.png" />
     <Content Include="Common\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +176,10 @@
     <Page Include="Common\StandardStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ItemUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="HeroSplitPage.xaml">
       <SubType>Designer</SubType>

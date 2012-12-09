@@ -53,42 +53,6 @@ namespace BattleNet
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="region"></param>
-        /// <returns></returns>
-        public static Uri GetBaseUriByRegion(Region region)
-        {
-            switch (region)
-            {
-                case Region.US:
-                    {
-                        return new Uri("http://us.battle.net/");
-                    }
-                case Region.EU:
-                    {
-                        return new Uri("http://eu.battle.net/");
-                    }
-                case Region.KR:
-                    {
-                        return new Uri("http://kr.battle.net/");
-                    }
-                case Region.TW:
-                    {
-                        return new Uri("http://tw.battle.net/");
-                    }
-                case Region.CN:
-                    {
-                        return new Uri("http://www.battlenet.com.cn/");
-                    }
-                default:
-                    {
-                        throw new NotImplementedException();
-                    }
-            }
-        }
-
-        /// <summary>
         /// Determines if the battle tag is valid.
         /// </summary>
         /// <param name="battleTag"></param>
