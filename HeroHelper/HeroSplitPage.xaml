@@ -140,79 +140,79 @@
     				        Height="66" Width="66"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
-                            DataContext="{Binding Items.Head}" />
+                            DataContext="{Binding Items.Head}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl
                             Margin="113,74,0,0"
     				        Height="113" Width="82"
     				        HorizontalAlignment="Left"
     				        VerticalAlignment="Top"
-                            DataContext="{Binding Items.Torso}"/>
+                            DataContext="{Binding Items.Torso}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="121,0,0,14"
     				        Height="88" Width="66"
     				        HorizontalAlignment="Left"
     				        VerticalAlignment="Bottom"
-                            DataContext="{Binding Items.Feet}"/>
+                            DataContext="{Binding Items.Feet}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="13,127,0,0"
     				        Height="88" Width="66"
     				        HorizontalAlignment="Left"
     				        VerticalAlignment="Top"
-                            DataContext="{Binding Items.Hands}"/>
+                            DataContext="{Binding Items.Hands}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="39,28,0,0"
     				        Height="88" Width="66"
     				        HorizontalAlignment="Left"
     				        VerticalAlignment="Top"
-                            DataContext="{Binding Items.Shoulders}"/>
+                            DataContext="{Binding Items.Shoulders}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="121,0,0,106"
     				        Height="88" Width="66"
     				        HorizontalAlignment="Left"
     				        VerticalAlignment="Bottom"
-                            DataContext="{Binding Items.Legs}"/>
+                            DataContext="{Binding Items.Legs}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="0,127,10,0"
     				        Height="88" Width="66"
     				        HorizontalAlignment="Right"
     				        VerticalAlignment="Top"
-                            DataContext="{Binding Items.Bracers}"/>
+                            DataContext="{Binding Items.Bracers}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="13,0,0,13"
     				        Height="130" Width="66"
     				        HorizontalAlignment="Left"
     				        VerticalAlignment="Bottom"
-                            DataContext="{Binding Items.MainHand}"/>
+                            DataContext="{Binding Items.MainHand}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="0,0,10,13"
     				        Height="130" Width="66"
     				        HorizontalAlignment="Right"
     				        VerticalAlignment="Bottom"
-                            DataContext="{Binding Items.OffHand}"/>
+                            DataContext="{Binding Items.OffHand}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="113,193,10,0"
     				        Height="34" Width="82"
     				        HorizontalAlignment="Left"
     				        VerticalAlignment="Top"
-                            DataContext="{Binding Items.Waist}"/>
+                            DataContext="{Binding Items.Waist}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="0,0,22,156"
     				        Height="42" Width="42"
     				        HorizontalAlignment="Right"
     				        VerticalAlignment="Bottom"
-                            DataContext="{Binding Items.RightFinger}"/>
+                            DataContext="{Binding Items.RightFinger}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="25,0,0,156"
     				        Height="42" Width="42"
     				        HorizontalAlignment="Left"
     				        VerticalAlignment="Bottom"
-                            DataContext="{Binding Items.LeftFinger}"/>
+                            DataContext="{Binding Items.LeftFinger}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                         <local:ItemUserControl 
     				        Margin="0,48,44,0"
     				        Height="56" Width="56"
     				        HorizontalAlignment="Right"
     				        VerticalAlignment="Top"
-                            DataContext="{Binding Items.Neck}"/>
+                            DataContext="{Binding Items.Neck}" PointerEntered="ItemUserControl_PointerEntered" PointerExited="ItemUserControl_PointerExited" />
                     </Grid>
 
                     <TextBlock Style="{StaticResource slot-head}" Text="{Binding Items.Head.Name}"
@@ -244,6 +244,14 @@
                                Foreground="{Binding Items.MainHand.DisplayColor}"/>
                 </Grid>
 
+                <WebView x:Name="toolTip" 
+    			Visibility="Collapsed"
+    			HorizontalAlignment="Left" 
+    			Height="645"
+    			Margin="10,0,0,0"
+    			VerticalAlignment="Top" 
+    			Width="354"
+    			ScrollViewer.VerticalScrollBarVisibility="Disabled" LoadCompleted="toolTip_LoadCompleted"/>
             </Grid>
 
         </ScrollViewer>

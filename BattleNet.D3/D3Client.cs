@@ -52,5 +52,14 @@ namespace BattleNet.D3
             BitmapImage itemIcon = new BitmapImage(itemIconUri);
             return itemIcon;
         }
+
+        public async Task<string> GetItemToolTip(string tooltipParams)
+        {
+            Uri itemUri = new Uri(this.BaseUri, "d3/tooltip/" + tooltipParams + "?locale=" + this.Localization);
+
+            String tooltipHtml = await GetJsonFromUri(itemUri);
+
+            return tooltipHtml;
+        }
     }
 }
