@@ -95,6 +95,7 @@
             <Grid
             Width="994" Height="645" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0">
                 <Image x:Name="paperdollImage" Source="{Binding Paperdoll}" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Image Source="Assets/inventory-lines.png" Stretch="None" Margin="131,55,-131,-55"/>
                 
                 <Border Margin="389,56,119,515" >
                     <TextBlock
@@ -127,90 +128,122 @@
 
                 </StackPanel>
 
-                <!-- Item Images -->
-                <Grid Width="305" Height="425"
-    			Margin="475,153,0,0"
-    			HorizontalAlignment="Left"
-    			VerticalAlignment="Top">
-                    <local:ItemUserControl
-                        Margin="121,4,0,0"
-    				    Height="66" Width="66"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        DataContext="{Binding Items.Head}" />
-                    <local:ItemUserControl
-                        Margin="113,74,0,0"
-    				    Height="113" Width="82"
-    				    HorizontalAlignment="Left"
-    				    VerticalAlignment="Top"
-                        DataContext="{Binding Items.Torso}"/>
-                    <local:ItemUserControl 
-    				    Margin="121,0,0,14"
-    				    Height="88" Width="66"
-    				    HorizontalAlignment="Left"
-    				    VerticalAlignment="Bottom"
-                        DataContext="{Binding Items.Feet}"/>
-                    <local:ItemUserControl 
-    				    Margin="13,127,0,0"
-    				    Height="88" Width="66"
-    				    HorizontalAlignment="Left"
-    				    VerticalAlignment="Top"
-                        DataContext="{Binding Items.Hands}"/>
-                    <local:ItemUserControl 
-    				    Margin="39,28,0,0"
-    				    Height="88" Width="66"
-    				    HorizontalAlignment="Left"
-    				    VerticalAlignment="Top"
-                        DataContext="{Binding Items.Shoulders}"/>
-                    <local:ItemUserControl 
-    				    Margin="121,0,0,106"
-    				    Height="88" Width="66"
-    				    HorizontalAlignment="Left"
-    				    VerticalAlignment="Bottom"
-                        DataContext="{Binding Items.Legs}"/>
-                    <local:ItemUserControl 
-    				    Margin="0,127,10,0"
-    				    Height="88" Width="66"
-    				    HorizontalAlignment="Right"
-    				    VerticalAlignment="Top"
-                        DataContext="{Binding Items.Bracers}"/>
-                    <local:ItemUserControl 
-    				    Margin="13,0,0,13"
-    				    Height="130" Width="66"
-    				    HorizontalAlignment="Left"
-    				    VerticalAlignment="Bottom"
-                        DataContext="{Binding Items.MainHand}"/>
-                    <local:ItemUserControl 
-    				    Margin="0,0,10,13"
-    				    Height="130" Width="66"
-    				    HorizontalAlignment="Right"
-    				    VerticalAlignment="Bottom"
-                        DataContext="{Binding Items.OffHand}"/>
-                    <local:ItemUserControl 
-    				    Margin="113,193,10,0"
-    				    Height="34" Width="82"
-    				    HorizontalAlignment="Left"
-    				    VerticalAlignment="Top"
-                        DataContext="{Binding Items.Waist}"/>
-                    <local:ItemUserControl 
-    				    Margin="0,0,22,156"
-    				    Height="42" Width="42"
-    				    HorizontalAlignment="Right"
-    				    VerticalAlignment="Bottom"
-                        DataContext="{Binding Items.RightFinger}"/>
-                    <local:ItemUserControl 
-    				    Margin="25,0,0,156"
-    				    Height="42" Width="42"
-    				    HorizontalAlignment="Left"
-    				    VerticalAlignment="Bottom"
-                        DataContext="{Binding Items.LeftFinger}"/>
-                    <local:ItemUserControl 
-    				    Margin="0,48,44,0"
-    				    Height="56" Width="56"
-    				    HorizontalAlignment="Right"
-    				    VerticalAlignment="Top"
-                        DataContext="{Binding Items.Neck}"/>
+                <Grid
+    			HorizontalAlignment="Left" Height="490" Margin="265,154,0,0" VerticalAlignment="Top" Width="725">
+                    <!-- Item Images -->
+                    <Grid Width="305" Height="425"
+    			    Margin="209,0,0,0"
+    			    HorizontalAlignment="Left"
+    			    VerticalAlignment="Top">
+                        <local:ItemUserControl
+                            Margin="121,4,0,0"
+    				        Height="66" Width="66"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            DataContext="{Binding Items.Head}" />
+                        <local:ItemUserControl
+                            Margin="113,74,0,0"
+    				        Height="113" Width="82"
+    				        HorizontalAlignment="Left"
+    				        VerticalAlignment="Top"
+                            DataContext="{Binding Items.Torso}"/>
+                        <local:ItemUserControl 
+    				        Margin="121,0,0,14"
+    				        Height="88" Width="66"
+    				        HorizontalAlignment="Left"
+    				        VerticalAlignment="Bottom"
+                            DataContext="{Binding Items.Feet}"/>
+                        <local:ItemUserControl 
+    				        Margin="13,127,0,0"
+    				        Height="88" Width="66"
+    				        HorizontalAlignment="Left"
+    				        VerticalAlignment="Top"
+                            DataContext="{Binding Items.Hands}"/>
+                        <local:ItemUserControl 
+    				        Margin="39,28,0,0"
+    				        Height="88" Width="66"
+    				        HorizontalAlignment="Left"
+    				        VerticalAlignment="Top"
+                            DataContext="{Binding Items.Shoulders}"/>
+                        <local:ItemUserControl 
+    				        Margin="121,0,0,106"
+    				        Height="88" Width="66"
+    				        HorizontalAlignment="Left"
+    				        VerticalAlignment="Bottom"
+                            DataContext="{Binding Items.Legs}"/>
+                        <local:ItemUserControl 
+    				        Margin="0,127,10,0"
+    				        Height="88" Width="66"
+    				        HorizontalAlignment="Right"
+    				        VerticalAlignment="Top"
+                            DataContext="{Binding Items.Bracers}"/>
+                        <local:ItemUserControl 
+    				        Margin="13,0,0,13"
+    				        Height="130" Width="66"
+    				        HorizontalAlignment="Left"
+    				        VerticalAlignment="Bottom"
+                            DataContext="{Binding Items.MainHand}"/>
+                        <local:ItemUserControl 
+    				        Margin="0,0,10,13"
+    				        Height="130" Width="66"
+    				        HorizontalAlignment="Right"
+    				        VerticalAlignment="Bottom"
+                            DataContext="{Binding Items.OffHand}"/>
+                        <local:ItemUserControl 
+    				        Margin="113,193,10,0"
+    				        Height="34" Width="82"
+    				        HorizontalAlignment="Left"
+    				        VerticalAlignment="Top"
+                            DataContext="{Binding Items.Waist}"/>
+                        <local:ItemUserControl 
+    				        Margin="0,0,22,156"
+    				        Height="42" Width="42"
+    				        HorizontalAlignment="Right"
+    				        VerticalAlignment="Bottom"
+                            DataContext="{Binding Items.RightFinger}"/>
+                        <local:ItemUserControl 
+    				        Margin="25,0,0,156"
+    				        Height="42" Width="42"
+    				        HorizontalAlignment="Left"
+    				        VerticalAlignment="Bottom"
+                            DataContext="{Binding Items.LeftFinger}"/>
+                        <local:ItemUserControl 
+    				        Margin="0,48,44,0"
+    				        Height="56" Width="56"
+    				        HorizontalAlignment="Right"
+    				        VerticalAlignment="Top"
+                            DataContext="{Binding Items.Neck}"/>
+                    </Grid>
+
+                    <TextBlock Style="{StaticResource slot-head}" Text="{Binding Items.Head.Name}"
+                               Foreground="{Binding Items.Head.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-neck}" Text="{Binding Items.Neck.Name}"
+                               Foreground="{Binding Items.Neck.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-bracers}" Text="{Binding Items.Bracers.Name}"
+                               Foreground="{Binding Items.Bracers.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-waist}" Text="{Binding Items.Waist.Name}"
+                               Foreground="{Binding Items.Waist.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-rightFinger}" Text="{Binding Items.RightFinger.Name}"
+                               Foreground="{Binding Items.RightFinger.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-offHand}" Text="{Binding Items.OffHand.Name}"
+                               Foreground="{Binding Items.OffHand.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-feet}" Text="{Binding Items.Feet.Name}"
+                               Foreground="{Binding Items.Feet.DisplayColor}"/>
+
+                    <TextBlock Style="{StaticResource slot-shoulders}" Text="{Binding Items.Shoulders.Name}"
+                               Foreground="{Binding Items.Shoulders.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-torso}" Text="{Binding Items.Torso.Name}"
+                               Foreground="{Binding Items.Torso.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-hands}" Text="{Binding Items.Hands.Name}"
+                               Foreground="{Binding Items.Hands.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-leftFinger}" Text="{Binding Items.LeftFinger.Name}"
+                               Foreground="{Binding Items.LeftFinger.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-legs}" Text="{Binding Items.Legs.Name}"
+                               Foreground="{Binding Items.Legs.DisplayColor}"/>
+                    <TextBlock Style="{StaticResource slot-mainHand}" Text="{Binding Items.MainHand.Name}"
+                               Foreground="{Binding Items.MainHand.DisplayColor}"/>
                 </Grid>
+
             </Grid>
 
         </ScrollViewer>

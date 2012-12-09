@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\career-portraits.jpg" />
+    <Content Include="Assets\inventory-lines.png" />
     <Content Include="Assets\paperdoll-demon-hunter-male.jpg" />
     <Content Include="Assets\paperdoll-monk-female.jpg" />
     <Content Include="Assets\paperdoll-monk-male.jpg" />
@@ -173,6 +174,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Common\HeroHelperStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Common\StandardStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -186,10 +192,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Common\ProfileTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
