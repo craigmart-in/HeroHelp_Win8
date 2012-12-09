@@ -220,43 +220,101 @@ namespace HeroHelper
             string size = "large";
 
             if (hero.Items.Head != null)
+            {
                 hero.Items.Head.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Head.Icon);
+                hero.Items.Head.BackgroundImage = GetItemBackgroundImage(hero.Items.Head.DisplayColor);
+            }
 
             if (hero.Items.Torso != null)
+            {
                 hero.Items.Torso.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Torso.Icon);
+                hero.Items.Torso.BackgroundImage = GetItemBackgroundImage(hero.Items.Torso.DisplayColor);
+            }
 
             if (hero.Items.Feet != null)
+            {
                 hero.Items.Feet.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Feet.Icon);
+                hero.Items.Feet.BackgroundImage = GetItemBackgroundImage(hero.Items.Feet.DisplayColor);
+            }
 
             if (hero.Items.Hands != null)
+            {
                 hero.Items.Hands.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Hands.Icon);
+                hero.Items.Hands.BackgroundImage = GetItemBackgroundImage(hero.Items.Hands.DisplayColor);
+            }
 
             if (hero.Items.Shoulders != null)
+            {
                 hero.Items.Shoulders.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Shoulders.Icon);
+                hero.Items.Shoulders.BackgroundImage = GetItemBackgroundImage(hero.Items.Shoulders.DisplayColor);
+            }
 
             if (hero.Items.Legs != null)
+            {
                 hero.Items.Legs.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Legs.Icon);
+                hero.Items.Legs.BackgroundImage = GetItemBackgroundImage(hero.Items.Legs.DisplayColor);
+            }
 
             if (hero.Items.Bracers != null)
+            {
                 hero.Items.Bracers.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Bracers.Icon);
+                hero.Items.Bracers.BackgroundImage = GetItemBackgroundImage(hero.Items.Bracers.DisplayColor);
+            }
 
             if (hero.Items.Waist != null)
+            {
                 hero.Items.Waist.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Waist.Icon);
+                hero.Items.Waist.BackgroundImage = GetItemBackgroundImage(hero.Items.Waist.DisplayColor);
+            }
 
             if (hero.Items.MainHand != null)
+            {
                 hero.Items.MainHand.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.MainHand.Icon);
+                hero.Items.MainHand.BackgroundImage = GetItemBackgroundImage(hero.Items.MainHand.DisplayColor);
+            }
 
             if (hero.Items.OffHand != null)
+            {
                 hero.Items.OffHand.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.OffHand.Icon);
+                hero.Items.OffHand.BackgroundImage = GetItemBackgroundImage(hero.Items.OffHand.DisplayColor);
+            }
 
             if (hero.Items.RightFinger != null)
+            {
                 hero.Items.RightFinger.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.RightFinger.Icon);
+                hero.Items.RightFinger.BackgroundImage = GetItemBackgroundImage(hero.Items.RightFinger.DisplayColor);
+            }
 
             if (hero.Items.LeftFinger != null)
+            {
                 hero.Items.LeftFinger.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.LeftFinger.Icon);
+                hero.Items.LeftFinger.BackgroundImage = GetItemBackgroundImage(hero.Items.LeftFinger.DisplayColor);
+            }
 
             if (hero.Items.Neck != null)
+            {
                 hero.Items.Neck.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Neck.Icon);
+                hero.Items.Neck.BackgroundImage = GetItemBackgroundImage(hero.Items.Neck.DisplayColor);
+            }
+        }
+
+        private Windows.UI.Xaml.Media.Imaging.BitmapImage GetItemBackgroundImage(string displayColor)
+        {
+            switch (displayColor)
+            {
+                case "blue":
+                    return new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/blue.png"));
+                case "green":
+                    return new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/green.png"));
+                case "orange":
+                    return new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/orange.png"));
+                case "yellow":
+                    return new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/yellow.png"));
+                case "gray":
+                case "white":
+                default:
+                    return new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/brown.png"));
+            }
         }
     }
 }

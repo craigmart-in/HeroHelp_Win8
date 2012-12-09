@@ -140,8 +140,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\blue.png" />
+    <Content Include="Assets\brown.png" />
     <Content Include="Assets\career-portraits.jpg" />
+    <Content Include="Assets\green.png" />
     <Content Include="Assets\inventory-lines.png" />
+    <Content Include="Assets\orange.png" />
     <Content Include="Assets\paperdoll-demon-hunter-male.jpg" />
     <Content Include="Assets\paperdoll-monk-female.jpg" />
     <Content Include="Assets\paperdoll-monk-male.jpg" />
@@ -167,6 +171,7 @@
     <Content Include="Assets\portrait-witch-doctor-male.png" />
     <Content Include="Assets\portrait-wizard-female.png" />
     <Content Include="Assets\portrait-wizard-male.png" />
+    <Content Include="Assets\yellow.png" />
     <Content Include="Common\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
