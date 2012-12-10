@@ -32,7 +32,7 @@ namespace HeroHelper
     public sealed partial class MainPage : HeroHelper.Common.LayoutAwarePage
     {
         private const String RecentProfiles = "recentProfiles";
-        private int _recentProfileCap = 5;
+        private int _recentProfileCap = 10;
 
         private D3Client _d3Client;
         private ObservableCollection<Profile> _recentProfiles;
@@ -258,16 +258,17 @@ namespace HeroHelper
             else
             {
                 invalidBattleTagTextBlock.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                _d3Client = new D3Client(region);
-
-                battleTag = battleTag.Replace("#", "-");
-
+                
                 RefreshProfile(battleTag, region);
             }
         }
 
         private async void RefreshProfile(string battleTag, Region region)
         {
+            _d3Client = new D3Client(region);
+
+            battleTag = battleTag.Replace("#", "-");
+
             Profile profile = await _d3Client.GetProfileAsync(battleTag);
 
             if (profile == null || profile.Heroes == null)
@@ -293,6 +294,8 @@ namespace HeroHelper
                     profileHero.Portrait = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/portrait-" + profileHero.Class + "-" + profileHero.Gender + ".png"));
                 }
                 profile.ProfilePortrait = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/portrait-" + imageName + ".png"));
+
+                profile.HeroHelperLastUpdated = DateTime.Now;
 
                 // If the profile already exists in the list, remove it and add the new one.
                 int index = 0;
@@ -366,7 +369,7 @@ namespace HeroHelper
             {
                 var messageDialog =
                     new Windows.UI.Popups.MessageDialog(
-                        String.Format("Are you sure you want to delete {0}?", selectedProfile.BattleTag),
+                        String.Format("Are you sure you want to delete {0} from the Recent Profile list?", selectedProfile.BattleTag),
                         "Delete Confirmation");
 
                 messageDialog.Commands.Add(new UICommand("Yes", (command) =>
@@ -389,12 +392,21 @@ namespace HeroHelper
 
                 messageDialog.DefaultCommandIndex = 1;
                 await messageDialog.ShowAsync();
+
+                SaveRecentProfiles();
             }
             
             // Hide the bottom app bar.
             BottomAppBar.IsOpen = false;
+        }
 
-            SaveRecentProfiles();
+        private void RefreshProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            Profile selectedProfile = this.itemListView.SelectedItem as Profile;
+            if (selectedProfile != null && this.Frame != null)
+            {
+                RefreshProfile(selectedProfile.BattleTag, selectedProfile.Region);
+            }
         }
     }
 }

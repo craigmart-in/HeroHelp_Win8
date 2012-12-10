@@ -27,12 +27,14 @@
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
                     <TextBlock Text="{Binding BattleTag}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                         <TextBlock Text="Region:" Margin="0,0,5,0" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
                         <TextBlock Text="{Binding Region}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
                     </StackPanel>
                     <TextBlock Text="Total Elite Kills:" Margin="0,0,5,0" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap" />
                     <TextBlock Text="{Binding Kills.Elites}" Margin="15,0,0,0" Style="{StaticResource BodyTextStyle}" MaxHeight="60"/>
+                    <TextBlock Text="Last Updated:" Margin="0,0,5,0" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap" />
+                    <TextBlock Text="{Binding HeroHelperLastUpdated}" Margin="15,0,0,0" Style="{StaticResource BodyTextStyle}" MaxHeight="60"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -72,6 +74,11 @@
                         VerticalAlignment="Top"
                         Click="DeleteProfileButton_Click"
                         Style="{StaticResource DeleteAppBarButtonStyle}"/>
+                <Button x:Name="RefreshProfileButton"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Style="{StaticResource RefreshAppBarButtonStyle}"
+                        Click="RefreshProfileButton_Click"/>
             </Grid>
         </AppBar>
     </common:LayoutAwarePage.BottomAppBar>

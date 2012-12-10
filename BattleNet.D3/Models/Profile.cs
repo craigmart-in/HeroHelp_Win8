@@ -35,5 +35,6 @@ namespace BattleNet.D3.Models
         public Progression HardcoreProgression { get; set; }
 
         public Windows.UI.Xaml.Media.Imaging.BitmapImage ProfilePortrait { get; set; }
+        public DateTime HeroHelperLastUpdated { get; set; }
     }
 }
