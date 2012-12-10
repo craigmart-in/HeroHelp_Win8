@@ -75,7 +75,7 @@ namespace HeroHelper
                     _recentProfiles = JsonConvert.DeserializeObject<ObservableCollection<Profile>>(recentProfiles);
                 }
             }
-            catch { } // File doesn't exist.
+            catch (FileNotFoundException) { }
 
             this.DefaultViewModel["Items"] = _recentProfiles;
             
@@ -297,6 +297,8 @@ namespace HeroHelper
 
                 profile.HeroHelperLastUpdated = DateTime.Now;
 
+                
+
                 // If the profile already exists in the list, remove it and add the new one.
                 int index = 0;
                 bool found = false;
@@ -320,6 +322,9 @@ namespace HeroHelper
 
                 SaveRecentProfiles();
 
+                // Just in case heroes are added or removed since last refresh.
+                DeleteProfileHeroesFile(battleTag);
+
                 // Select the first item in the list.
                 itemListView.SelectedIndex = 0;
             }
@@ -335,6 +340,17 @@ namespace HeroHelper
                 CreationCollisionOption.ReplaceExisting);
 
             await FileIO.WriteTextAsync(sampleFile, recentProfiles);
+        }
+
+        private async void DeleteProfileHeroesFile(string battletag)
+        {
+            try
+            {
+                StorageFile sampleFile =
+                    await ApplicationData.Current.LocalFolder.GetFileAsync(battletag.Replace("#", "-") + ".txt");
+                await sampleFile.DeleteAsync();
+            }
+            catch (FileNotFoundException) { }
         }
 
         private void heroesGridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -394,6 +410,9 @@ namespace HeroHelper
                 await messageDialog.ShowAsync();
 
                 SaveRecentProfiles();
+
+                // Just in case heroes are added or removed since last refresh.
+                DeleteProfileHeroesFile(selectedProfile.BattleTag);
             }
             
             // Hide the bottom app bar.
@@ -407,6 +426,9 @@ namespace HeroHelper
             {
                 RefreshProfile(selectedProfile.BattleTag, selectedProfile.Region);
             }
+
+            // Hide the bottom app bar.
+            BottomAppBar.IsOpen = false;
         }
     }
 }

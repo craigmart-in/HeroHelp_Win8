@@ -49,7 +49,7 @@ namespace HeroHelper
         /// </param>
         /// <param name="pageState">A dictionary of state preserved by this page during an earlier
         /// session.  This will be null the first time a page is visited.</param>
-        protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
+        protected async override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             string selectedHeroJson = (string)navigationParameter;
             SelectedHero selectedHero = JsonConvert.DeserializeObject<SelectedHero>(selectedHeroJson);
@@ -57,6 +57,20 @@ namespace HeroHelper
             _profile = selectedHero.Profile;
             _heroes = new Hero[_profile.Heroes.Count];
             _d3Client = new D3Client(_profile.Region);
+
+            try
+            {
+                StorageFile sampleFile =
+                            await ApplicationData.Current.LocalFolder.GetFileAsync(_profile.BattleTag.Replace("#", "-") + ".txt");
+
+                string heroes = await FileIO.ReadTextAsync(sampleFile);
+
+                if (!String.IsNullOrEmpty(heroes))
+                {
+                    _heroes = JsonConvert.DeserializeObject<Hero[]>(heroes);
+                }
+            }
+            catch (FileNotFoundException) { } // File doesn't exist.
 
             this.DefaultViewModel["Group"] = _profile;
             this.DefaultViewModel["Heroes"] = _profile.Heroes;
@@ -149,6 +163,8 @@ namespace HeroHelper
                     Hero hero = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
                     hero.Paperdoll = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg"));
                     _heroes[list.SelectedIndex] = hero;
+
+                    SaveHeroes();
                 }
 
                 LoadHeroItems(_heroes[list.SelectedIndex]);
@@ -214,6 +230,17 @@ namespace HeroHelper
         }
 
         #endregion
+
+        private async void SaveHeroes()
+        {
+            string heroesJson = JsonConvert.SerializeObject(_heroes);
+
+            StorageFile sampleFile =
+                await ApplicationData.Current.LocalFolder.CreateFileAsync(_profile.BattleTag.Replace("#", "-") + ".txt",
+                CreationCollisionOption.ReplaceExisting);
+
+            await FileIO.WriteTextAsync(sampleFile, heroesJson);
+        }
 
         private void LoadHeroItems(Hero hero)
         {
