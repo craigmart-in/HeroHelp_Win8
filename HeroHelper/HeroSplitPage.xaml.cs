@@ -154,6 +154,8 @@ namespace HeroHelper
             // opposite effect.
             if (this.UsingLogicalPageNavigation()) this.InvalidateVisualState();
 
+            toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
             Selector list = sender as Selector;
             ProfileHero selectedItem = list.SelectedItem as ProfileHero;
             if (selectedItem != null)
