@@ -43,7 +43,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="HeroItemTemplate">
-            <Grid Height="220" Width="450" Margin="10">
+            <Grid Height="220" Width="400" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="246"/>
                     <ColumnDefinition/>

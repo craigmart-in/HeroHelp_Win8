@@ -346,19 +346,10 @@ namespace HeroHelper
             }
         }
 
-        private async void ItemUserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private void ItemUserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             string tooltipParams = ((sender as HeroHelper.Controls.ItemUserControl).DataContext as EquippedItem).TooltipParams;
-            string tooltipHtml = await _d3Client.GetItemToolTip(tooltipParams);
-            tooltipHtml =
-                        "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
-                        "<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"http://us.battle.net/d3/static/css/tooltips.css?v51\" />" +
-                        "<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"http://us.battle.net/d3/static/local-common/css/common-ie.css?v42\" />" +
-                        "<meta charset=\"UTF-8\">" +
-                        "<body scroll=\"no\" style='padding:0;margin:0;background-color:black' >" +
-                        tooltipHtml +
-                        "</body>";
-            toolTip.NavigateToString(tooltipHtml);
+            UpdateTooltip(tooltipParams);
         }
 
         private void ItemUserControl_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -369,6 +360,33 @@ namespace HeroHelper
         private void toolTip_LoadCompleted(object sender, NavigationEventArgs e)
         {
             toolTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
+
+        private void ItemUserControl_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            string tooltipParams = ((sender as HeroHelper.Controls.ItemUserControl).DataContext as EquippedItem).TooltipParams;
+            UpdateTooltip(tooltipParams);
+        }
+
+        private async void UpdateTooltip(string tooltipParams)
+        {
+            if (toolTip.Visibility != Windows.UI.Xaml.Visibility.Visible)
+            {
+                string tooltipHtml = await _d3Client.GetItemToolTip(tooltipParams);
+                tooltipHtml =
+                            "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
+                            "<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"http://us.battle.net/d3/static/css/tooltips.css?v51\" />" +
+                            "<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"http://us.battle.net/d3/static/local-common/css/common-ie.css?v42\" />" +
+                            "<meta charset=\"UTF-8\">" +
+                            "<body scroll=\"no\" style='padding:0;margin:0;background-color:black' >" +
+                            tooltipHtml +
+                            "</body>";
+                toolTip.NavigateToString(tooltipHtml);
+            }
+            else
+            {
+                toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
         }
     }
 }
