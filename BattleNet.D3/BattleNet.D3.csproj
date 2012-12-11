@@ -130,6 +130,7 @@
     <Compile Include="Models\ItemType.cs" />
     <Compile Include="Models\Kills.cs" />
     <Compile Include="Models\MinMax.cs" />
+    <Compile Include="Models\Portrait.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\ProfileHero.cs" />
     <Compile Include="Models\Progression.cs" />

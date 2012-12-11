@@ -287,16 +287,31 @@ namespace HeroHelper
                 string imageName = String.Empty;
                 int x;
                 int y;
+                int backx = 524;
+                int backy = 0;
                 foreach(ProfileHero profileHero in profile.Heroes)
                 {
                     GetXYFromClassGender(profileHero.Class, profileHero.Gender, out x, out y);
+
+                    if (profileHero.Hardcore)
+                        backy = 205;
+                    else
+                        backy = 0;
+
                     if (profileHero.Id == profile.LastHeroPlayed)
                     {
-                        profile.ProfilePortraitViewRect = String.Format("{0},{1},168,130", new object[] {x, y});
-                        profile.ProfilePortraitMargin = String.Format("{0},{1},0,0", new object[] { x*-1, y*-1 });
+                        profile.ProfilePortrait = new Portrait();
+                        profile.ProfilePortrait.ViewRect = String.Format("{0},{1},168,130", new object[] {x, y});
+                        profile.ProfilePortrait.Margin = String.Format("{0},{1},0,0", new object[] { x*-1, y*-1 });
+                        profile.ProfilePortrait.BackgroundViewRect = String.Format("{0},{1},193,205", new object[] { backx, backy });
+                        profile.ProfilePortrait.BackgroundMargin = String.Format("{0},{1},0,0", new object[] { backx * -1, backy * -1 });
                     }
-                    profileHero.PortraitViewRect = String.Format("{0},{1},168,130", new object[] { x, y });
-                    profileHero.PortraitMargin = String.Format("{0},{1},0,0", new object[] { x * -1, y * -1 });
+
+                    profileHero.Portrait = new Portrait();
+                    profileHero.Portrait.ViewRect = String.Format("{0},{1},168,130", new object[] { x, y });
+                    profileHero.Portrait.Margin = String.Format("{0},{1},0,0", new object[] { x * -1, y * -1 });
+                    profileHero.Portrait.BackgroundViewRect = String.Format("{0},{1},193,205", new object[] { backx, backy });
+                    profileHero.Portrait.BackgroundMargin = String.Format("{0},{1},0,0", new object[] { backx * -1, backy * -1 });
                 }
 
                 profile.HeroHelperLastUpdated = DateTime.Now;

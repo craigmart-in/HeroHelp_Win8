@@ -36,6 +36,7 @@ namespace BattleNet.D3.Models
 
         public DateTime HeroHelperLastUpdated { get; set; }
 
+        public Portrait ProfilePortrait { get; set; }
         public string ProfilePortraitMargin { get; set; }
         public string ProfilePortraitViewRect { get; set; }
     }
