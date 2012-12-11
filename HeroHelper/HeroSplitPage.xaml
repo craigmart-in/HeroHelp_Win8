@@ -17,13 +17,17 @@
             x:Name="itemsViewSource"
             Source="{Binding Heroes}"/>
         <DataTemplate x:Key="HeroItemTemplate">
-            <Grid Height="110" Margin="6">
+            <Grid Height="150">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
-                    <Image Source="{Binding Portrait}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="168" Height="130">
+                    <Image Source="Assets/career-portraits.jpg" Stretch="None" Margin="{Binding PortraitMargin}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Image.Clip>
+                            <RectangleGeometry Rect="{Binding PortraitViewRect}"/>
+                        </Image.Clip>
+                    </Image>
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
                     <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Margin="0,0,0,20"/>
@@ -83,7 +87,7 @@
             AutomationProperties.AutomationId="ItemsListView"
             AutomationProperties.Name="Items"
             TabIndex="1"
-            Margin="-10,130,0,0"
+            Margin="-50,130,0,0"
             Padding="120,0,0,60"
             ItemsSource="{Binding Source={StaticResource itemsViewSource}}"
             IsSwipeEnabled="False"
@@ -94,7 +98,7 @@
         	Grid.RowSpan="1" Grid.Row="1" VerticalScrollMode="Auto" HorizontalScrollMode="Auto">
             <Grid
             Width="994" Height="645" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0">
-                <Image x:Name="paperdollImage" Source="{Binding Paperdoll}" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Image x:Name="paperdollImage" Source="{Binding PaperdollPath}" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Image Source="Assets/inventory-lines.png" Stretch="None" Margin="131,55,-131,-55"/>
                 
                 <Border Margin="389,56,119,515" >

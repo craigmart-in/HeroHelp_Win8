@@ -22,8 +22,12 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="168" Height="130" VerticalAlignment="Top">
-                    <Image Source="{Binding ProfilePortrait}" AutomationProperties.Name="{Binding Title}" Stretch="None" HorizontalAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Height="130" Width="168" VerticalAlignment="Top">
+                    <Image Source="Assets/career-portraits.jpg" Stretch="None" Margin="{Binding ProfilePortraitMargin}">
+                        <Image.Clip>
+                            <RectangleGeometry Rect="{Binding ProfilePortraitViewRect}"/>
+                        </Image.Clip>
+                    </Image>
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
                     <TextBlock Text="{Binding BattleTag}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
@@ -39,13 +43,17 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="HeroItemTemplate">
-            <Grid Height="110" Width="480" Margin="10">
+            <Grid Height="150" Width="480" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
-                    <Image Source="{Binding Portrait}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="168" Height="130">
+                    <Image Source="Assets/career-portraits.jpg" Stretch="None" Margin="{Binding PortraitMargin}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Image.Clip>
+                            <RectangleGeometry Rect="{Binding PortraitViewRect}"/>
+                        </Image.Clip>
+                    </Image>
                 </Border>
                 <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
                     <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Margin="0,0,0,20"/>

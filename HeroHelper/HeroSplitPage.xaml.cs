@@ -163,7 +163,7 @@ namespace HeroHelper
                 if (_heroes[list.SelectedIndex] == null)
                 {
                     Hero hero = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
-                    hero.Paperdoll = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg"));
+                    hero.PaperdollPath = "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg";
                     _heroes[list.SelectedIndex] = hero;
 
                     SaveHeroes();

@@ -43,6 +43,6 @@ namespace BattleNet.D3.Models
             }
         }
 
-        public Windows.UI.Xaml.Media.Imaging.BitmapImage Paperdoll { get; set; }
+        public string PaperdollPath { get; set; }
     }
 }

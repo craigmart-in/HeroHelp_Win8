@@ -285,20 +285,22 @@ namespace HeroHelper
 
                 // Set the Profile iamge.
                 string imageName = String.Empty;
+                int x;
+                int y;
                 foreach(ProfileHero profileHero in profile.Heroes)
                 {
+                    GetXYFromClassGender(profileHero.Class, profileHero.Gender, out x, out y);
                     if (profileHero.Id == profile.LastHeroPlayed)
                     {
-                        imageName = profileHero.Class + "-" + profileHero.Gender;
+                        profile.ProfilePortraitViewRect = String.Format("{0},{1},168,130", new object[] {x, y});
+                        profile.ProfilePortraitMargin = String.Format("{0},{1},0,0", new object[] { x*-1, y*-1 });
                     }
-                    profileHero.Portrait = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/portrait-" + profileHero.Class + "-" + profileHero.Gender + ".png"));
+                    profileHero.PortraitViewRect = String.Format("{0},{1},168,130", new object[] { x, y });
+                    profileHero.PortraitMargin = String.Format("{0},{1},0,0", new object[] { x * -1, y * -1 });
                 }
-                profile.ProfilePortrait = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/portrait-" + imageName + ".png"));
 
                 profile.HeroHelperLastUpdated = DateTime.Now;
-
                 
-
                 // If the profile already exists in the list, remove it and add the new one.
                 int index = 0;
                 bool found = false;
@@ -327,6 +329,32 @@ namespace HeroHelper
 
                 // Select the first item in the list.
                 itemListView.SelectedIndex = 0;
+            }
+        }
+
+        private void GetXYFromClassGender(string charClass, Gender gender, out int x, out int y)
+        {
+            x = 168 * (int) gender;
+
+            switch (charClass)
+            {
+                case "demon-hunter":
+                    y = 130;
+                    break;
+                case "monk":
+                    y = 260;
+                    break;
+                case "witch-doctor":
+                    y = 390;
+                    break;
+                case "wizard":
+                    y = 520;
+                    break;
+                case "barbarian":
+                default:
+                    y = 0;
+                    break;
+
             }
         }
 

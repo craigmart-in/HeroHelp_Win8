@@ -153,24 +153,14 @@
     <Content Include="Assets\paperdoll-witch-doctor-male.jpg" />
     <Content Include="Assets\paperdoll-wizard-female.jpg" />
     <Content Include="Assets\paperdoll-wizard-male.jpg" />
-    <Content Include="Assets\portrait-demon-hunter-female.png" />
-    <Content Include="Assets\portrait-demon-hunter-male.png" />
     <Content Include="Assets\hero-nav-portraits.jpg" />
     <Content Include="Assets\Logo.png" />
-    <Content Include="Assets\portrait-barbarian-female.png" />
-    <Content Include="Assets\portrait-barbarian-male.png" />
-    <Content Include="Assets\portrait-monk-female.png" />
-    <Content Include="Assets\portrait-monk-male.png" />
     <Content Include="Assets\paperdoll-barbarian-female.jpg" />
     <Content Include="Assets\paperdoll-barbarian-male.jpg" />
     <Content Include="Assets\paperdoll-demon-hunter-female.jpg" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\portrait-witch-doctor-female.png" />
-    <Content Include="Assets\portrait-witch-doctor-male.png" />
-    <Content Include="Assets\portrait-wizard-female.png" />
-    <Content Include="Assets\portrait-wizard-male.png" />
     <Content Include="Assets\yellow.png" />
     <Content Include="Common\ReadMe.txt" />
   </ItemGroup>
