@@ -348,8 +348,12 @@ namespace HeroHelper
 
         private void ItemUserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            string tooltipParams = ((sender as HeroHelper.Controls.ItemUserControl).DataContext as EquippedItem).TooltipParams;
-            UpdateTooltip(tooltipParams);
+            EquippedItem equippedItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as EquippedItem;
+            if (equippedItem != null)
+            {
+                string tooltipParams = equippedItem.TooltipParams;
+                UpdateTooltip(tooltipParams);
+            }
         }
 
         private void ItemUserControl_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -364,8 +368,12 @@ namespace HeroHelper
 
         private void ItemUserControl_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            string tooltipParams = ((sender as HeroHelper.Controls.ItemUserControl).DataContext as EquippedItem).TooltipParams;
-            UpdateTooltip(tooltipParams);
+            EquippedItem equippedItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as EquippedItem;
+            if (equippedItem != null)
+            {
+                string tooltipParams = equippedItem.TooltipParams;
+                UpdateTooltip(tooltipParams);
+            }
         }
 
         private async void UpdateTooltip(string tooltipParams)
