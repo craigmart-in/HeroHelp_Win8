@@ -3,6 +3,104 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:HeroHelper.Common">
 
+    <DataTemplate x:Key="ProfileItemTemplate">
+        <Grid Height="220" Margin="3" Width="330">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="187"/>
+            </Grid.ColumnDefinitions>
+            <Canvas Margin="59,0,-90,0">
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Height="205" Width="193" VerticalAlignment="Top">
+                    <Image Source="Assets/career-portraits.jpg" Stretch="None" Margin="{Binding ProfilePortrait.BackgroundMargin}">
+                        <Image.Clip>
+                            <RectangleGeometry Rect="{Binding ProfilePortrait.BackgroundViewRect}"/>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Height="130" Width="168" VerticalAlignment="Top" Canvas.Left="15" Canvas.Top="10">
+                    <Image Source="Assets/career-portraits.jpg" Stretch="None" Margin="{Binding ProfilePortrait.Margin}">
+                        <Image.Clip>
+                            <RectangleGeometry Rect="{Binding ProfilePortrait.ViewRect}"/>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <TextBlock Text="{Binding BattleTag}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Height="20" Width="154" Canvas.Left="20" Canvas.Top="142" Foreground="#FFD96500" TextAlignment="Center"/>
+                <TextBlock Text="{Binding Region}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" Height="20" Width="20" Canvas.Left="163" Canvas.Top="168" TextAlignment="Center" FontWeight="Bold" Foreground="#FFA99877"/>
+                <TextBlock Text="{Binding HeroHelperLastUpdated}" Height="20" Width="141" Canvas.Left="15" Canvas.Top="175" TextAlignment="Center" Foreground="#FF7B6D55" FontFamily="Segoe UI" FontSize="12"/>
+            </Canvas>
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="HeroItemTemplate">
+        <Grid Height="220" Width="400" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="246"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Canvas Margin="18,0,10,0">
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Height="205" Width="193" VerticalAlignment="Top">
+                    <Image Source="Assets/career-portraits.jpg" Stretch="None" Margin="{Binding Portrait.BackgroundMargin}">
+                        <Image.Clip>
+                            <RectangleGeometry Rect="{Binding Portrait.BackgroundViewRect}"/>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Height="130" Width="168" VerticalAlignment="Top" Canvas.Left="15" Canvas.Top="10">
+                    <Image Source="Assets/career-portraits.jpg" Stretch="None" Margin="{Binding Portrait.Margin}">
+                        <Image.Clip>
+                            <RectangleGeometry Rect="{Binding Portrait.ViewRect}"/>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Height="20" Width="154" Canvas.Left="20" Canvas.Top="142" Foreground="#FFD96500" TextAlignment="Center"/>
+                <TextBlock Text="{Binding Level}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" Height="20" Width="20" Canvas.Left="163" Canvas.Top="168" TextAlignment="Center" FontWeight="Bold" Foreground="#FFA99877"/>
+                <TextBlock Text="{Binding FriendlyClass}" Style="{StaticResource BodyTextStyle}" Height="20" Width="141" Canvas.Left="15" Canvas.Top="168" TextAlignment="Center" Foreground="#FF7B6D55"/>
+            </Canvas>
+            <StackPanel VerticalAlignment="Top" Margin="10,0,0,0" Height="100" Grid.Column="1">
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Margin="0,0,0,20"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Class:" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding FriendlyClass}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Level:" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding Level}" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Paragon Level:" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap" Margin="0,0,10,0"/>
+                    <TextBlock Text="{Binding ParagonLevel}" Style="{StaticResource BodyTextStyle}" TextWrapping="NoWrap"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="HeroItemTemplateCompact">
+        <Grid Height="220" Width="220" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="246"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Canvas Margin="18,0,10,0">
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Height="205" Width="193" VerticalAlignment="Top">
+                    <Image Source="Assets/career-portraits.jpg" Stretch="None" Margin="{Binding Portrait.BackgroundMargin}">
+                        <Image.Clip>
+                            <RectangleGeometry Rect="{Binding Portrait.BackgroundViewRect}"/>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Height="130" Width="168" VerticalAlignment="Top" Canvas.Left="15" Canvas.Top="10">
+                    <Image Source="Assets/career-portraits.jpg" Stretch="None" Margin="{Binding Portrait.Margin}">
+                        <Image.Clip>
+                            <RectangleGeometry Rect="{Binding Portrait.ViewRect}"/>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Height="20" Width="154" Canvas.Left="20" Canvas.Top="142" Foreground="#FFD96500" TextAlignment="Center"/>
+                <TextBlock Text="{Binding Level}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" Height="20" Width="20" Canvas.Left="163" Canvas.Top="168" TextAlignment="Center" FontWeight="Bold" Foreground="#FFA99877"/>
+                <TextBlock Text="{Binding FriendlyClass}" Style="{StaticResource BodyTextStyle}" Height="20" Width="141" Canvas.Left="15" Canvas.Top="168" TextAlignment="Center" Foreground="#FF7B6D55"/>
+            </Canvas>
+        </Grid>
+    </DataTemplate>
+    
     <Style x:Key="item-label" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="Arial" />
         <Setter Property="FontSize" Value="11" />
@@ -70,5 +168,27 @@
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="Margin" Value="0,423,0,0" />
     </Style>
-    
+
+
+    <ItemsPanelTemplate x:Key="HorizontalItemsPanelTemplate">
+        <VirtualizingStackPanel Orientation="Horizontal"/>
+    </ItemsPanelTemplate>
+    <Style x:Key="HorizontalListView" TargetType="ListView">
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ItemsPanel" Value="{StaticResource HorizontalItemsPanelTemplate}"/>
+    </Style>
+
+    <ItemsPanelTemplate x:Key="VerticalItemsPanelTemplate">
+        <VirtualizingStackPanel Orientation="Vertical"/>
+    </ItemsPanelTemplate>
+    <Style x:Key="VerticalGridView" TargetType="GridView">
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ItemsPanel" Value="{StaticResource VerticalItemsPanelTemplate}"/>
+    </Style>
 </ResourceDictionary>

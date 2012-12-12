@@ -154,24 +154,28 @@ namespace HeroHelper
             // opposite effect.
             if (this.UsingLogicalPageNavigation()) this.InvalidateVisualState();
 
-            toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-
-            Selector list = sender as Selector;
-            ProfileHero selectedItem = list.SelectedItem as ProfileHero;
-            if (selectedItem != null)
+            if (Windows.UI.ViewManagement.ApplicationView.Value != Windows.UI.ViewManagement.ApplicationViewState.Snapped ||
+                Windows.UI.ViewManagement.ApplicationView.TryUnsnap() == true)
             {
-                if (_heroes[list.SelectedIndex] == null)
+                toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+                Selector list = sender as Selector;
+                ProfileHero selectedItem = list.SelectedItem as ProfileHero;
+                if (selectedItem != null)
                 {
-                    Hero hero = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
-                    hero.PaperdollPath = "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg";
-                    _heroes[list.SelectedIndex] = hero;
+                    if (_heroes[list.SelectedIndex] == null)
+                    {
+                        Hero hero = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
+                        hero.PaperdollPath = "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg";
+                        _heroes[list.SelectedIndex] = hero;
 
-                    SaveHeroes();
+                        SaveHeroes();
+                    }
+
+                    LoadHeroItems(_heroes[list.SelectedIndex]);
+
+                    itemDetail.DataContext = _heroes[list.SelectedIndex];
                 }
-
-                LoadHeroItems(_heroes[list.SelectedIndex]);
-
-                heroScrollView.DataContext = _heroes[list.SelectedIndex];
             }
         }
 
@@ -378,6 +382,13 @@ namespace HeroHelper
 
         private async void UpdateTooltip(string tooltipParams)
         {
+            // Don't show tool tip in portrait
+            if (Windows.UI.ViewManagement.ApplicationView.Value == Windows.UI.ViewManagement.ApplicationViewState.FullScreenPortrait)
+            {
+                toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                return;
+            }
+
             if (toolTip.Visibility != Windows.UI.Xaml.Visibility.Visible)
             {
                 string tooltipHtml = await _d3Client.GetItemToolTip(tooltipParams);

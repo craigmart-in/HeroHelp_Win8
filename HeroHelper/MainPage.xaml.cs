@@ -402,15 +402,15 @@ namespace HeroHelper
             int heroIndex = this.heroesGridView.SelectedIndex;
             ProfileHero profileHero = (ProfileHero)e.ClickedItem;
 
-            for (int i=0; i<profile.Heroes.Count; i++)
+            for (int i = 0; i < profile.Heroes.Count; i++)
             {
-                if(profile.Heroes[i].Id == profileHero.Id)
+                if (profile.Heroes[i].Id == profileHero.Id)
                     heroIndex = i;
             }
 
             Selector list = sender as Selector;
 
-            SelectedHero selectedHero = new SelectedHero() {HeroIndex=heroIndex, Profile=profile};
+            SelectedHero selectedHero = new SelectedHero() { HeroIndex = heroIndex, Profile = profile };
 
             this.Frame.Navigate(typeof(HeroSplitPage), JsonConvert.SerializeObject(selectedHero));
         }
