@@ -15,9 +15,12 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="HeroHelper.App">
-      <VisualElements DisplayName="Hero Helper" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Diablo 3 Utility to help plan your hero." ForegroundText="light" BackgroundColor="#464646">
-        <DefaultTile ShowName="allLogos" />
-        <SplashScreen Image="Assets\SplashScreen.png" />
+      <VisualElements DisplayName="Hero Helper" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Diablo 3 Utility to help plan your hero.  Compare items and see the effects on your EHP and DPS." ForegroundText="light" BackgroundColor="#464646">
+        <DefaultTile ShowName="allLogos" ShortName="Hero Helper" />
+        <SplashScreen Image="splash.jpeg" BackgroundColor="#000000" />
+        <InitialRotationPreference>
+          <Rotation Preference="landscape" />
+        </InitialRotationPreference>
       </VisualElements>
     </Application>
   </Applications>

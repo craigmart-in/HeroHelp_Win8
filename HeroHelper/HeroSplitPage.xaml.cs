@@ -33,6 +33,8 @@ namespace HeroHelper
 
         private Hero[] _heroes;
 
+        private List<CompareStat> _compareStats;
+
         public HeroSplitPage()
         {
             this.InitializeComponent();
@@ -57,6 +59,33 @@ namespace HeroHelper
             _profile = selectedHero.Profile;
             _heroes = new Hero[_profile.Heroes.Count];
             _d3Client = new D3Client(_profile.Region);
+
+            _compareStats = new List<CompareStat>();
+            _compareStats.Add(new CompareStat { Name = "Strength", Before = "2,000", After = "2,100", Difference = "100", DifferenceColor = "Green"});
+            _compareStats.Add(new CompareStat { Name = "Dexterity", Before = "2,000", After = "1,900", Difference = "-100", DifferenceColor = "Red" });
+            _compareStats.Add(new CompareStat { Name = "Intelligence", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "Vitality", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "Armor", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "Resistance", Before = "600", After = "", Difference = "", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "DR From Armor", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "DR from RES:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "DR from Dodge:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "Reliable DR:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "Unreliable DR:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "HP:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "Reliable EHP:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "Unreliable EHP:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "R weapon DPS:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "L weapon DPS:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "D from items:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "D from weapons:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "Attack speed:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "Crit. chance:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "Crit. damage:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "DPS", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+            _compareStats.Add(new CompareStat { Name = "DPS w/ Buffs", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
+
+            CompareStatsListView.ItemsSource = _compareStats;
 
             try
             {
@@ -377,6 +406,15 @@ namespace HeroHelper
             {
                 string tooltipParams = equippedItem.TooltipParams;
                 UpdateTooltip(tooltipParams);
+
+                // Reposition the tooltip to be next to the cursor.
+                Point point = e.GetPosition(itemDetail);
+                double newY = point.Y;
+
+                if ((point.Y + 350) >= itemDetail.ExtentHeight)
+                    newY = itemDetail.ExtentHeight - 375;
+
+                toolTip.Margin = new Thickness(point.X - 400, newY, 0, 0);
             }
         }
 
