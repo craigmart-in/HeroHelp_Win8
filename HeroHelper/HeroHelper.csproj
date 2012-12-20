@@ -123,6 +123,9 @@
     <Compile Include="Controls\ItemUserControl.xaml.cs">
       <DependentUpon>ItemUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SkillUserControl.xaml.cs">
+      <DependentUpon>SkillUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HeroSplitPage.xaml.cs">
       <DependentUpon>HeroSplitPage.xaml</DependentUpon>
     </Compile>
@@ -160,15 +163,13 @@
     <Content Include="Assets\paperdoll-demon-hunter-female.jpg" />
     <Content Include="Assets\scale-100\splash.jpg" />
     <Content Include="Assets\scale-140\splash.jpg" />
-    <Content Include="Assets\scale-180\splash.jpeg" />
+    <Content Include="Assets\scale-180\splash.jpg" />
+    <Content Include="Assets\skill-overlays.png" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\yellow.png" />
     <Content Include="Common\ReadMe.txt" />
-    <Content Include="splash.scale-100.jpg" />
-    <Content Include="splash.scale-140.jpg" />
-    <Content Include="splash.scale-180.jpeg" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -185,6 +186,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\ItemUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SkillUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

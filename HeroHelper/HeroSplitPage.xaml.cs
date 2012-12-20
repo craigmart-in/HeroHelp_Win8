@@ -197,9 +197,12 @@ namespace HeroHelper
                     {
                         Hero hero = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
                         hero.PaperdollPath = "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg";
-                        _heroes[list.SelectedIndex] = hero;
+                        
+                        LoadHeroSkills(hero);
 
-                        await LoadHeroItems(_heroes[list.SelectedIndex]);
+                        await LoadHeroItems(hero);
+
+                        _heroes[list.SelectedIndex] = hero;
 
                         // Clear out previous hero details
                         itemDetail.DataContext = null;
@@ -297,98 +300,24 @@ namespace HeroHelper
             hero.Items = temp;
 
             return true;
+        }
 
-            /*
-            if (hero.Items.Head != null)
+        private void LoadHeroSkills(Hero hero)
+        {
+            for (int i = 0; i < hero.Skills.Active.Count; i++)
             {
-                hero.Items.Head = await _d3Client.GetItemAsync(hero.Items.Head.TooltipParams);
-                hero.Items.Head.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Head.Icon);
-                hero.Items.Head.BackgroundImage = GetItemBackgroundImage(hero.Items.Head.DisplayColor);
+                int x = 22 * (i % 2);
+                int y = 0;
+                if (i == 2 || i == 3)
+                    y = 22;
+                if (i == 4 || i == 5)
+                    y = 44;
+
+                hero.Skills.Active[i].Skill.OverlayViewRect = String.Format("{0},{1},22,22", new object[] { x, y });
+                hero.Skills.Active[i].Skill.OverlayMargin = String.Format("{0},{1},0,0", new object[] { x * -1, y * -1 });
+
+                hero.Skills.Active[i].Skill.DisplayIcon = _d3Client.GetSkillIcon("42", hero.Skills.Active[i].Skill.Icon);
             }
-
-            if (hero.Items.Torso != null)
-            {
-                hero.Items.Torso = await _d3Client.GetItemAsync(hero.Items.Torso.TooltipParams);
-                hero.Items.Torso.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Torso.Icon);
-                hero.Items.Torso.BackgroundImage = GetItemBackgroundImage(hero.Items.Torso.DisplayColor);
-            }
-
-            if (hero.Items.Feet != null)
-            {
-                hero.Items.Feet = await _d3Client.GetItemAsync(hero.Items.Feet.TooltipParams);
-                hero.Items.Feet.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Feet.Icon);
-                hero.Items.Feet.BackgroundImage = GetItemBackgroundImage(hero.Items.Feet.DisplayColor);
-            }
-
-            if (hero.Items.Hands != null)
-            {
-                hero.Items.Hands = await _d3Client.GetItemAsync(hero.Items.Hands.TooltipParams);
-                hero.Items.Hands.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Hands.Icon);
-                hero.Items.Hands.BackgroundImage = GetItemBackgroundImage(hero.Items.Hands.DisplayColor);
-            }
-
-            if (hero.Items.Shoulders != null)
-            {
-                hero.Items.Shoulders = await _d3Client.GetItemAsync(hero.Items.Shoulders.TooltipParams);
-                hero.Items.Shoulders.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Shoulders.Icon);
-                hero.Items.Shoulders.BackgroundImage = GetItemBackgroundImage(hero.Items.Shoulders.DisplayColor);
-            }
-
-            if (hero.Items.Legs != null)
-            {
-                hero.Items.Legs = await _d3Client.GetItemAsync(hero.Items.Legs.TooltipParams);
-                hero.Items.Legs.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Legs.Icon);
-                hero.Items.Legs.BackgroundImage = GetItemBackgroundImage(hero.Items.Legs.DisplayColor);
-            }
-
-            if (hero.Items.Bracers != null)
-            {
-                hero.Items.Bracers = await _d3Client.GetItemAsync(hero.Items.Bracers.TooltipParams);
-                hero.Items.Bracers.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Bracers.Icon);
-                hero.Items.Bracers.BackgroundImage = GetItemBackgroundImage(hero.Items.Bracers.DisplayColor);
-            }
-
-            if (hero.Items.Waist != null)
-            {
-                hero.Items.Waist = await _d3Client.GetItemAsync(hero.Items.Waist.TooltipParams);
-                hero.Items.Waist.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Waist.Icon);
-                hero.Items.Waist.BackgroundImage = GetItemBackgroundImage(hero.Items.Waist.DisplayColor);
-            }
-
-            if (hero.Items.MainHand != null)
-            {
-                hero.Items.MainHand = await _d3Client.GetItemAsync(hero.Items.MainHand.TooltipParams);
-                hero.Items.MainHand.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.MainHand.Icon);
-                hero.Items.MainHand.BackgroundImage = GetItemBackgroundImage(hero.Items.MainHand.DisplayColor);
-            }
-
-            if (hero.Items.OffHand != null)
-            {
-                hero.Items.OffHand = await _d3Client.GetItemAsync(hero.Items.OffHand.TooltipParams);
-                hero.Items.OffHand.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.OffHand.Icon);
-                hero.Items.OffHand.BackgroundImage = GetItemBackgroundImage(hero.Items.OffHand.DisplayColor);
-            }
-
-            if (hero.Items.RightFinger != null)
-            {
-                hero.Items.RightFinger = await _d3Client.GetItemAsync(hero.Items.RightFinger.TooltipParams);
-                hero.Items.RightFinger.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.RightFinger.Icon);
-                hero.Items.RightFinger.BackgroundImage = GetItemBackgroundImage(hero.Items.RightFinger.DisplayColor);
-            }
-
-            if (hero.Items.LeftFinger != null)
-            {
-                hero.Items.LeftFinger = await _d3Client.GetItemAsync(hero.Items.LeftFinger.TooltipParams);
-                hero.Items.LeftFinger.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.LeftFinger.Icon);
-                hero.Items.LeftFinger.BackgroundImage = GetItemBackgroundImage(hero.Items.LeftFinger.DisplayColor);
-            }
-
-            if (hero.Items.Neck != null)
-            {
-                hero.Items.Neck = await _d3Client.GetItemAsync(hero.Items.Neck.TooltipParams);
-                hero.Items.Neck.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Neck.Icon);
-                hero.Items.Neck.BackgroundImage = GetItemBackgroundImage(hero.Items.Neck.DisplayColor);
-            }*/
         }
 
         private Windows.UI.Xaml.Media.Imaging.BitmapImage GetItemBackgroundImage(string displayColor)

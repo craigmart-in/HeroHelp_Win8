@@ -17,5 +17,10 @@ namespace BattleNet.D3.Models
         public string Description { get; set; }
         public string SimpleDescription { get; set; }
         public string SkillCalcId { get; set; }
+
+        public string OverlayMargin { get; set; }
+        public string OverlayViewRect { get; set; }
+
+        public Windows.UI.Xaml.Media.Imaging.BitmapImage DisplayIcon { get; set; }
     }
 }

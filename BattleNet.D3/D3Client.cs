@@ -53,6 +53,13 @@ namespace BattleNet.D3
             return itemIcon;
         }
 
+        public BitmapImage GetSkillIcon(string size, string icon)
+        {
+            Uri itemIconUri = new Uri(this.MediaUri, "d3/icons/skills/" + size + "/" + icon + ".png");
+            BitmapImage itemIcon = new BitmapImage(itemIconUri);
+            return itemIcon;
+        }
+
         public async Task<string> GetItemToolTip(string tooltipParams)
         {
             Uri itemUri = new Uri(this.BaseUri, "d3/tooltip/" + tooltipParams + "?locale=" + this.Localization);
