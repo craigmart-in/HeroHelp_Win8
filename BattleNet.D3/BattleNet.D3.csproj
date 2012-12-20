@@ -116,7 +116,6 @@
     <Compile Include="Models\Death.cs" />
     <Compile Include="Models\Difficulty.cs" />
     <Compile Include="Models\Followers.cs" />
-    <Compile Include="Models\EquippedItem.cs" />
     <Compile Include="Models\Follower.cs" />
     <Compile Include="Models\Gender.cs" />
     <Compile Include="Models\Hero.cs" />
@@ -137,9 +136,12 @@
     <Compile Include="Models\Progression.cs" />
     <Compile Include="Models\CompletedQuest.cs" />
     <Compile Include="Models\Rune.cs" />
+    <Compile Include="Models\Salvage.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\SkillRune.cs" />
     <Compile Include="Models\Skills.cs" />
+    <Compile Include="Models\SocketedGem.cs" />
+    <Compile Include="Models\SocketEffect.cs" />
     <Compile Include="Models\Stats.cs" />
     <Compile Include="Models\FollowerStats.cs" />
     <Compile Include="Models\TimePlayed.cs" />

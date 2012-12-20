@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -198,10 +199,13 @@ namespace HeroHelper
                         hero.PaperdollPath = "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg";
                         _heroes[list.SelectedIndex] = hero;
 
+                        await LoadHeroItems(_heroes[list.SelectedIndex]);
+
+                        // Clear out previous hero details
+                        itemDetail.DataContext = null;
+
                         SaveHeroes();
                     }
-
-                    LoadHeroItems(_heroes[list.SelectedIndex]);
 
                     itemDetail.DataContext = _heroes[list.SelectedIndex];
                 }
@@ -277,87 +281,114 @@ namespace HeroHelper
             await FileIO.WriteTextAsync(sampleFile, heroesJson);
         }
 
-        private void LoadHeroItems(Hero hero)
+        private async Task<bool> LoadHeroItems(Hero hero)
         {
             string size = "large";
 
+            Dictionary<string, Item> temp = new Dictionary<string, Item>();
+
+            foreach (KeyValuePair<string, Item> item in hero.Items)
+            {
+                temp[item.Key] = await _d3Client.GetItemAsync(item.Value.TooltipParams);
+                temp[item.Key].DisplayIcon = _d3Client.GetItemIcon(size, item.Value.Icon);
+                temp[item.Key].BackgroundImage = GetItemBackgroundImage(item.Value.DisplayColor);
+            }
+
+            hero.Items = temp;
+
+            return true;
+
+            /*
             if (hero.Items.Head != null)
             {
-                hero.Items.Head.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Head.Icon);
+                hero.Items.Head = await _d3Client.GetItemAsync(hero.Items.Head.TooltipParams);
+                hero.Items.Head.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Head.Icon);
                 hero.Items.Head.BackgroundImage = GetItemBackgroundImage(hero.Items.Head.DisplayColor);
             }
 
             if (hero.Items.Torso != null)
             {
-                hero.Items.Torso.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Torso.Icon);
+                hero.Items.Torso = await _d3Client.GetItemAsync(hero.Items.Torso.TooltipParams);
+                hero.Items.Torso.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Torso.Icon);
                 hero.Items.Torso.BackgroundImage = GetItemBackgroundImage(hero.Items.Torso.DisplayColor);
             }
 
             if (hero.Items.Feet != null)
             {
-                hero.Items.Feet.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Feet.Icon);
+                hero.Items.Feet = await _d3Client.GetItemAsync(hero.Items.Feet.TooltipParams);
+                hero.Items.Feet.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Feet.Icon);
                 hero.Items.Feet.BackgroundImage = GetItemBackgroundImage(hero.Items.Feet.DisplayColor);
             }
 
             if (hero.Items.Hands != null)
             {
-                hero.Items.Hands.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Hands.Icon);
+                hero.Items.Hands = await _d3Client.GetItemAsync(hero.Items.Hands.TooltipParams);
+                hero.Items.Hands.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Hands.Icon);
                 hero.Items.Hands.BackgroundImage = GetItemBackgroundImage(hero.Items.Hands.DisplayColor);
             }
 
             if (hero.Items.Shoulders != null)
             {
-                hero.Items.Shoulders.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Shoulders.Icon);
+                hero.Items.Shoulders = await _d3Client.GetItemAsync(hero.Items.Shoulders.TooltipParams);
+                hero.Items.Shoulders.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Shoulders.Icon);
                 hero.Items.Shoulders.BackgroundImage = GetItemBackgroundImage(hero.Items.Shoulders.DisplayColor);
             }
 
             if (hero.Items.Legs != null)
             {
-                hero.Items.Legs.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Legs.Icon);
+                hero.Items.Legs = await _d3Client.GetItemAsync(hero.Items.Legs.TooltipParams);
+                hero.Items.Legs.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Legs.Icon);
                 hero.Items.Legs.BackgroundImage = GetItemBackgroundImage(hero.Items.Legs.DisplayColor);
             }
 
             if (hero.Items.Bracers != null)
             {
-                hero.Items.Bracers.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Bracers.Icon);
+                hero.Items.Bracers = await _d3Client.GetItemAsync(hero.Items.Bracers.TooltipParams);
+                hero.Items.Bracers.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Bracers.Icon);
                 hero.Items.Bracers.BackgroundImage = GetItemBackgroundImage(hero.Items.Bracers.DisplayColor);
             }
 
             if (hero.Items.Waist != null)
             {
-                hero.Items.Waist.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Waist.Icon);
+                hero.Items.Waist = await _d3Client.GetItemAsync(hero.Items.Waist.TooltipParams);
+                hero.Items.Waist.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Waist.Icon);
                 hero.Items.Waist.BackgroundImage = GetItemBackgroundImage(hero.Items.Waist.DisplayColor);
             }
 
             if (hero.Items.MainHand != null)
             {
-                hero.Items.MainHand.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.MainHand.Icon);
+                hero.Items.MainHand = await _d3Client.GetItemAsync(hero.Items.MainHand.TooltipParams);
+                hero.Items.MainHand.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.MainHand.Icon);
                 hero.Items.MainHand.BackgroundImage = GetItemBackgroundImage(hero.Items.MainHand.DisplayColor);
             }
 
             if (hero.Items.OffHand != null)
             {
-                hero.Items.OffHand.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.OffHand.Icon);
+                hero.Items.OffHand = await _d3Client.GetItemAsync(hero.Items.OffHand.TooltipParams);
+                hero.Items.OffHand.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.OffHand.Icon);
                 hero.Items.OffHand.BackgroundImage = GetItemBackgroundImage(hero.Items.OffHand.DisplayColor);
             }
 
             if (hero.Items.RightFinger != null)
             {
-                hero.Items.RightFinger.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.RightFinger.Icon);
+                hero.Items.RightFinger = await _d3Client.GetItemAsync(hero.Items.RightFinger.TooltipParams);
+                hero.Items.RightFinger.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.RightFinger.Icon);
                 hero.Items.RightFinger.BackgroundImage = GetItemBackgroundImage(hero.Items.RightFinger.DisplayColor);
             }
 
             if (hero.Items.LeftFinger != null)
             {
-                hero.Items.LeftFinger.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.LeftFinger.Icon);
+                hero.Items.LeftFinger = await _d3Client.GetItemAsync(hero.Items.LeftFinger.TooltipParams);
+                hero.Items.LeftFinger.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.LeftFinger.Icon);
                 hero.Items.LeftFinger.BackgroundImage = GetItemBackgroundImage(hero.Items.LeftFinger.DisplayColor);
             }
 
             if (hero.Items.Neck != null)
             {
-                hero.Items.Neck.DisplayIcon = _d3Client.GetItemIconc(size, hero.Items.Neck.Icon);
+                hero.Items.Neck = await _d3Client.GetItemAsync(hero.Items.Neck.TooltipParams);
+                hero.Items.Neck.DisplayIcon = _d3Client.GetItemIcon(size, hero.Items.Neck.Icon);
                 hero.Items.Neck.BackgroundImage = GetItemBackgroundImage(hero.Items.Neck.DisplayColor);
-            }
+            }*/
         }
 
         private Windows.UI.Xaml.Media.Imaging.BitmapImage GetItemBackgroundImage(string displayColor)
@@ -381,7 +412,7 @@ namespace HeroHelper
 
         private void ItemUserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            EquippedItem equippedItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as EquippedItem;
+            Item equippedItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
             if (equippedItem != null)
             {
                 string tooltipParams = equippedItem.TooltipParams;
@@ -401,7 +432,7 @@ namespace HeroHelper
 
         private void ItemUserControl_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            EquippedItem equippedItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as EquippedItem;
+            Item equippedItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
             if (equippedItem != null)
             {
                 string tooltipParams = equippedItem.TooltipParams;

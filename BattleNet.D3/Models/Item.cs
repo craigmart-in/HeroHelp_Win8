@@ -16,11 +16,12 @@ namespace BattleNet.D3.Models
         public string TypeName { get; set; }
         public ItemType Type { get; set; }
         public MinMax Armor { get; set; }
+        public Dictionary<string, MinMax> AttributesRaw;
         public List<string> Attributes { get; set; }
-        //public List<SocketEffect> SocketEffects { get; set; }
+        public List<SocketEffect> SocketEffects { get; set; }
 
-        //public List<Salvage> Salvage { get; set; }
-        //public List<SocketedGem> Gems { get; set; }
+        public List<Salvage> Salvage { get; set; }
+        public List<SocketedGem> Gems { get; set; }
         public MinMax AttacksPerSecond { get; set; }
         public MinMax MinDamage { get; set; }
         public MinMax MaxDamage { get; set; }

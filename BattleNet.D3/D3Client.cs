@@ -46,7 +46,7 @@ namespace BattleNet.D3
             return JsonConvert.DeserializeObject<Item>(json);
         }
 
-        public BitmapImage GetItemIconc(string size, string icon)
+        public BitmapImage GetItemIcon(string size, string icon)
         {
             Uri itemIconUri = new Uri(this.MediaUri, "d3/icons/items/" + size + "/" + icon + ".png");
             BitmapImage itemIcon = new BitmapImage(itemIconUri);

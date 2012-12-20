@@ -8,13 +8,13 @@ namespace BattleNet.D3.Models
 {
     public class HeroItems : Items
     {
-        public EquippedItem Head { get; set; }
-        public EquippedItem Torso { get; set; }
-        public EquippedItem Feet { get; set; }
-        public EquippedItem Hands { get; set; }
-        public EquippedItem Shoulders { get; set; }
-        public EquippedItem Legs { get; set; }
-        public EquippedItem Bracers { get; set; }
-        public EquippedItem Waist { get; set; }
+        public Item Head { get; set; }
+        public Item Torso { get; set; }
+        public Item Feet { get; set; }
+        public Item Hands { get; set; }
+        public Item Shoulders { get; set; }
+        public Item Legs { get; set; }
+        public Item Bracers { get; set; }
+        public Item Waist { get; set; }
     }
 }

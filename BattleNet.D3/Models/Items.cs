@@ -8,10 +8,10 @@ namespace BattleNet.D3.Models
 {
     public abstract class Items : D3Object
     {
-        public EquippedItem MainHand { get; set; }
-        public EquippedItem OffHand { get; set; }
-        public EquippedItem RightFinger { get; set; }
-        public EquippedItem LeftFinger { get; set; }
-        public EquippedItem Neck { get; set; }
+        public Item MainHand { get; set; }
+        public Item OffHand { get; set; }
+        public Item RightFinger { get; set; }
+        public Item LeftFinger { get; set; }
+        public Item Neck { get; set; }
     }
 }

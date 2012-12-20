@@ -8,8 +8,8 @@ namespace BattleNet.D3.Models
 {
     public abstract class HeroBaseExtended : HeroBase
     {
-        public HeroItems Items { get; set; }
-        public Stats Stats { get; set; }
+        public Dictionary<string, Item> Items { get; set; }
+        public Dictionary<string, double> Stats { get; set; }
         public Kills Kills { get; set; }
     }
 }

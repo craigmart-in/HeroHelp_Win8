@@ -8,6 +8,6 @@ namespace BattleNet.D3.Models
 {
     public class FollowerItems : Items
     {
-        public EquippedItem Special { get; set; }
+        public Item Special { get; set; }
     }
 }
