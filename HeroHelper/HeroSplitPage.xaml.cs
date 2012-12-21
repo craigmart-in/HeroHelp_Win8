@@ -488,9 +488,11 @@ namespace HeroHelper
 
             double armDR = totalArm / ((50 * 63) + totalArm);
             double resDR = totalAllRes / ((5 * 63) + totalAllRes);
+            double multDR = ((1 - armDR) * (1 - resDR) * (1 - baseDR));
 
+            double totalDR = 1 - multDR;
             double totalHP = (36 + (4 * hero.Level) + (healthVitMult * totalVit)) * lifePctFromItems;
-            double totalEHP = totalHP / ((1 - armDR) * (1 - resDR) * (1 - baseDR));
+            double totalEHP = totalHP / multDR;
 
             ehpTextBlock.Text = totalEHP.ToString("N");
 
