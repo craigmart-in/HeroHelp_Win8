@@ -123,6 +123,9 @@
     <Compile Include="Controls\ItemUserControl.xaml.cs">
       <DependentUpon>ItemUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PassiveUserControl.xaml.cs">
+      <DependentUpon>PassiveUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SkillUserControl.xaml.cs">
       <DependentUpon>SkillUserControl.xaml</DependentUpon>
     </Compile>
@@ -148,6 +151,7 @@
     <Content Include="Assets\career-portraits.jpg" />
     <Content Include="Assets\green.png" />
     <Content Include="Assets\inventory-lines.png" />
+    <Content Include="Assets\lower-bg.jpg" />
     <Content Include="Assets\orange.png" />
     <Content Include="Assets\paperdoll-demon-hunter-male.jpg" />
     <Content Include="Assets\paperdoll-monk-female.jpg" />
@@ -186,6 +190,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\ItemUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PassiveUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

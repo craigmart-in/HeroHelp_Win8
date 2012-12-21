@@ -135,8 +135,10 @@
     <Compile Include="Models\ProfileHero.cs" />
     <Compile Include="Models\Progression.cs" />
     <Compile Include="Models\CompletedQuest.cs" />
+    <Compile Include="Models\Rank.cs" />
     <Compile Include="Models\Rune.cs" />
     <Compile Include="Models\Salvage.cs" />
+    <Compile Include="Models\Set.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\SkillRune.cs" />
     <Compile Include="Models\Skills.cs" />

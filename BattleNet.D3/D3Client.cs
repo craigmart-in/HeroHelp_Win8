@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.ServiceModel;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -67,6 +68,101 @@ namespace BattleNet.D3
             String tooltipHtml = await GetJsonFromUri(itemUri);
 
             return tooltipHtml;
+        }
+
+        public static Dictionary<string, MinMax> ParseAttributesRawFromAttributes(List<string> attributes)
+        {
+            Match match;
+            Dictionary<string, MinMax> attributesRaw = new Dictionary<string, MinMax>();
+            string name = "";
+            double val = 0;
+
+            foreach (string attribute in attributes)
+            {
+                if ((match = Regex.Match(attribute, @"^\+(\d+) (Dexterity|Intelligence|Strength|Vitality)$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = match.Groups[2].Value + "_Item";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Int32.Parse(match.Groups[1].Value);
+                }
+                else if ((match = Regex.Match(attribute, @"^\+(\d+) Resistance to All Elements$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Resistance_All";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Int32.Parse(match.Groups[1].Value);
+                }
+                else if ((match = Regex.Match(attribute, @"^Critical Hit Chance Increased by (\d+\.\d+)%$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Crit_Percent_Bonus_Capped";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+                else if ((match = Regex.Match(attribute, @"^Attack Speed Increased by (\d+)%$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Attacks_Per_Second_Item_Percent";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+                else if ((match = Regex.Match(attribute, @"^\+(\d+)% Life$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Hitpoints_Max_Percent_Bonus_Item";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+                else if ((match = Regex.Match(attribute, @"^Critical Hit Damage Increased by (\d+)%$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Crit_Damage_Percent";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+                else if ((match = Regex.Match(attribute, @"^Reduces damage from melee attacks by (\d+)%\.?$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Damage_Percent_Reduction_From_Melee";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+                else if ((match = Regex.Match(attribute, @"^Reduces damage from ranged attacks by (\d+)%\.?$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Damage_Percent_Reduction_From_Ranged";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+                else if ((match = Regex.Match(attribute, @"^Increases Damage Against Elites by (\d+)%$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Damage_Percent_Bonus_Vs_Elites";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+                else if ((match = Regex.Match(attribute, @"^\+(\d+)% Damage to Demons$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Damage_Percent_Bonus_Vs_Monster_Type#Demon";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+                else if ((match = Regex.Match(attribute, @"^Reduces damage from elites by (\d+)%\.?$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Damage_Percent_Reduction_From_Elites";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+                else if ((match = Regex.Match(attribute, @"^Regenerates (\d+) Life per Second$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Hitpoints_Regen_Per_Second";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+                else if ((match = Regex.Match(attribute, @"^(\d+\.\d+)% of Damage Dealt Is Converted to Life$", RegexOptions.IgnoreCase)).Success)
+                {
+                    name = "Steal_Health_Percent";
+                    val = attributesRaw.ContainsKey(name) ? attributesRaw[name].Min : 0;
+                    val += Double.Parse(match.Groups[1].Value) / 100;
+                }
+
+                if (!name.Equals(""))
+                    attributesRaw[name] = new MinMax { Max = val, Min = val };
+            }
+
+            return attributesRaw;
         }
     }
 }

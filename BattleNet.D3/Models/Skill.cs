@@ -21,6 +21,8 @@ namespace BattleNet.D3.Models
         public string OverlayMargin { get; set; }
         public string OverlayViewRect { get; set; }
 
+        public string DisplayIconMargin { get; set; }
+        public string DisplayIconViewRect { get; set; }
         public Windows.UI.Xaml.Media.Imaging.BitmapImage DisplayIcon { get; set; }
     }
 }

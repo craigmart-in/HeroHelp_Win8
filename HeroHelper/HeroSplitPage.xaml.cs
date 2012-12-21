@@ -111,7 +111,7 @@ namespace HeroHelper
                 // navigation is being used (see the logical page navigation #region below.)
                 if (!this.UsingLogicalPageNavigation() && this.itemsViewSource.View != null)
                 {
-                    //this.itemsViewSource.View.MoveCurrentToFirst();
+                    //this.itemsViewSource.View.MoveCurrentToPosition(selectedHero.HeroIndex);
                     itemListView.SelectedIndex = selectedHero.HeroIndex;
                 }
             }
@@ -210,6 +210,8 @@ namespace HeroHelper
                         SaveHeroes();
                     }
 
+                    // Clear out previous hero details
+                    itemDetail.DataContext = null;
                     itemDetail.DataContext = _heroes[list.SelectedIndex];
                 }
             }
@@ -289,18 +291,222 @@ namespace HeroHelper
             string size = "large";
 
             Dictionary<string, Item> temp = new Dictionary<string, Item>();
+            Dictionary<string, Set> charSets = new Dictionary<string, Set>();
+
+            double totalArm = 0;
+            double armFromItems = 0;
+
+            double totalAllRes = 0;
+            double allResFromItems = 0;
+
+            double baseDR = 0;
+
+            double totalStr = 0;
+            double strFromChar = 0;
+            double strFromItems = 0;
+            double baseStr = 8;
+            double strPerLvl = 1;
+
+            double totalDex = 0;
+            double dexFromChar = 0;
+            double dexFromItems = 0;
+            double baseDex = 8;
+            double dexPerLvl = 1;
+
+            double totalInt = 0;
+            double intFromChar = 0;
+            double intFromItems = 0;
+            double baseInt = 8;
+            double intPerLvl = 1;
+
+            double totalVit = 0;
+            double vitFromChar = 0;
+            double vitFromItems = 0;
+            double baseVit = 9;
+            double vitPerLvl = 2;
+
+            double lifePctFromItems = 1;
+            int healthVitMult = hero.Level < 35 ? 10 : hero.Level - 25;
+
+            switch (hero.Class)
+            {
+                case "barbarian":
+                    baseStr = 10;
+                    strPerLvl = 3;
+                    baseDR = .3;
+                    break;
+                case "monk":
+                    baseDex = 10;
+                    dexPerLvl = 3;
+                    baseDR = .3;
+                    break;
+                case "demon-hunter":
+                    baseDex = 10;
+                    dexPerLvl = 3;
+                    break;
+                case "wizard":
+                case "witch-doctor":
+                    baseInt = 10;
+                    intPerLvl = 3;
+                    break;
+                default:
+                    break;
+            }
 
             foreach (KeyValuePair<string, Item> item in hero.Items)
             {
                 temp[item.Key] = await _d3Client.GetItemAsync(item.Value.TooltipParams);
                 temp[item.Key].DisplayIcon = _d3Client.GetItemIcon(size, item.Value.Icon);
                 temp[item.Key].BackgroundImage = GetItemBackgroundImage(item.Value.DisplayColor);
+
+                // Get armor from item.
+                if (temp[item.Key].Armor != null)
+                    armFromItems += temp[item.Key].Armor.Max;
+
+                // Get armor from item.
+                if (temp[item.Key].AttributesRaw.ContainsKey("Resistance_All"))
+                    allResFromItems += temp[item.Key].AttributesRaw["Resistance_All"].Min;
+
+                // Get str from item
+                if (temp[item.Key].AttributesRaw.ContainsKey("Strength_Item"))
+                    strFromItems += temp[item.Key].AttributesRaw["Strength_Item"].Min;
+
+                // Get dex from item
+                if (temp[item.Key].AttributesRaw.ContainsKey("Dexterity_Item"))
+                    dexFromItems += temp[item.Key].AttributesRaw["Dexterity_Item"].Min;
+
+                // Get int from item
+                if (temp[item.Key].AttributesRaw.ContainsKey("Intelligence_Item"))
+                    intFromItems += temp[item.Key].AttributesRaw["Intelligence_Item"].Min;
+
+                // Get vit from item
+                if (temp[item.Key].AttributesRaw.ContainsKey("Vitality_Item"))
+                    vitFromItems += temp[item.Key].AttributesRaw["Vitality_Item"].Min;
+
+                if (temp[item.Key].AttributesRaw.ContainsKey("Hitpoints_Max_Percent_Bonus_Item"))
+                    lifePctFromItems += temp[item.Key].AttributesRaw["Hitpoints_Max_Percent_Bonus_Item"].Min;
+
+                // Get stats from gems
+                foreach (SocketedGem gem in temp[item.Key].Gems)
+                {
+                    if (gem.AttributesRaw.ContainsKey("Strength_Item"))
+                        strFromItems += gem.AttributesRaw["Strength_Item"].Min;
+
+                    if (gem.AttributesRaw.ContainsKey("Dexterity_Item"))
+                        dexFromItems += gem.AttributesRaw["Dexterity_Item"].Min;
+
+                    if (gem.AttributesRaw.ContainsKey("Intelligence_Item"))
+                        intFromItems += gem.AttributesRaw["Intelligence_Item"].Min;
+
+                    if (gem.AttributesRaw.ContainsKey("Vitality_Item"))
+                        vitFromItems += gem.AttributesRaw["Vitality_Item"].Min;
+
+                    if (gem.AttributesRaw.ContainsKey("Hitpoints_Max_Percent_Bonus_Item"))
+                        lifePctFromItems += gem.AttributesRaw["Hitpoints_Max_Percent_Bonus_Item"].Min;
+                }
+
+                // Monitor sets
+                if (temp[item.Key].Set != null)
+                {
+                    Set tempSet = new Set();
+                    // If set is already monitored, increment the count.
+                    if (charSets.ContainsKey(temp[item.Key].Set.Slug))
+                    {
+                        tempSet = charSets[temp[item.Key].Set.Slug];
+                        tempSet.CharCount++;
+                    }
+                    else // Else create a new monitor
+                    {
+                        tempSet = temp[item.Key].Set;
+                        tempSet.CharCount = 1;
+                    }
+
+                    charSets[temp[item.Key].Set.Slug] = tempSet;
+                }
             }
 
             hero.Items = temp;
 
+            // Incorporate Sets
+            foreach (KeyValuePair<string, Set> set in charSets)
+            {
+                foreach(Rank rank in set.Value.Ranks)
+                {
+                    if (set.Value.CharCount >= rank.Required)
+                    {
+                        Dictionary<string, MinMax> attributesRaw = D3Client.ParseAttributesRawFromAttributes(rank.Attributes);
+
+                        foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
+                        {
+                            switch (attributeRaw.Key)
+                            {
+                                case "Resistance_All":
+                                    allResFromItems += attributeRaw.Value.Min;
+                                    break;
+                                case "Strength_Item":
+                                    strFromItems += attributeRaw.Value.Min;
+                                    break;
+                                case "Dexterity_Item":
+                                    dexFromItems += attributeRaw.Value.Min;
+                                    break;
+                                case "Intelligence_Item":
+                                    intFromItems += attributeRaw.Value.Min;
+                                    break;
+                                case "Vitality_Item":
+                                    vitFromItems += attributeRaw.Value.Min;
+                                    break;
+                                case "Hitpoints_Max_Percent_Bonus_Item":
+                                    lifePctFromItems += attributeRaw.Value.Min;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Calculate Strength
+            strFromChar = baseStr + (strPerLvl * (hero.Level - 1)) + (strPerLvl * hero.ParagonLevel);
+            totalStr = strFromChar + strFromItems;
+
+            // Calculate Dexterity
+            dexFromChar = baseDex + (dexPerLvl * (hero.Level - 1)) + (dexPerLvl * hero.ParagonLevel);
+            totalDex = dexFromChar + dexFromItems;
+
+            // Calculate Dexterity
+            intFromChar = baseInt + (intPerLvl * (hero.Level - 1)) + (intPerLvl * hero.ParagonLevel);
+            totalInt = intFromChar + intFromItems;
+
+            // Calculate Vitality
+            vitFromChar = baseVit + (vitPerLvl * (hero.Level - 1)) + (vitPerLvl * hero.ParagonLevel);
+            totalVit = vitFromChar + vitFromItems;
+
+            // Calculate Armor
+            totalArm = armFromItems + totalStr;
+
+            // Calculate All Res
+            totalAllRes = allResFromItems + (totalInt / 10);
+
+            double armDR = totalArm / ((50 * 63) + totalArm);
+            double resDR = totalAllRes / ((5 * 63) + totalAllRes);
+
+            double totalHP = (36 + (4 * hero.Level) + (healthVitMult * totalVit)) * lifePctFromItems;
+            double totalEHP = totalHP / ((1 - armDR) * (1 - resDR) * (1 - baseDR));
+
+            ehpTextBlock.Text = totalEHP.ToString("N");
+
             return true;
         }
+
+        //private Dictionary<string, double> CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw)
+        //{
+        //    foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
+        //    {
+        //        switch (attributeRaw.Key)
+        //        {
+
+        //        }
+        //    }
+        //}
 
         private void LoadHeroSkills(Hero hero)
         {
@@ -313,10 +519,24 @@ namespace HeroHelper
                 if (i == 4 || i == 5)
                     y = 44;
 
+                if (hero.Skills.Active[i].Skill == null)
+                {
+                    hero.Skills.Active[i].Skill = new Skill();
+                    //hero.Skills.Active[i].Skill.DisplayIcon = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(this.BaseUri, "Assets/skill-overlays.png"));
+
+                    //hero.Skills.Active[i].Skill.DisplayIconViewRect = String.Format("{0},{1},42,42", new object[] { x, y });
+                    //hero.Skills.Active[i].Skill.DisplayIconMargin = String.Format("{0},{1},0,0", new object[] { x * -1, y * -1 });
+                }
+
                 hero.Skills.Active[i].Skill.OverlayViewRect = String.Format("{0},{1},22,22", new object[] { x, y });
                 hero.Skills.Active[i].Skill.OverlayMargin = String.Format("{0},{1},0,0", new object[] { x * -1, y * -1 });
 
                 hero.Skills.Active[i].Skill.DisplayIcon = _d3Client.GetSkillIcon("42", hero.Skills.Active[i].Skill.Icon);
+            }
+
+            for (int i = 0; i < hero.Skills.Passive.Count; i++)
+            {
+                hero.Skills.Passive[i].Skill.DisplayIcon = _d3Client.GetSkillIcon("42", hero.Skills.Passive[i].Skill.Icon);
             }
         }
 

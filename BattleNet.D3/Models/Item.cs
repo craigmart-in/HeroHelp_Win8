@@ -19,6 +19,7 @@ namespace BattleNet.D3.Models
         public Dictionary<string, MinMax> AttributesRaw;
         public List<string> Attributes { get; set; }
         public List<SocketEffect> SocketEffects { get; set; }
+        public Set Set { get; set; }
 
         public List<Salvage> Salvage { get; set; }
         public List<SocketedGem> Gems { get; set; }

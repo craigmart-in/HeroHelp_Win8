@@ -13,7 +13,11 @@
         <Image Width="42" Height="42"
                 VerticalAlignment="Top"
                 Stretch="None" HorizontalAlignment="Left"
-               Source="{Binding Skill.DisplayIcon}" Margin="13,5,0,0"/>
+               Source="{Binding Skill.DisplayIcon}" Margin="13,5,0,0">
+            <!--<Image.Clip>
+                <RectangleGeometry Rect="{Binding Skill.DisplayIconViewRect}"/>
+            </Image.Clip>-->
+        </Image>
         <Image Source="ms-appx:///Assets/skill-overlays.png" Stretch="None" Margin="{Binding Skill.OverlayMargin}"
                HorizontalAlignment="Left" VerticalAlignment="Top">
             <Image.Clip>
@@ -23,10 +27,10 @@
         <TextBlock HorizontalAlignment="Left"
                    Margin="70,5,0,0" TextWrapping="Wrap"
                    Text="{Binding Skill.Name}" VerticalAlignment="Top"
-                   Foreground="#FFF3E6D0" FontSize="14"/>
+                   Foreground="#FFF3E6D0" FontSize="16"/>
         <TextBlock HorizontalAlignment="Left"
                    Margin="70,23,0,-3" TextWrapping="Wrap"
                    Text="{Binding Rune.Name}" VerticalAlignment="Top"
-                   Foreground="#FF796D55"/>
+                   Foreground="#FF796D55" FontSize="12"/>
     </Grid>
 </UserControl>

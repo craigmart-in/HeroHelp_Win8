@@ -258,39 +258,87 @@
         				VerticalAlignment="Top" 
         				Width="354"
         				LoadCompleted="toolTip_LoadCompleted"/>
+                    <Grid Margin="10,154,684,71">
+                        <Border BorderBrush="Black" BorderThickness="1" Height="50" VerticalAlignment="Top" Background="#FF222222">
+                            <StackPanel Orientation="Horizontal" Width="300">
+                                <StackPanel Width="150" VerticalAlignment="Center">
+                                    <TextBlock x:Name="dpsTextBlock" TextWrapping="Wrap" Foreground="#FFF50000" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                                    <TextBlock TextWrapping="Wrap" Text="Damage per Second" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Width="150" VerticalAlignment="Center">
+                                    <TextBlock x:Name="ehpTextBlock" TextWrapping="Wrap" Foreground="#FF55FF00" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"/>
+                                    <TextBlock TextWrapping="Wrap" Text="Effective Hit Points" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <Grid x:Name="compareResultsGrid" HorizontalAlignment="Left" Height="332" Margin="0,88,0,0" VerticalAlignment="Top" Width="300" Visibility="Collapsed">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="33*"/>
+                                <RowDefinition Height="21*"/>
+                                <RowDefinition Height="112*"/>
+                            </Grid.RowDefinitions>
+                            <Border BorderThickness="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="300" BorderBrush="Black" Background="#FF222222">
+                                <StackPanel Orientation="Horizontal" Width="300">
+                                    <StackPanel Width="150" VerticalAlignment="Center">
+                                        <TextBlock x:Name="dpsChangeTextBlock" TextWrapping="Wrap" Text="910,671.57" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="#FF55FF00"/>
+                                        <TextBlock TextWrapping="Wrap" Text="DPS Change" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                    <StackPanel Width="150" VerticalAlignment="Center">
+                                        <TextBlock x:Name="ehpChangeTextBlock" TextWrapping="Wrap" Text="358,292,.27" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Foreground="#FF55FF00"/>
+                                        <TextBlock TextWrapping="Wrap" Text="EHP Change" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <StackPanel VerticalAlignment="Top" Margin="10,0" Orientation="Horizontal" Grid.Row="1">
+                                <TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Margin="0,0,0,20" Text="Stat" Width="100"/>
+                                <TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="Before" Width="75"/>
+                                <TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="After" Width="75"/>
+                                <TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="Diff" Width="75" Foreground="{Binding DifferenceColor}"/>
+                            </StackPanel>
+                            <ListView
+                    			x:Name="ChangedStatsListView"
+                    			ItemTemplate="{StaticResource StatItemTemplate}"
+                    			IsTapEnabled="False" SelectionMode="None" Grid.Row="2" Margin="0,0,0,10"/>
+                        </Grid>
+                    </Grid>
                 </Grid>
+                
                 <Grid Height="698">
-                	<Border HorizontalAlignment="Left" Height="540" VerticalAlignment="Top" Width="409" Margin="25,56,0,-496" Background="#AA000000">
-                		<StackPanel>
-                			<TextBlock TextWrapping="Wrap" Text="Stats" HorizontalAlignment="Center" Margin="0,10" FontFamily="Palatino Linotype" FontSize="16"/>
-                			<StackPanel VerticalAlignment="Top" Margin="10,0" Orientation="Horizontal">
-                				<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Margin="0,0,0,20" Text="Name" Width="150"/>
-                				<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="Before" Width="75"/>
-                				<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="After" Width="75"/>
-                				<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="Difference" Width="75" Foreground="{Binding DifferenceColor}"/>
-                			</StackPanel>
-                			<ListView
+                    <Image HorizontalAlignment="Left" VerticalAlignment="Top" Source="Assets/lower-bg.jpg"/>
+                    <Border HorizontalAlignment="Left" Height="540" VerticalAlignment="Top" Width="409" Margin="25,56,0,-496" Background="#AA000000" Visibility="Collapsed">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap" Text="Stats" HorizontalAlignment="Center" Margin="0,10" FontFamily="Palatino Linotype" FontSize="16"/>
+                            <StackPanel VerticalAlignment="Top" Margin="10,0" Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Margin="0,0,0,20" Text="Name" Width="150"/>
+                                <TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="Before" Width="75"/>
+                                <TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="After" Width="75"/>
+                                <TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="Difference" Width="75" Foreground="{Binding DifferenceColor}"/>
+                            </StackPanel>
+                            <ListView
                 				x:Name="CompareStatsListView"
                 				Height="418"
                 				ItemTemplate="{StaticResource StatItemTemplate}"
                 				IsTapEnabled="False" SelectionMode="None"/>
-                		</StackPanel>
-                	</Border>
-                    <TextBlock HorizontalAlignment="Left"
-                               Margin="475,86,0,0" TextWrapping="Wrap"
+                        </StackPanel>
+                    </Border>
+                    <Border BorderThickness="0,0,0,2" BorderBrush="#312A1E" Margin="450,56,55,612" Height="30">
+                        <TextBlock HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
                                Text="SKILLS" VerticalAlignment="Top"
                                FontFamily="Palatino Linotype"
                                FontSize="16"/>
-                    <Grid x:Name="ActiveSkillsGrid" Margin="500,150,10,250">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-						</Grid.ColumnDefinitions>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
+                    </Border>
+                    <Grid x:Name="ActiveSkillsGrid" Margin="455,91,55,403">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
                         <local:SkillUserControl DataContext="{Binding Skills.Active[0]}" />
                         <local:SkillUserControl Grid.Column="1"
                                                 DataContext="{Binding Skills.Active[1]}"/>
@@ -302,7 +350,15 @@
                                                 DataContext="{Binding Skills.Active[4]}" />
                         <local:SkillUserControl Grid.Row="2" Grid.Column="1"
                                                 DataContext="{Binding Skills.Active[5]}" />
-					</Grid>
+                    </Grid>
+                    <Border BorderThickness="0,0,0,2" BorderBrush="#312A1E" Margin="455,265,50,403" Height="30" />
+                    <Grid x:Name="PassiveSkills" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="464,305,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <local:PassiveUserControl DataContext="{Binding Skills.Passive[0]}" />
+                            <local:PassiveUserControl DataContext="{Binding Skills.Passive[1]}" />
+                            <local:PassiveUserControl DataContext="{Binding Skills.Passive[2]}" />
+                        </StackPanel>
+                    </Grid>
                 </Grid>
 
             </StackPanel>
