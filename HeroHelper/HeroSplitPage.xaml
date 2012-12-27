@@ -266,7 +266,12 @@
                                     <TextBlock TextWrapping="Wrap" Text="Damage per Second" HorizontalAlignment="Center"/>
                                 </StackPanel>
                                 <StackPanel Width="150" VerticalAlignment="Center">
-                                    <TextBlock x:Name="ehpTextBlock" TextWrapping="Wrap" Foreground="#FF55FF00" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"/>
+                                    <TextBlock x:Name="ehpTextBlock"
+                                               TextWrapping="Wrap"
+                                               Foreground="#FF55FF00"
+                                               FontWeight="Bold" FontSize="18"
+                                               HorizontalAlignment="Center"
+                                               Text="{Binding CalculatedStats.DisplayEHP}"/>
                                     <TextBlock TextWrapping="Wrap" Text="Effective Hit Points" HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </StackPanel>

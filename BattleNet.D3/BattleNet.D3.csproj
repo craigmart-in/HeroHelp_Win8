@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="D3Client.cs" />
+    <Compile Include="Models\CalculatedStats.cs" />
     <Compile Include="Models\CompareStat.cs" />
     <Compile Include="Models\FollowerSkills.cs" />
     <Compile Include="Models\HeroFollower.cs" />

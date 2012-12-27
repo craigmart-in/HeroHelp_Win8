@@ -291,35 +291,51 @@ namespace HeroHelper
             string size = "large";
 
             Dictionary<string, Item> temp = new Dictionary<string, Item>();
+
+            foreach (KeyValuePair<string, Item> item in hero.Items)
+            {
+                temp[item.Key] = await _d3Client.GetItemAsync(item.Value.TooltipParams);
+                temp[item.Key].DisplayIcon = _d3Client.GetItemIcon(size, item.Value.Icon);
+                temp[item.Key].BackgroundImage = GetItemBackgroundImage(item.Value.DisplayColor);
+            }
+
+            hero.Items = temp;
+            
+            CalculateStats(hero);
+
+            return true;
+        }
+
+        private void CalculateStats(Hero hero)
+        {
+            if (hero.CalculatedStats == null)
+            {
+                hero.CalculatedStats = new CalculatedStats();
+            }
+
             Dictionary<string, Set> charSets = new Dictionary<string, Set>();
 
-            double totalArm = 0;
             double armFromItems = 0;
 
-            double totalAllRes = 0;
             double allResFromItems = 0;
 
             double baseDR = 0;
 
-            double totalStr = 0;
             double strFromChar = 0;
             double strFromItems = 0;
             double baseStr = 8;
             double strPerLvl = 1;
 
-            double totalDex = 0;
             double dexFromChar = 0;
             double dexFromItems = 0;
             double baseDex = 8;
             double dexPerLvl = 1;
 
-            double totalInt = 0;
             double intFromChar = 0;
             double intFromItems = 0;
             double baseInt = 8;
             double intPerLvl = 1;
 
-            double totalVit = 0;
             double vitFromChar = 0;
             double vitFromItems = 0;
             double baseVit = 9;
@@ -355,39 +371,35 @@ namespace HeroHelper
 
             foreach (KeyValuePair<string, Item> item in hero.Items)
             {
-                temp[item.Key] = await _d3Client.GetItemAsync(item.Value.TooltipParams);
-                temp[item.Key].DisplayIcon = _d3Client.GetItemIcon(size, item.Value.Icon);
-                temp[item.Key].BackgroundImage = GetItemBackgroundImage(item.Value.DisplayColor);
+                // Get armor from item.
+                if (hero.Items[item.Key].Armor != null)
+                    armFromItems += hero.Items[item.Key].Armor.Max;
 
                 // Get armor from item.
-                if (temp[item.Key].Armor != null)
-                    armFromItems += temp[item.Key].Armor.Max;
-
-                // Get armor from item.
-                if (temp[item.Key].AttributesRaw.ContainsKey("Resistance_All"))
-                    allResFromItems += temp[item.Key].AttributesRaw["Resistance_All"].Min;
+                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Resistance_All"))
+                    allResFromItems += hero.Items[item.Key].AttributesRaw["Resistance_All"].Min;
 
                 // Get str from item
-                if (temp[item.Key].AttributesRaw.ContainsKey("Strength_Item"))
-                    strFromItems += temp[item.Key].AttributesRaw["Strength_Item"].Min;
+                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Strength_Item"))
+                    strFromItems += hero.Items[item.Key].AttributesRaw["Strength_Item"].Min;
 
                 // Get dex from item
-                if (temp[item.Key].AttributesRaw.ContainsKey("Dexterity_Item"))
-                    dexFromItems += temp[item.Key].AttributesRaw["Dexterity_Item"].Min;
+                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Dexterity_Item"))
+                    dexFromItems += hero.Items[item.Key].AttributesRaw["Dexterity_Item"].Min;
 
                 // Get int from item
-                if (temp[item.Key].AttributesRaw.ContainsKey("Intelligence_Item"))
-                    intFromItems += temp[item.Key].AttributesRaw["Intelligence_Item"].Min;
+                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Intelligence_Item"))
+                    intFromItems += hero.Items[item.Key].AttributesRaw["Intelligence_Item"].Min;
 
                 // Get vit from item
-                if (temp[item.Key].AttributesRaw.ContainsKey("Vitality_Item"))
-                    vitFromItems += temp[item.Key].AttributesRaw["Vitality_Item"].Min;
+                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Vitality_Item"))
+                    vitFromItems += hero.Items[item.Key].AttributesRaw["Vitality_Item"].Min;
 
-                if (temp[item.Key].AttributesRaw.ContainsKey("Hitpoints_Max_Percent_Bonus_Item"))
-                    lifePctFromItems += temp[item.Key].AttributesRaw["Hitpoints_Max_Percent_Bonus_Item"].Min;
+                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Hitpoints_Max_Percent_Bonus_Item"))
+                    lifePctFromItems += hero.Items[item.Key].AttributesRaw["Hitpoints_Max_Percent_Bonus_Item"].Min;
 
                 // Get stats from gems
-                foreach (SocketedGem gem in temp[item.Key].Gems)
+                foreach (SocketedGem gem in hero.Items[item.Key].Gems)
                 {
                     if (gem.AttributesRaw.ContainsKey("Strength_Item"))
                         strFromItems += gem.AttributesRaw["Strength_Item"].Min;
@@ -406,31 +418,29 @@ namespace HeroHelper
                 }
 
                 // Monitor sets
-                if (temp[item.Key].Set != null)
+                if (hero.Items[item.Key].Set != null)
                 {
                     Set tempSet = new Set();
                     // If set is already monitored, increment the count.
-                    if (charSets.ContainsKey(temp[item.Key].Set.Slug))
+                    if (charSets.ContainsKey(hero.Items[item.Key].Set.Slug))
                     {
-                        tempSet = charSets[temp[item.Key].Set.Slug];
+                        tempSet = charSets[hero.Items[item.Key].Set.Slug];
                         tempSet.CharCount++;
                     }
                     else // Else create a new monitor
                     {
-                        tempSet = temp[item.Key].Set;
+                        tempSet = hero.Items[item.Key].Set;
                         tempSet.CharCount = 1;
                     }
 
-                    charSets[temp[item.Key].Set.Slug] = tempSet;
+                    charSets[hero.Items[item.Key].Set.Slug] = tempSet;
                 }
             }
-
-            hero.Items = temp;
 
             // Incorporate Sets
             foreach (KeyValuePair<string, Set> set in charSets)
             {
-                foreach(Rank rank in set.Value.Ranks)
+                foreach (Rank rank in set.Value.Ranks)
                 {
                     if (set.Value.CharCount >= rank.Required)
                     {
@@ -466,37 +476,34 @@ namespace HeroHelper
 
             // Calculate Strength
             strFromChar = baseStr + (strPerLvl * (hero.Level - 1)) + (strPerLvl * hero.ParagonLevel);
-            totalStr = strFromChar + strFromItems;
+            hero.CalculatedStats.Str = strFromChar + strFromItems;
 
             // Calculate Dexterity
             dexFromChar = baseDex + (dexPerLvl * (hero.Level - 1)) + (dexPerLvl * hero.ParagonLevel);
-            totalDex = dexFromChar + dexFromItems;
+            hero.CalculatedStats.Dex = dexFromChar + dexFromItems;
 
             // Calculate Dexterity
             intFromChar = baseInt + (intPerLvl * (hero.Level - 1)) + (intPerLvl * hero.ParagonLevel);
-            totalInt = intFromChar + intFromItems;
+            hero.CalculatedStats.Int = intFromChar + intFromItems;
 
             // Calculate Vitality
             vitFromChar = baseVit + (vitPerLvl * (hero.Level - 1)) + (vitPerLvl * hero.ParagonLevel);
-            totalVit = vitFromChar + vitFromItems;
+            hero.CalculatedStats.Vit = vitFromChar + vitFromItems;
 
             // Calculate Armor
-            totalArm = armFromItems + totalStr;
+            hero.CalculatedStats.Arm = armFromItems + hero.CalculatedStats.Str;
 
             // Calculate All Res
-            totalAllRes = allResFromItems + (totalInt / 10);
+            hero.CalculatedStats.AllRes = allResFromItems + (hero.CalculatedStats.Int / 10); ;
 
-            double armDR = totalArm / ((50 * 63) + totalArm);
-            double resDR = totalAllRes / ((5 * 63) + totalAllRes);
-            double multDR = ((1 - armDR) * (1 - resDR) * (1 - baseDR));
+            hero.CalculatedStats.ArmDR = hero.CalculatedStats.Arm / ((50 * 63) + hero.CalculatedStats.Arm);
+            hero.CalculatedStats.ResDR = hero.CalculatedStats.AllRes / ((5 * 63) + hero.CalculatedStats.AllRes);
 
-            double totalDR = 1 - multDR;
-            double totalHP = (36 + (4 * hero.Level) + (healthVitMult * totalVit)) * lifePctFromItems;
-            double totalEHP = totalHP / multDR;
+            double multDR = ((1 - hero.CalculatedStats.ArmDR) * (1 - hero.CalculatedStats.ResDR) * (1 - baseDR));
 
-            ehpTextBlock.Text = totalEHP.ToString("N");
-
-            return true;
+            hero.CalculatedStats.DR = 1 - multDR;
+            hero.CalculatedStats.HP = (36 + (4 * hero.Level) + (healthVitMult * hero.CalculatedStats.Vit)) * lifePctFromItems;
+            hero.CalculatedStats.EHP = hero.CalculatedStats.HP / multDR;
         }
 
         //private Dictionary<string, double> CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw)
@@ -538,6 +545,11 @@ namespace HeroHelper
 
             for (int i = 0; i < hero.Skills.Passive.Count; i++)
             {
+                if (hero.Skills.Passive[i].Skill == null)
+                {
+                    hero.Skills.Passive[i].Skill = new Skill();
+                }
+
                 hero.Skills.Passive[i].Skill.DisplayIcon = _d3Client.GetSkillIcon("42", hero.Skills.Passive[i].Skill.Icon);
             }
         }
