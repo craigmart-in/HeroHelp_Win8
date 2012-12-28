@@ -320,13 +320,13 @@
                         			<TextBlock TextWrapping="Wrap" Text="Base Stats" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
                         		</StackPanel>
                         		<StackPanel x:Name="BaseStatDetails">
-                        			<Grid Margin="0">
+                        			<Grid Margin="0,5,0,0">
                         				<Grid.ColumnDefinitions>
                         					<ColumnDefinition Width="150*"/>
                         					<ColumnDefinition Width="150*"/>
                         				</Grid.ColumnDefinitions>
                         				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Strength" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
-                        				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[str], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[str], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:N0\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
                         			</Grid>
                         			<Grid Margin="0,5,0,0">
                         				<Grid.ColumnDefinitions>
@@ -334,7 +334,7 @@
                         					<ColumnDefinition Width="150*"/>
                         				</Grid.ColumnDefinitions>
                         				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Dexterity" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
-                        				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[dex], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[dex], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:N0\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
                         			</Grid>
                         			<Grid Margin="0,5,0,0">
                         				<Grid.ColumnDefinitions>
@@ -342,7 +342,7 @@
                         					<ColumnDefinition Width="150*"/>
                         				</Grid.ColumnDefinitions>
                         				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Intelligence" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
-                        				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[int], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[int], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:N0\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
                         			</Grid>
                         			<Grid Margin="0,5,0,0">
                         				<Grid.ColumnDefinitions>
@@ -350,7 +350,7 @@
                         					<ColumnDefinition Width="150*"/>
                         				</Grid.ColumnDefinitions>
                         				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Vitality" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
-                        				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[vit], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[vit], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:N0\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
                         			</Grid>
                         		</StackPanel>
                         	</StackPanel>
@@ -366,13 +366,13 @@
                         			<TextBlock TextWrapping="Wrap" Text="Defensive Stats" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
                         		</StackPanel>
                         		<StackPanel x:Name="DefStatDetails">
-                        			<Grid Margin="0,10,0,0">
+                        			<Grid Margin="0,5,0,0">
                         				<Grid.ColumnDefinitions>
                         					<ColumnDefinition Width="150*"/>
                         					<ColumnDefinition Width="150*"/>
                         				</Grid.ColumnDefinitions>
                         				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Armor" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
-                        				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[arm], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[arm], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:N0\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
                         			</Grid>
                         			<Grid Margin="0,5,0,0">
                         				<Grid.ColumnDefinitions>
@@ -380,7 +380,7 @@
                         					<ColumnDefinition Width="150*"/>
                         				</Grid.ColumnDefinitions>
                         				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="All Resist" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
-                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[allRes], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[allRes], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:N0\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
                         			</Grid>
                         			<Grid Margin="0,5,0,0">
                         				<Grid.ColumnDefinitions>
@@ -388,15 +388,15 @@
                         					<ColumnDefinition Width="150*"/>
                         				</Grid.ColumnDefinitions>
                         				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Armor Damage Reduction" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
-                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[armDR], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[armDR], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:P\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
                         			</Grid>
-                        			<Grid Margin="0,5,0,10">
+                        			<Grid Margin="0,5,0,0">
                         				<Grid.ColumnDefinitions>
                         					<ColumnDefinition Width="150*"/>
                         					<ColumnDefinition Width="150*"/>
                         				</Grid.ColumnDefinitions>
                         				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Total Damage Reduction" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
-                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[dr], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[dr], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:P\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
                         			</Grid>
                         		</StackPanel>
                         	</StackPanel>

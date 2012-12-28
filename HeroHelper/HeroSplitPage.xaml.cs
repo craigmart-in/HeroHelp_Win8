@@ -300,42 +300,46 @@ namespace HeroHelper
             }
 
             hero.Items = temp;
-            
-            CalculateStats(hero);
+
+            hero.CalculatedStats = CalculateStats(hero);
 
             return true;
         }
 
-        private void CalculateStats(Hero hero)
+        private Dictionary<string, double> CalculateStats(Hero hero)
         {
-            if (hero.CalculatedStats == null)
-            {
-                hero.CalculatedStats = new CalculatedStats();
-            }
-
+            Dictionary<string, double> calcStats = new Dictionary<string, double>();
             Dictionary<string, Set> charSets = new Dictionary<string, Set>();
 
+            double totalArmor = 0;
             double armFromItems = 0;
 
             double allResFromItems = 0;
+            double totalAllRes = 0;
 
             double baseDR = 0;
+            double armDR = 0;
+            double resDR = 0;
 
+            double totalStr = 0;
             double strFromChar = 0;
             double strFromItems = 0;
             double baseStr = 8;
             double strPerLvl = 1;
 
+            double totalDex = 0;
             double dexFromChar = 0;
             double dexFromItems = 0;
             double baseDex = 8;
             double dexPerLvl = 1;
 
+            double totalInt = 0;
             double intFromChar = 0;
             double intFromItems = 0;
             double baseInt = 8;
             double intPerLvl = 1;
 
+            double totalVit = 0;
             double vitFromChar = 0;
             double vitFromItems = 0;
             double baseVit = 9;
@@ -476,34 +480,48 @@ namespace HeroHelper
 
             // Calculate Strength
             strFromChar = baseStr + (strPerLvl * (hero.Level - 1)) + (strPerLvl * hero.ParagonLevel);
-            hero.CalculatedStats.Str = strFromChar + strFromItems;
+            totalStr = strFromChar + strFromItems;
+            calcStats.Add("str", totalStr);
 
             // Calculate Dexterity
             dexFromChar = baseDex + (dexPerLvl * (hero.Level - 1)) + (dexPerLvl * hero.ParagonLevel);
-            hero.CalculatedStats.Dex = dexFromChar + dexFromItems;
+            totalDex = dexFromChar + dexFromItems;
+            calcStats.Add("dex", totalDex);
 
             // Calculate Dexterity
             intFromChar = baseInt + (intPerLvl * (hero.Level - 1)) + (intPerLvl * hero.ParagonLevel);
-            hero.CalculatedStats.Int = intFromChar + intFromItems;
+            totalInt = intFromChar + intFromItems;
+            calcStats.Add("int", totalInt);
 
             // Calculate Vitality
             vitFromChar = baseVit + (vitPerLvl * (hero.Level - 1)) + (vitPerLvl * hero.ParagonLevel);
-            hero.CalculatedStats.Vit = vitFromChar + vitFromItems;
+            totalVit = vitFromChar + vitFromItems;
+            calcStats.Add("vit", totalVit);
 
             // Calculate Armor
-            hero.CalculatedStats.Arm = armFromItems + hero.CalculatedStats.Str;
+            totalArmor = armFromItems + totalStr;
+            calcStats.Add("arm", totalArmor);
 
             // Calculate All Res
-            hero.CalculatedStats.AllRes = allResFromItems + (hero.CalculatedStats.Int / 10); ;
+            totalAllRes = allResFromItems + (totalInt / 10); ;
+            calcStats.Add("allRes", totalAllRes);
 
-            hero.CalculatedStats.ArmDR = hero.CalculatedStats.Arm / ((50 * 63) + hero.CalculatedStats.Arm);
-            hero.CalculatedStats.ResDR = hero.CalculatedStats.AllRes / ((5 * 63) + hero.CalculatedStats.AllRes);
+            armDR = totalArmor / ((50 * 63) + totalArmor);
+            calcStats.Add("armDR", armDR);
+            resDR = totalAllRes / ((5 * 63) + totalAllRes);
+            calcStats.Add("resDR", resDR);
 
-            double multDR = ((1 - hero.CalculatedStats.ArmDR) * (1 - hero.CalculatedStats.ResDR) * (1 - baseDR));
+            double multDR = ((1 - armDR) * (1 - resDR) * (1 - baseDR));
 
-            hero.CalculatedStats.DR = 1 - multDR;
-            hero.CalculatedStats.HP = (36 + (4 * hero.Level) + (healthVitMult * hero.CalculatedStats.Vit)) * lifePctFromItems;
-            hero.CalculatedStats.EHP = hero.CalculatedStats.HP / multDR;
+            double dr = 1 - multDR;
+            double hp = (36 + (4 * hero.Level) + (healthVitMult * totalVit)) * lifePctFromItems;
+            double ehp = hp / multDR;
+
+            calcStats.Add("dr", dr);
+            calcStats.Add("hp", hp);
+            calcStats.Add("ehp", ehp);
+
+            return calcStats;
         }
 
         //private Dictionary<string, double> CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw)
@@ -637,6 +655,36 @@ namespace HeroHelper
             else
             {
                 toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+        }
+
+        private void BaseStatsTab_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            switch (BaseStatDetails.Visibility)
+            {
+                case Windows.UI.Xaml.Visibility.Collapsed:
+                    BaseStatDetails.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    BaseStatTabText.Text = "-";
+                    break;
+                case Windows.UI.Xaml.Visibility.Visible:
+                    BaseStatDetails.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    BaseStatTabText.Text = "+";
+                    break;
+            }
+        }
+
+        private void DefStatsTab_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            switch (DefStatDetails.Visibility)
+            {
+                case Windows.UI.Xaml.Visibility.Collapsed:
+                    DefStatDetails.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    DefStatTabText.Text = "-";
+                    break;
+                case Windows.UI.Xaml.Visibility.Visible:
+                    DefStatDetails.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    DefStatTabText.Text = "+";
+                    break;
             }
         }
     }

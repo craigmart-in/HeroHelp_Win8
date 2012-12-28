@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="Common/HeroHelperStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <x:String x:Key="ApplicationName">Hero Helper</x:String>
+            <local:NumberConverter x:Key="NumberConverter"/>
 
         </ResourceDictionary>
     </Application.Resources>
