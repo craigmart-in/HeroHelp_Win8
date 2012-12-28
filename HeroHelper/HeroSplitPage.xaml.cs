@@ -348,6 +348,10 @@ namespace HeroHelper
             double lifePctFromItems = 1;
             int healthVitMult = hero.Level < 35 ? 10 : hero.Level - 25;
 
+            double critDamage = 0.5;
+            double critChance = 0.05;
+            double ias = 0;
+
             switch (hero.Class)
             {
                 case "barbarian":
@@ -376,18 +380,20 @@ namespace HeroHelper
             foreach (KeyValuePair<string, Item> item in hero.Items)
             {
                 // Get armor from item.
-                if (hero.Items[item.Key].Armor != null)
-                    armFromItems += hero.Items[item.Key].Armor.Max;
+                //if (hero.Items[item.Key].Armor != null)
+                //    armFromItems += hero.Items[item.Key].Armor.Max;
 
                 // Get stats from item
                 CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, ref allResFromItems, ref strFromItems,
-                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems);
+                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
+                            ref critDamage, ref critChance, ref ias);
 
                 // Get stats from gems
                 foreach (SocketedGem gem in hero.Items[item.Key].Gems)
                 {
                     CalculateStatsFromRawAttributes(gem.AttributesRaw, ref allResFromItems, ref strFromItems,
-                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems);
+                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
+                            ref critDamage, ref critChance, ref ias);
                 }
 
                 // Monitor sets
@@ -421,7 +427,8 @@ namespace HeroHelper
 
                         // Get stats from Set Bonuses
                         CalculateStatsFromRawAttributes(attributesRaw, ref allResFromItems, ref strFromItems,
-                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems);
+                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
+                            ref critDamage, ref critChance, ref ias);
                     }
                 }
             }
@@ -474,12 +481,17 @@ namespace HeroHelper
 
         private void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw,
             ref double resFromItems, ref double strFromItems, ref double dexFromItems, ref double intFromItems,
-            ref double vitFromItems, ref double lifePctFromItems)
+            ref double vitFromItems, ref double lifePctFromItems, ref double armFromItems, ref double critDamage,
+            ref double critChance, ref double ias)
         {
             foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
             {
                 switch (attributeRaw.Key)
                 {
+                    case "Armor_Item":
+                    case "Armor_Bonus_Item":
+                        armFromItems += attributeRaw.Value.Min;
+                        break;
                     case "Resistance_All":
                         resFromItems += attributeRaw.Value.Min;
                         break;
@@ -497,6 +509,16 @@ namespace HeroHelper
                         break;
                     case "Hitpoints_Max_Percent_Bonus_Item":
                         lifePctFromItems += attributeRaw.Value.Min;
+                        break;
+                    case "Crit_Damage_Percent":
+                        critDamage += attributeRaw.Value.Min;
+                        break;
+                    case "Crit_Percent_Bonus_Capped":
+                        critChance += attributeRaw.Value.Min;
+                        break;
+                    case "Attacks_Per_Second_Percent":
+                    case "Attacks_Per_Second_Item_Percent":
+                        ias += attributeRaw.Value.Min;
                         break;
                 }
             }
