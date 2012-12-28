@@ -379,46 +379,15 @@ namespace HeroHelper
                 if (hero.Items[item.Key].Armor != null)
                     armFromItems += hero.Items[item.Key].Armor.Max;
 
-                // Get armor from item.
-                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Resistance_All"))
-                    allResFromItems += hero.Items[item.Key].AttributesRaw["Resistance_All"].Min;
-
-                // Get str from item
-                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Strength_Item"))
-                    strFromItems += hero.Items[item.Key].AttributesRaw["Strength_Item"].Min;
-
-                // Get dex from item
-                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Dexterity_Item"))
-                    dexFromItems += hero.Items[item.Key].AttributesRaw["Dexterity_Item"].Min;
-
-                // Get int from item
-                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Intelligence_Item"))
-                    intFromItems += hero.Items[item.Key].AttributesRaw["Intelligence_Item"].Min;
-
-                // Get vit from item
-                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Vitality_Item"))
-                    vitFromItems += hero.Items[item.Key].AttributesRaw["Vitality_Item"].Min;
-
-                if (hero.Items[item.Key].AttributesRaw.ContainsKey("Hitpoints_Max_Percent_Bonus_Item"))
-                    lifePctFromItems += hero.Items[item.Key].AttributesRaw["Hitpoints_Max_Percent_Bonus_Item"].Min;
+                // Get stats from item
+                CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, ref allResFromItems, ref strFromItems,
+                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems);
 
                 // Get stats from gems
                 foreach (SocketedGem gem in hero.Items[item.Key].Gems)
                 {
-                    if (gem.AttributesRaw.ContainsKey("Strength_Item"))
-                        strFromItems += gem.AttributesRaw["Strength_Item"].Min;
-
-                    if (gem.AttributesRaw.ContainsKey("Dexterity_Item"))
-                        dexFromItems += gem.AttributesRaw["Dexterity_Item"].Min;
-
-                    if (gem.AttributesRaw.ContainsKey("Intelligence_Item"))
-                        intFromItems += gem.AttributesRaw["Intelligence_Item"].Min;
-
-                    if (gem.AttributesRaw.ContainsKey("Vitality_Item"))
-                        vitFromItems += gem.AttributesRaw["Vitality_Item"].Min;
-
-                    if (gem.AttributesRaw.ContainsKey("Hitpoints_Max_Percent_Bonus_Item"))
-                        lifePctFromItems += gem.AttributesRaw["Hitpoints_Max_Percent_Bonus_Item"].Min;
+                    CalculateStatsFromRawAttributes(gem.AttributesRaw, ref allResFromItems, ref strFromItems,
+                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems);
                 }
 
                 // Monitor sets
@@ -450,30 +419,9 @@ namespace HeroHelper
                     {
                         Dictionary<string, MinMax> attributesRaw = D3Client.ParseAttributesRawFromAttributes(rank.Attributes);
 
-                        foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
-                        {
-                            switch (attributeRaw.Key)
-                            {
-                                case "Resistance_All":
-                                    allResFromItems += attributeRaw.Value.Min;
-                                    break;
-                                case "Strength_Item":
-                                    strFromItems += attributeRaw.Value.Min;
-                                    break;
-                                case "Dexterity_Item":
-                                    dexFromItems += attributeRaw.Value.Min;
-                                    break;
-                                case "Intelligence_Item":
-                                    intFromItems += attributeRaw.Value.Min;
-                                    break;
-                                case "Vitality_Item":
-                                    vitFromItems += attributeRaw.Value.Min;
-                                    break;
-                                case "Hitpoints_Max_Percent_Bonus_Item":
-                                    lifePctFromItems += attributeRaw.Value.Min;
-                                    break;
-                            }
-                        }
+                        // Get stats from Set Bonuses
+                        CalculateStatsFromRawAttributes(attributesRaw, ref allResFromItems, ref strFromItems,
+                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems);
                     }
                 }
             }
@@ -524,16 +472,35 @@ namespace HeroHelper
             return calcStats;
         }
 
-        //private Dictionary<string, double> CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw)
-        //{
-        //    foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
-        //    {
-        //        switch (attributeRaw.Key)
-        //        {
-
-        //        }
-        //    }
-        //}
+        private void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw,
+            ref double resFromItems, ref double strFromItems, ref double dexFromItems, ref double intFromItems,
+            ref double vitFromItems, ref double lifePctFromItems)
+        {
+            foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
+            {
+                switch (attributeRaw.Key)
+                {
+                    case "Resistance_All":
+                        resFromItems += attributeRaw.Value.Min;
+                        break;
+                    case "Strength_Item":
+                        strFromItems += attributeRaw.Value.Min;
+                        break;
+                    case "Dexterity_Item":
+                        dexFromItems += attributeRaw.Value.Min;
+                        break;
+                    case "Intelligence_Item":
+                        intFromItems += attributeRaw.Value.Min;
+                        break;
+                    case "Vitality_Item":
+                        vitFromItems += attributeRaw.Value.Min;
+                        break;
+                    case "Hitpoints_Max_Percent_Bonus_Item":
+                        lifePctFromItems += attributeRaw.Value.Min;
+                        break;
+                }
+            }
+        }
 
         private void LoadHeroSkills(Hero hero)
         {
