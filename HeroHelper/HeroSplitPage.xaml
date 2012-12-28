@@ -259,12 +259,18 @@
         				Width="354"
         				LoadCompleted="toolTip_LoadCompleted"/>
 
-                    <StackPanel Margin="10,154,684,71">
+                    <StackPanel Margin="10,154,684,-665">
                         <Border BorderBrush="Black" BorderThickness="1" Height="50" VerticalAlignment="Top" Background="#CC222222">
                             <StackPanel Orientation="Horizontal" Width="300">
                                 <StackPanel Width="150" VerticalAlignment="Center">
 									<TextBlock TextWrapping="Wrap" Text="Damage per Second" HorizontalAlignment="Center"/>
-                                    <TextBlock x:Name="dpsTextBlock" TextWrapping="Wrap" Foreground="#FFF50000" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                                    <TextBlock x:Name="dpsTextBlock"
+                                               TextWrapping="Wrap"
+                                               Foreground="#FFF50000"
+                                               HorizontalAlignment="Center"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               Text="{Binding CalculatedStats[dps], Converter={StaticResource NumberConverter}}"/>
                                 </StackPanel>
                                 <StackPanel Width="150" VerticalAlignment="Center">
 									<TextBlock TextWrapping="Wrap" Text="Effective Hit Points" HorizontalAlignment="Center"/>
@@ -351,6 +357,60 @@
                         				</Grid.ColumnDefinitions>
                         				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Vitality" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
                                         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[vit], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:N0\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                        			</Grid>
+                        			<Grid Margin="0,5,0,0">
+                        				<Grid.ColumnDefinitions>
+                        					<ColumnDefinition Width="150*"/>
+                        					<ColumnDefinition Width="150*"/>
+                        				</Grid.ColumnDefinitions>
+                        				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Hit Points" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
+                        				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[hp], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                        			</Grid>
+                        		</StackPanel>
+                        	</StackPanel>
+                        	<StackPanel x:Name="DamStats" Orientation="Vertical" Margin="0,0,0,5">
+                        		<StackPanel x:Name="DamStatsTab" Orientation="Horizontal" Tapped="DamStatsTab_Tapped">
+                        			<StackPanel.Background>
+                        				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        					<GradientStop Color="#FF2F0600"/>
+                        					<GradientStop Color="#FF1F0400" Offset="1"/>
+                        				</LinearGradientBrush>
+                        			</StackPanel.Background>
+                        			<TextBlock x:Name="DamStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
+                        			<TextBlock TextWrapping="Wrap" Text="Damage Stats" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
+                        		</StackPanel>
+                        		<StackPanel x:Name="DamStatDetails">
+                        			<Grid Margin="0,5,0,0">
+                        				<Grid.ColumnDefinitions>
+                        					<ColumnDefinition Width="150*"/>
+                        					<ColumnDefinition Width="150*"/>
+                        				</Grid.ColumnDefinitions>
+                        				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="DPS" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
+                        				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[dps], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                        			</Grid>
+                        			<Grid Margin="0,5,0,0">
+                        				<Grid.ColumnDefinitions>
+                        					<ColumnDefinition Width="150*"/>
+                        					<ColumnDefinition Width="150*"/>
+                        				</Grid.ColumnDefinitions>
+                        				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Attacks per Second" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
+                        				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[aps], Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                        			</Grid>
+                        			<Grid Margin="0,5,0,0">
+                        				<Grid.ColumnDefinitions>
+                        					<ColumnDefinition Width="150*"/>
+                        					<ColumnDefinition Width="150*"/>
+                        				</Grid.ColumnDefinitions>
+                        				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Critical Hit Chance" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
+                        				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[chc], ConverterParameter=\{0:P\}, Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                        			</Grid>
+                        			<Grid Margin="0,5,0,0">
+                        				<Grid.ColumnDefinitions>
+                        					<ColumnDefinition Width="150*"/>
+                        					<ColumnDefinition Width="150*"/>
+                        				</Grid.ColumnDefinitions>
+                        				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Critical Hit Damage" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
+                        				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[chd], ConverterParameter=\{0:P\}, Converter={StaticResource NumberConverter}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
                         			</Grid>
                         		</StackPanel>
                         	</StackPanel>

@@ -351,6 +351,7 @@ namespace HeroHelper
             double critDamage = 0.5;
             double critChance = 0.05;
             double ias = 0;
+            double aps = 0;
 
             switch (hero.Class)
             {
@@ -386,14 +387,14 @@ namespace HeroHelper
                 // Get stats from item
                 CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
-                            ref critDamage, ref critChance, ref ias);
+                            ref critDamage, ref critChance, ref ias, ref aps);
 
                 // Get stats from gems
                 foreach (SocketedGem gem in hero.Items[item.Key].Gems)
                 {
                     CalculateStatsFromRawAttributes(gem.AttributesRaw, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
-                            ref critDamage, ref critChance, ref ias);
+                            ref critDamage, ref critChance, ref ias, ref aps);
                 }
 
                 // Monitor sets
@@ -428,7 +429,7 @@ namespace HeroHelper
                         // Get stats from Set Bonuses
                         CalculateStatsFromRawAttributes(attributesRaw, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
-                            ref critDamage, ref critChance, ref ias);
+                            ref critDamage, ref critChance, ref ias, ref aps);
                     }
                 }
             }
@@ -476,13 +477,19 @@ namespace HeroHelper
             calcStats.Add("hp", hp);
             calcStats.Add("ehp", ehp);
 
+            calcStats.Add("dps", 0);
+            calcStats.Add("ias", ias);
+            calcStats.Add("aps", aps);
+            calcStats.Add("chc", critChance);
+            calcStats.Add("chd", critDamage);
+
             return calcStats;
         }
 
         private void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw,
             ref double resFromItems, ref double strFromItems, ref double dexFromItems, ref double intFromItems,
             ref double vitFromItems, ref double lifePctFromItems, ref double armFromItems, ref double critDamage,
-            ref double critChance, ref double ias)
+            ref double critChance, ref double ias, ref double aps)
         {
             foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
             {
@@ -519,6 +526,9 @@ namespace HeroHelper
                     case "Attacks_Per_Second_Percent":
                     case "Attacks_Per_Second_Item_Percent":
                         ias += attributeRaw.Value.Min;
+                        break;
+                    case "Attacks_Per_Second_Item_Bonus":
+                        aps += attributeRaw.Value.Min;
                         break;
                 }
             }
@@ -675,6 +685,11 @@ namespace HeroHelper
                     DefStatTabText.Text = "+";
                     break;
             }
+        }
+
+        private void DamStatsTab_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+        	// TODO: Add event handler implementation here.
         }
     }
 }
