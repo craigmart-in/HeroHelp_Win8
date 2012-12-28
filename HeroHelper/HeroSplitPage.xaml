@@ -390,7 +390,15 @@
                         				<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Armor Damage Reduction" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
                                         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[armDR], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:P\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
                         			</Grid>
-                        			<Grid Margin="0,5,0,0">
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150*"/>
+                                            <ColumnDefinition Width="150*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Resist Damage Reduction" VerticalAlignment="Top" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="12"/>
+                                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding CalculatedStats[resDR], Converter={StaticResource NumberConverter}, ConverterParameter=\{0:P\}}" VerticalAlignment="Top" Grid.Column="1" Margin="5,0,0,0" FontSize="12"/>
+                                    </Grid>
+                                    <Grid Margin="0,5,0,0">
                         				<Grid.ColumnDefinitions>
                         					<ColumnDefinition Width="150*"/>
                         					<ColumnDefinition Width="150*"/>
