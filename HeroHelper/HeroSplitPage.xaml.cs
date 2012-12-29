@@ -398,13 +398,13 @@ namespace HeroHelper
                 UpdateTooltip(tooltipParams);
 
                 // Reposition the tooltip to be next to the cursor.
-                Point point = e.GetPosition(itemDetail);
-                double newY = point.Y;
+                //Point point = e.GetPosition(itemDetail);
+                //double newY = point.Y;
 
-                if ((point.Y + 350) >= itemDetail.ExtentHeight)
-                    newY = itemDetail.ExtentHeight - 375;
+                //if ((point.Y + 350) >= itemDetail.ExtentHeight)
+                //    newY = itemDetail.ExtentHeight - 375;
 
-                toolTip.Margin = new Thickness(point.X - 400, newY, 0, 0);
+                //toolTip.Margin = new Thickness(point.X - 400, newY, 0, 0);
             }
         }
 
