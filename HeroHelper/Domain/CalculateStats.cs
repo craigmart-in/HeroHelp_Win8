@@ -257,35 +257,36 @@ namespace HeroHelper.Domain
                 hero.Items["mainHand"], hero.Items["offHand"], ias, minDmg, maxDmg, eleDmg);
 
             // Base stats
-            calcStats.BaseStats.Add(new CalculatedStat("Strength", new object[] {totalStr}, "{0:N0}"));
-            calcStats.BaseStats.Add(new CalculatedStat("Dexterity", new object[] { totalDex }, "{0:N0}"));
-            calcStats.BaseStats.Add(new CalculatedStat("Intelligence", new object[] { totalInt }, "{0:N0}"));
-            calcStats.BaseStats.Add(new CalculatedStat("Vitality", new object[] { totalVit }, "{0:N0}"));
-            calcStats.BaseStats.Add(new CalculatedStat("Armor", new object[] { totalArmor }, "{0:N0}"));
+            calcStats.BaseStats.Add(new CalculatedStat("Strength", new double[] { totalStr }, "{0:N0}"));
+            calcStats.BaseStats.Add(new CalculatedStat("Dexterity", new double[] { totalDex }, "{0:N0}"));
+            calcStats.BaseStats.Add(new CalculatedStat("Intelligence", new double[] { totalInt }, "{0:N0}"));
+            calcStats.BaseStats.Add(new CalculatedStat("Vitality", new double[] { totalVit }, "{0:N0}"));
+            calcStats.BaseStats.Add(new CalculatedStat("Armor", new double[] { totalArmor }, "{0:N0}"));
 
             // Offense
             aps = CalculateR(hero.Items["mainHand"], hero.Items["offHand"], ias);
-            calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", new object[] { aps }, "{0:N}"));
-            calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", new object[] { ias }, "{0:P}"));
-            calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Chance", new object[] { critChance }, "{0:P}"));
-            calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Damage", new object[] { critDamage }, "{0:P}"));
+            calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", new double[] { aps }, "{0:N}"));
+            calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", new double[] { ias }, "{0:P}"));
+            calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Chance", new double[] { critChance }, "{0:P}"));
+            calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Damage", new double[] { critDamage }, "{0:P}"));
 
             // Defense
-            calcStats.DefenseStats.Add(new CalculatedStat("Block Amount", new object[] { blockMin, blockMax }, "{0:N0} - {1:N0}"));
-            calcStats.DefenseStats.Add(new CalculatedStat("Block Chance", new object[] { blockChance }, "{0:P}"));
-            //calcStats.DefenseStats.Add(new CalculatedStat("Dodge Chance", totalAllRes, "P"));
-            calcStats.DefenseStats.Add(new CalculatedStat("Armor Damage Reduction", new object[] { armDR }, "{0:P}"));
-            calcStats.DefenseStats.Add(new CalculatedStat("Resist Damage Reduction", new object[] { resDR }, "{0:P}"));
-            calcStats.DefenseStats.Add(new CalculatedStat("Damage Reduction", new object[] { dr }, "{0:P}"));
-            calcStats.DefenseStats.Add(new CalculatedStat("All Resist", new object[] { totalAllRes }, "{0:N0}"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Block Amount", new double[] { blockMin, blockMax }, "{0:N0} - {1:N0}"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Block Chance", new double[] { blockChance }, "{0:P}"));
+            double dodgeChance = CalculateDodgeChance(totalDex);
+            calcStats.DefenseStats.Add(new CalculatedStat("Dodge Chance", new double[] { dodgeChance }, "{0:P}"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Armor Damage Reduction", new double[] { armDR }, "{0:P}"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Resist Damage Reduction", new double[] { resDR }, "{0:P}"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Damage Reduction", new double[] { dr }, "{0:P}"));
+            calcStats.DefenseStats.Add(new CalculatedStat("All Resist", new double[] { totalAllRes }, "{0:N0}"));
 
             // Life
-            calcStats.LifeStats.Add(new CalculatedStat("Maximum Life", new object[] { hp }, "{0:N0}"));
-            calcStats.LifeStats.Add(new CalculatedStat("Total Life Bonus", new object[] { lifePctFromItems }, "{0:P0}"));
-            calcStats.LifeStats.Add(new CalculatedStat("Life per Second", new object[] { lifeRegen }, "{0:N}"));
-            calcStats.LifeStats.Add(new CalculatedStat("Life Steal", new object[] { ls }, "{0:P}"));
+            calcStats.LifeStats.Add(new CalculatedStat("Maximum Life", new double[] { hp }, "{0:N0}"));
+            calcStats.LifeStats.Add(new CalculatedStat("Total Life Bonus", new double[] { lifePctFromItems }, "{0:P0}"));
+            calcStats.LifeStats.Add(new CalculatedStat("Life per Second", new double[] { lifeRegen }, "{0:N}"));
+            calcStats.LifeStats.Add(new CalculatedStat("Life Steal", new double[] { ls }, "{0:P}"));
             //calcStats.LifeStats.Add(new CalculatedStat("Life per Kill", lifePctFromItems, "{0:N}"));
-            calcStats.LifeStats.Add(new CalculatedStat("Life per Hit", new object[] { loh }, "{0:N}"));
+            calcStats.LifeStats.Add(new CalculatedStat("Life per Hit", new double[] { loh }, "{0:N}"));
             //calcStats.LifeStats.Add(new CalculatedStat("Health Globe Healing Bonus", lifePctFromItems, "{0:N}"));
             //calcStats.LifeStats.Add(new CalculatedStat("Bonus to Gold/Globe radius", lifePctFromItems, "{0:N}"));
 
@@ -453,6 +454,30 @@ namespace HeroHelper.Domain
             physMaxDmg = (Math.Max(minBaseDmg + minPhysBonusDmg, minBaseDmg + deltaBaseDmg - 1) + 1 + deltaPhysBonusDmg) * (1 + dmgPercent);
             totMinDmg = physMinDmg + minBonusDmg;
             totMaxDmg = physMaxDmg + minBonusDmg + deltaBonusDmg;
+        }
+
+        private static double CalculateDodgeChance(double dex)
+        {
+            double dodgeChance = 0;
+
+            if (dex <= 100)
+            {
+                dodgeChance = dex * 0.1;
+            }
+            else if (dex <= 500)
+            {
+                dodgeChance = 10 + ((dex - 100) * 0.025);
+            }
+            else if (dex <= 1000)
+            {
+                dodgeChance = 20 + ((dex - 500) * 0.02);
+            }
+            else if (dex <= 8000)
+            {
+                dodgeChance = 30 + ((dex - 1000) * 0.01);
+            }
+
+            return dodgeChance / 100;
         }
 
         private static double GetMainStatFromClass(string charClass, double totalStr, double totalDex, double totalInt)

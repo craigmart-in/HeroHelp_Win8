@@ -32,12 +32,21 @@ namespace BattleNet.D3.Models
         public string Name { get; set; }
         public double Value { get; set; }
         public string DisplayValue { get; set; }
+        public double[] Values { get; set; }
+        public string Format { get; set; }
 
-        public CalculatedStat(String name, object[] value, string format)
+        public CalculatedStat(String name, double[] values, string format)
         {
             Name = name;
-            Value = (double) value[0];
-            DisplayValue = String.Format(format, value);
+            Value = values[0];
+            Values = values;
+            Format = format;
+
+            object[] obj = new object[values.Length];
+            for (int i = 0; i < values.Length; i++)
+                obj[i] = values[i];
+
+            DisplayValue = String.Format(format, obj);
         }
     }
 }
