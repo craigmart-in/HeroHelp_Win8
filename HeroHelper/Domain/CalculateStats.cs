@@ -463,7 +463,7 @@ namespace HeroHelper.Domain
             }
             else
             {
-                r = mh.AttacksPerSecond.Min * ias;
+                r = mh.AttacksPerSecond.Min * (1 + ias);
             }
 
             double mhPhysMinDmg;
