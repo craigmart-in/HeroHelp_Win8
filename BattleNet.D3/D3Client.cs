@@ -14,11 +14,11 @@ namespace BattleNet.D3
 {
     public class D3Client : BaseClient
     {
-        public static const string Barbarian = "barbarian";
-        public static const string Monk = "monk";
-        public static const string DemonHunter = "demon-hunter";
-        public static const string Wizard = "wizard";
-        public static const string WitchDoctor = "witch-doctor";
+        public const string Barbarian = "barbarian";
+        public const string Monk = "monk";
+        public const string DemonHunter = "demon-hunter";
+        public const string Wizard = "wizard";
+        public const string WitchDoctor = "witch-doctor";
 
         public D3Client(Region region)
             : base(region)

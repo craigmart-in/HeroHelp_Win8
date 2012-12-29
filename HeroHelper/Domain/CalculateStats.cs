@@ -10,7 +10,7 @@ namespace HeroHelper.Domain
 {
     public class CalculateStats
     {
-        public static CalculatedStats CalculateStats(Hero hero)
+        public static CalculatedStats CalculateStatsFromHero(Hero hero)
         {
             CalculatedStats calcStats = new CalculatedStats();
             Dictionary<string, Set> charSets = new Dictionary<string, Set>();
@@ -106,7 +106,7 @@ namespace HeroHelper.Domain
                 // Get stats from gems
                 foreach (SocketedGem gem in hero.Items[item.Key].Gems)
                 {
-                    CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, ref allResFromItems, ref strFromItems,
+                    CalculateStatsFromRawAttributes(gem.AttributesRaw, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
                             ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
                             ref eleDmg, ref loh, ref minBaseDmg, ref minPhysBonusDmg,
@@ -144,7 +144,7 @@ namespace HeroHelper.Domain
                         Dictionary<string, MinMax> attributesRaw = D3Client.ParseAttributesRawFromAttributes(rank.Attributes);
 
                         // Get stats from Set Bonuses
-                        CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, ref allResFromItems, ref strFromItems,
+                        CalculateStatsFromRawAttributes(attributesRaw, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
                             ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
                             ref eleDmg, ref loh, ref minBaseDmg, ref minPhysBonusDmg,
@@ -390,6 +390,21 @@ namespace HeroHelper.Domain
                 default:
                     return totalInt;
             }
+        }
+
+        private static double CalculateDPS(double mainStat, double critChance, double critDamage,
+            double mhSpeed, double ohSpeed, double ias)
+        {
+            double s = 0;
+            double c = 0;
+            double r = 0;
+            double a = 0;
+            double m = 0;
+
+            s = 1 + (mainStat * 0.01);
+            c = 1 + (critChance * critDamage);
+
+            return s * c * r * a * m;
         }
     }
 }

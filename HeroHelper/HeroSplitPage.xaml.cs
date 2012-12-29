@@ -301,7 +301,7 @@ namespace HeroHelper
 
             hero.Items = temp;
 
-            hero.CalculatedStats = Domain.CalculateStats.CalculateStats(hero);
+            hero.CalculatedStats = Domain.CalculateStats.CalculateStatsFromHero(hero);
 
             return true;
         }
