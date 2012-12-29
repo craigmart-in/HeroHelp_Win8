@@ -12,7 +12,8 @@ namespace BattleNet.D3.Models
         public ObservableCollection<CalculatedStat> BaseStats { get; set; }
         public ObservableCollection<CalculatedStat> DamageStats { get; set; }
         public ObservableCollection<CalculatedStat> DefenseStats { get; set; }
-        public ObservableCollection<CalculatedStat> OtherStats { get; set; }
+        public ObservableCollection<CalculatedStat> LifeStats { get; set; }
+        public ObservableCollection<CalculatedStat> AdventureStats { get; set; }
         public double EHP { get; set; }
         public double DPS { get; set; }
 
@@ -21,7 +22,8 @@ namespace BattleNet.D3.Models
             BaseStats = new ObservableCollection<CalculatedStat>();
             DamageStats = new ObservableCollection<CalculatedStat>();
             DefenseStats = new ObservableCollection<CalculatedStat>();
-            OtherStats = new ObservableCollection<CalculatedStat>();
+            LifeStats = new ObservableCollection<CalculatedStat>();
+            AdventureStats = new ObservableCollection<CalculatedStat>();
         }
     }
 

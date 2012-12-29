@@ -56,7 +56,7 @@ namespace HeroHelper.Domain
             double baseVit = 9;
             double vitPerLvl = 2;
 
-            double lifePctFromItems = 1;
+            double lifePctFromItems = 0;
             int healthVitMult = hero.Level < 35 ? 10 : hero.Level - 25;
 
             double critDamage = 0.5;
@@ -189,6 +189,9 @@ namespace HeroHelper.Domain
                         critChance += 0.05;
                         critDamage += 0.5;
                         break;
+                    case "bloodthirst":
+                        ls += 0.03;
+                        break;
                     case "archery":
                     case "weapons-master":
                         switch (hero.Items["mainHand"].Type.Id)
@@ -228,30 +231,45 @@ namespace HeroHelper.Domain
             double multDR = ((1 - armDR) * (1 - resDR) * (1 - baseDR));
 
             double dr = 1 - multDR;
-            double hp = (36 + (4 * hero.Level) + (healthVitMult * totalVit)) * lifePctFromItems;
+            double hp = (36 + (4 * hero.Level) + (healthVitMult * totalVit)) * (1 + lifePctFromItems);
             double ehp = hp / multDR;
 
             calcStats.EHP = ehp;
             calcStats.DPS = CalculateDPS(mainStat, critChance, critDamage,
                 hero.Items["mainHand"], hero.Items["offHand"], ias, minDmg, maxDmg, eleDmg);
 
+            // Base stats
             calcStats.BaseStats.Add(new CalculatedStat("Strength", totalStr, "N0"));
             calcStats.BaseStats.Add(new CalculatedStat("Dexterity", totalDex, "N0"));
             calcStats.BaseStats.Add(new CalculatedStat("Intelligence", totalInt, "N0"));
             calcStats.BaseStats.Add(new CalculatedStat("Vitality", totalVit, "N0"));
-            calcStats.BaseStats.Add(new CalculatedStat("Hit Points", hp, "N"));
+            calcStats.BaseStats.Add(new CalculatedStat("Armor", totalArmor, "N0"));
 
+            // Offense
             aps = CalculateR(hero.Items["mainHand"], hero.Items["offHand"], ias);
             calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", aps, "N"));
-            calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", ias, "P"));
+            //calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", ias, "P"));
             calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Chance", critChance, "P"));
             calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Damage", critDamage, "P"));
 
-            calcStats.DefenseStats.Add(new CalculatedStat("Armor", totalArmor, "N0"));
-            calcStats.DefenseStats.Add(new CalculatedStat("All Resist", totalAllRes, "N"));
+            // Defense
+            //calcStats.DefenseStats.Add(new CalculatedStat("Block Amount", 0, "N"));
+            //calcStats.DefenseStats.Add(new CalculatedStat("Block Chance", totalAllRes, "P1"));
+            //calcStats.DefenseStats.Add(new CalculatedStat("Dodge Chance", totalAllRes, "P"));
             calcStats.DefenseStats.Add(new CalculatedStat("Armor Damage Reduction", armDR, "P"));
             calcStats.DefenseStats.Add(new CalculatedStat("Resist Damage Reduction", resDR, "P"));
-            calcStats.DefenseStats.Add(new CalculatedStat("Total Damage Reduction", dr, "P"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Damage Reduction", dr, "P"));
+            calcStats.DefenseStats.Add(new CalculatedStat("All Resist", totalAllRes, "N0"));
+
+            // Life
+            calcStats.LifeStats.Add(new CalculatedStat("Maximum Life", hp, "N0"));
+            calcStats.LifeStats.Add(new CalculatedStat("Total Life Bonus", lifePctFromItems, "P0"));
+            calcStats.LifeStats.Add(new CalculatedStat("Life per Second", lifeRegen, "N"));
+            calcStats.LifeStats.Add(new CalculatedStat("Life Steal", ls, "P"));
+            //calcStats.LifeStats.Add(new CalculatedStat("Life per Kill", lifePctFromItems, "N"));
+            calcStats.LifeStats.Add(new CalculatedStat("Life per Hit", loh, "N"));
+            //calcStats.LifeStats.Add(new CalculatedStat("Health Globe Healing Bonus", lifePctFromItems, "N"));
+            //calcStats.LifeStats.Add(new CalculatedStat("Bonus to Gold/Globe radius", lifePctFromItems, "N"));
 
             return calcStats;
         }

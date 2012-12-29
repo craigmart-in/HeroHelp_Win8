@@ -480,5 +480,20 @@ namespace HeroHelper
                     break;
             }
         }
+
+        private void LifeStatsTab_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            switch (LifeStatDetails.Visibility)
+            {
+                case Windows.UI.Xaml.Visibility.Collapsed:
+                    LifeStatDetails.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    LifeStatTabText.Text = "-";
+                    break;
+                case Windows.UI.Xaml.Visibility.Visible:
+                    LifeStatDetails.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    LifeStatTabText.Text = "+";
+                    break;
+            }
+        }
     }
 }
