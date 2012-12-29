@@ -259,7 +259,7 @@ namespace HeroHelper.Domain
             // Offense
             aps = CalculateR(hero.Items["mainHand"], hero.Items["offHand"], ias);
             calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", aps, "N"));
-            //calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", ias, "P"));
+            calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", ias, "P"));
             calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Chance", critChance, "P"));
             calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Damage", critDamage, "P"));
 
@@ -285,7 +285,7 @@ namespace HeroHelper.Domain
             return calcStats;
         }
 
-        private static void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw, bool isOffHand,
+        private static void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw, bool isAWeapon,
             ref double allResFromItems, ref double strFromItems, ref double dexFromItems, ref double intFromItems,
             ref double vitFromItems, ref double lifePctFromItems, ref double armFromItems, ref double critDamage,
             ref double critChance, ref double ias, ref double aps, ref Dictionary<string, double> resFromItems,
@@ -334,7 +334,7 @@ namespace HeroHelper.Domain
                         break;
                     case "Attacks_Per_Second_Percent":
                     case "Attacks_Per_Second_Item_Percent":
-                        if (!isOffHand) // Don't add off hand ias.
+                        if (!isAWeapon) // Don't add for weapons.
                             ias += attributeRaw.Value.Min;
                         break;
                     case "Attacks_Per_Second_Item_Bonus":
