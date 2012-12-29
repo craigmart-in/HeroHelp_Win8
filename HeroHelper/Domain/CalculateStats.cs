@@ -455,7 +455,7 @@ namespace HeroHelper.Domain
             
             c = 1 + (critChance * critDamage);
 
-            if (oh.AttacksPerSecond.Min > 0)
+            if (oh.AttacksPerSecond != null)
             {
                 double mhaps = mh.AttacksPerSecond.Min * (1.15 + ias);
                 double ohaps = oh.AttacksPerSecond.Min * (1.15 + ias);
@@ -477,7 +477,7 @@ namespace HeroHelper.Domain
 
             a = mhAvg;
 
-            if (oh.AttacksPerSecond.Min > 0)
+            if (oh.AttacksPerSecond != null)
             {
                 double ohPhysMinDmg;
                 double ohPhysMaxDmg;
