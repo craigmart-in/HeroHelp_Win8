@@ -31,11 +31,11 @@ namespace BattleNet.D3.Models
         public double Value { get; set; }
         public string DisplayValue { get; set; }
 
-        public CalculatedStat(String name, double value, string displayValue)
+        public CalculatedStat(String name, double value, string format)
         {
             Name = name;
             Value = value;
-            DisplayValue = displayValue;
+            DisplayValue = value.ToString(format);
         }
     }
 }
