@@ -194,6 +194,9 @@ namespace HeroHelper.Domain
             GetMainStatFromClass(hero.Class, totalStr, totalDex, totalInt,
                 out mainStat, out mainStatName);
 
+            // Calculate Dodge Chance
+            double dodgeChance = CalculateDodgeChance(totalDex);
+
             // Class passive skills
             foreach (SkillRune passive in hero.Skills.Passive)
             {
@@ -250,6 +253,17 @@ namespace HeroHelper.Domain
                     case "seize-the-initiative":
                         totalArmor += totalDex * 0.5;
                         break;
+                    case "sixth-sense":
+                        dodgeChance += critChance * 0.3;
+                        break;
+                    case "pierce-the-veil":
+                        skillDmg += 0.2;
+                        break;
+                    case "glass-cannon":
+                        skillDmg += 0.15;
+                        totalArmor -= totalArmor * 0.1;
+                        totalAllRes -= totalAllRes * 0.1;
+                        break;
                 }
             }
 
@@ -285,7 +299,6 @@ namespace HeroHelper.Domain
             // Defense
             calcStats.DefenseStats.Add(new CalculatedStat("Block Amount", new double[] { blockMin, blockMax }, "{0:N0} - {1:N0}"));
             calcStats.DefenseStats.Add(new CalculatedStat("Block Chance", new double[] { blockChance }, "{0:P}"));
-            double dodgeChance = CalculateDodgeChance(totalDex);
             calcStats.DefenseStats.Add(new CalculatedStat("Dodge Chance", new double[] { dodgeChance }, "{0:P}"));
             calcStats.DefenseStats.Add(new CalculatedStat("Armor Damage Reduction", new double[] { armDR }, "{0:P}"));
             calcStats.DefenseStats.Add(new CalculatedStat("Resist Damage Reduction", new double[] { resDR }, "{0:P}"));
