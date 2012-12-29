@@ -232,6 +232,7 @@ namespace HeroHelper.Domain
             calcStats.BaseStats.Add(new CalculatedStat("Vitality", totalVit, "N0"));
             calcStats.BaseStats.Add(new CalculatedStat("Hit Points", hp, "N"));
 
+            aps = CalculateR(hero.Items["mainHand"], hero.Items["offHand"], ias);
             calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", aps, "N"));
             calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", ias, "P"));
             calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Chance", critChance, "P"));
@@ -311,27 +312,13 @@ namespace HeroHelper.Domain
                     case "Damage_Type_Percent_Bonus#Cold":
                         eleDmg += attributeRaw.Value.Min;
                         break;
-                    //case "Damage_Weapon_Min#Physical":
                     case "Damage_Min#Physical":
                         minDmg += attributeRaw.Value.Min;
                         maxDmg += attributeRaw.Value.Min;
                         break;
-                    //case "Damage_Bonus_Min#Physical":
-                    //    minDmg += attributeRaw.Value.Min;
-                    //    break;
-                    //case "Damage_Weapon_Bonus_Min#Physical":
-                    //    minPhysBonusDmg += attributeRaw.Value.Min;
-                    //    break;
-                    //case "Damage_Weapon_Delta#Physical":
                     case "Damage_Delta#Physical":
                         maxDmg += attributeRaw.Value.Min;
                         break;
-                    //case "Damage_Weapon_Bonus_Delta#Physical":
-                    //    deltaPhysBonusDmg += attributeRaw.Value.Min;
-                    //    break;
-                    //case "Damage_Weapon_Percent_Bonus#Physical":
-                    //    dmgPercent += attributeRaw.Value.Min;
-                    //    break;
                     case "Damage_Percent_Bonus_Vs_Elites":
                         eliteBonus += attributeRaw.Value.Min;
                         break;
@@ -367,12 +354,6 @@ namespace HeroHelper.Domain
                     //case "Health_Globe_Bonus_Health":
                     //    globes += attributeRaw.Value.Min;
                     //    break;
-                    //default:
-                    //    if (name.match(/^Damage_Weapon_Min#/) || name.match(/^Damage_Weapon_Bonus_Min#/)) {
-                    //        minBonusDmg += parseFloat(values.min);
-                    //    } else if (name.match(/^Damage_Weapon_Delta#/ || name.match(/^Damage_Weapon_Bonus_Delta#/))) {
-                    //        deltaBonusDmg += parseFloat(values.min);
-                    //    }
                 }
             }
         }
@@ -445,15 +426,18 @@ namespace HeroHelper.Domain
         private static double CalculateDPS(double mainStat, double critChance, double critDamage,
             Item mh, Item oh, double ias, double minDmg, double maxdmg, double eleDmg)
         {
-            double s = 0;
-            double c = 0;
-            double r = 0;
-            double a = 0;
+            double s = 1 + (mainStat * 0.01);
+            double c = 1 + (critChance * critDamage);
+            double r = CalculateR(mh, oh, ias);
+            double a = CalculateA(mh, oh, minDmg, maxdmg, eleDmg);
             double m = 1;
 
-            s = 1 + (mainStat * 0.01);
-            
-            c = 1 + (critChance * critDamage);
+            return s * c * r * a * m;
+        }
+
+        private static double CalculateR(Item mh, Item oh, double ias)
+        {
+            double r = 0;
 
             if (oh.AttacksPerSecond != null)
             {
@@ -466,6 +450,12 @@ namespace HeroHelper.Domain
                 r = mh.AttacksPerSecond.Min * (1 + ias);
             }
 
+            return r;
+        }
+
+        private static double CalculateA(Item mh, Item oh, double minDmg, double maxdmg, double eleDmg)
+        {
+            double a = 0;
             double mhPhysMinDmg;
             double mhPhysMaxDmg;
             double mhTotMinDmg;
@@ -491,7 +481,7 @@ namespace HeroHelper.Domain
                 a = (mhAvg + ohAvg) / 2;
             }
 
-            return s * c * r * a * m;
+            return a;
         }
     }
 }
