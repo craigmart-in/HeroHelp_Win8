@@ -1,13 +1,14 @@
-﻿using BattleNet.D3.Models;
+﻿using BattleNet.D3;
+using BattleNet.D3.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HeroHelper
+namespace HeroHelper.Domain
 {
-    public static class CalculateStats
+    public class CalculateStats
     {
         public static CalculatedStats CalculateStats(Hero hero)
         {
@@ -18,6 +19,7 @@ namespace HeroHelper
             double armFromItems = 0;
 
             double allResFromItems = 0;
+            Dictionary<string, double> resFromItems = new Dictionary<string, double>();
             double totalAllRes = 0;
 
             double baseDR = 0;
@@ -54,51 +56,62 @@ namespace HeroHelper
             double critDamage = 0.5;
             double critChance = 0.05;
             double ias = 0;
-            double aps = 0;
+            double aps = 1;
+
+            double eleDmg = 0;
+            double loh = 0;
+            double minBaseDmg = 0;
+            double minPhysBonusDmg = 0;
+            double deltaBaseDmg = 0;
+            double deltaPhysBonusDmg = 0;
+            double dmgPercent = 0;
+            double eliteBonus = 0;
+            double demonBonus = 0;
+            double ls = 0;
+            double lifeRegen = 0;
 
             // Class bonuses.
             switch (hero.Class)
             {
-                case "barbarian":
+                case D3Client.Barbarian:
                     baseStr = 10;
                     strPerLvl = 3;
                     baseDR = .3;
                     break;
-                case "monk":
+                case D3Client.Monk:
                     baseDex = 10;
                     dexPerLvl = 3;
                     baseDR = .3;
                     break;
-                case "demon-hunter":
+                case D3Client.DemonHunter:
                     baseDex = 10;
                     dexPerLvl = 3;
                     break;
-                case "wizard":
-                case "witch-doctor":
+                default: // Wizard or Witch-Doctor
                     baseInt = 10;
                     intPerLvl = 3;
-                    break;
-                default:
                     break;
             }
 
             foreach (KeyValuePair<string, Item> item in hero.Items)
             {
-                // Get armor from item.
-                //if (hero.Items[item.Key].Armor != null)
-                //    armFromItems += hero.Items[item.Key].Armor.Max;
-
                 // Get stats from item
                 CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
-                            ref critDamage, ref critChance, ref ias, ref aps);
+                            ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
+                            ref eleDmg, ref loh, ref minBaseDmg, ref minPhysBonusDmg,
+                            ref deltaBaseDmg, ref deltaPhysBonusDmg, ref dmgPercent, ref eliteBonus,
+                            ref demonBonus, ref ls, ref lifeRegen);
 
                 // Get stats from gems
                 foreach (SocketedGem gem in hero.Items[item.Key].Gems)
                 {
-                    CalculateStatsFromRawAttributes(gem.AttributesRaw, ref allResFromItems, ref strFromItems,
+                    CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
-                            ref critDamage, ref critChance, ref ias, ref aps);
+                            ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
+                            ref eleDmg, ref loh, ref minBaseDmg, ref minPhysBonusDmg,
+                            ref deltaBaseDmg, ref deltaPhysBonusDmg, ref dmgPercent, ref eliteBonus,
+                            ref demonBonus, ref ls, ref lifeRegen);
                 }
 
                 // Monitor sets
@@ -131,9 +144,12 @@ namespace HeroHelper
                         Dictionary<string, MinMax> attributesRaw = D3Client.ParseAttributesRawFromAttributes(rank.Attributes);
 
                         // Get stats from Set Bonuses
-                        CalculateStatsFromRawAttributes(attributesRaw, ref allResFromItems, ref strFromItems,
+                        CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
-                            ref critDamage, ref critChance, ref ias, ref aps);
+                            ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
+                            ref eleDmg, ref loh, ref minBaseDmg, ref minPhysBonusDmg,
+                            ref deltaBaseDmg, ref deltaPhysBonusDmg, ref dmgPercent, ref eliteBonus,
+                            ref demonBonus, ref ls, ref lifeRegen);
                     }
                 }
             }
@@ -156,23 +172,7 @@ namespace HeroHelper
 
 
             // Class Mainstat.
-            double mainStat = 0;
-            switch (hero.Class)
-            {
-                case "barbarian":
-                    mainStat = totalStr;
-                    break;
-                case "monk":
-                case "demon-hunter":
-                    mainStat = totalDex;
-                    break;
-                case "wizard":
-                case "witch-doctor":
-                    mainStat = totalInt;
-                    break;
-                default:
-                    break;
-            }
+            double mainStat = GetMainStatFromClass(hero.Class, totalStr, totalDex, totalInt);
 
             // Class passive skills
             foreach (SkillRune passive in hero.Skills.Passive)
@@ -183,12 +183,23 @@ namespace HeroHelper
                         critChance += 0.05;
                         critDamage += 0.5;
                         break;
+                    case "archery":
                     case "weapons-master":
-                        switch (hero.Items["mainHand"].Type.Id.ToLower())
+                        switch (hero.Items["mainHand"].Type.Id)
                         {
-                            case "mace":
-                            case "axe":
+                            case "Mace":
+                            case "Axe":
+                            case "Mace2H":
+                            case "Axe2H":
+                            case "HandXBow":
                                 critChance += 0.1;
+                                break;
+                            case "Crossbow":
+                                critDamage += .5;
+                                break;
+                            case "Polearm":
+                            case "Spear":
+                                ias += .1;
                                 break;
                         }
                         break;
@@ -233,10 +244,13 @@ namespace HeroHelper
             return calcStats;
         }
 
-        private void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw,
-            ref double resFromItems, ref double strFromItems, ref double dexFromItems, ref double intFromItems,
+        private static void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw,
+            ref double allResFromItems, ref double strFromItems, ref double dexFromItems, ref double intFromItems,
             ref double vitFromItems, ref double lifePctFromItems, ref double armFromItems, ref double critDamage,
-            ref double critChance, ref double ias, ref double aps)
+            ref double critChance, ref double ias, ref double aps, ref Dictionary<string, double> resFromItems,
+            ref double eleDmg, ref double loh, ref double minBaseDmg, ref double minPhysBonusDmg,
+            ref double deltaBaseDmg, ref double deltaPhysBonusDmg, ref double dmgPercent, ref double eliteBonus,
+            ref double demonBonus, ref double ls, ref double lifeRegen)
         {
             foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
             {
@@ -247,7 +261,15 @@ namespace HeroHelper
                         armFromItems += attributeRaw.Value.Min;
                         break;
                     case "Resistance_All":
-                        resFromItems += attributeRaw.Value.Min;
+                        allResFromItems += attributeRaw.Value.Min;
+                        break;
+                    case "Resistance#Fire":
+                    case "Resistance#Lightning":
+                    case "Resistance#Poison":
+                    case "Resistance#Physical":
+                    case "Resistance#Arcane":
+                    case "Resistance#Cold":
+                        resFromItems[attributeRaw.Key.Split('#')[1]] += attributeRaw.Value.Min;
                         break;
                     case "Strength_Item":
                         strFromItems += attributeRaw.Value.Min;
@@ -277,7 +299,96 @@ namespace HeroHelper
                     case "Attacks_Per_Second_Item_Bonus":
                         aps += attributeRaw.Value.Min;
                         break;
+                    case "Hitpoints_On_Hit":
+                        loh += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Type_Percent_Bonus#Fire":
+                    case "Damage_Type_Percent_Bonus#Lightning":
+                    case "Damage_Type_Percent_Bonus#Poison":
+                    case "Damage_Type_Percent_Bonus#Arcane":
+                    case "Damage_Type_Percent_Bonus#Cold":
+                        eleDmg += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Weapon_Min#Physical":
+                    case "Damage_Min#Physical":
+                        minBaseDmg += attributeRaw.Value.Min;
+                        //minJewelryDmg += parseFloat(values.min);
+                        //maxJewelryDmg += parseFloat(values.min);
+                        break;
+                    case "Damage_Bonus_Min#Physical":
+                        minBaseDmg += attributeRaw.Value.Min;
+                        //minJewelryDmg += parseFloat(values.min);
+                        break;
+                    case "Damage_Weapon_Bonus_Min#Physical":
+                        minPhysBonusDmg += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Weapon_Delta#Physical":
+                    case "Damage_Delta#Physical":
+                        deltaBaseDmg += attributeRaw.Value.Min;
+                        //maxJewelryDmg += parseFloat(values.min);
+                        break;
+                    case "Damage_Weapon_Bonus_Delta#Physical":
+                        deltaPhysBonusDmg += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Weapon_Percent_Bonus#Physical":
+                        dmgPercent += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Percent_Bonus_Vs_Elites":
+                        eliteBonus += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Percent_Bonus_Vs_Monster_Type#Demon":
+                        demonBonus += attributeRaw.Value.Min;
+                        break;
+                    case "Steal_Health_Percent":
+                        ls += attributeRaw.Value.Min;
+                        break;
+                    case "Hitpoints_Regen_Per_Second":
+                        lifeRegen += attributeRaw.Value.Min;
+                        break;
+                    //case "Block_Chance_Item":
+                    //case "Block_Chance_Bonus_Item":
+                    //    blockChance += attributeRaw.Value.Min;
+                    //    break;
+                    //case "Damage_Percent_Reduction_From_Melee":
+                    //    meleeDR += attributeRaw.Value.Min;
+                    //    break;
+                    //case "Damage_Percent_Reduction_From_Elites":
+                    //    eliteDR += attributeRaw.Value.Min;
+                    //    break;
+                    //case "Damage_Percent_Reduction_From_Ranged":
+                    //    rangedDR += attributeRaw.Value.Min;
+                    //    break;
+                    //case "Block_Amount_Item_Min":
+                    //    blockMin += attributeRaw.Value.Min;
+                    //    break;
+                    //case "Block_Amount_Item_Delta":
+                    //    blockMin += attributeRaw.Value.Min;
+                    //    blockMax += attributeRaw.Value.Min;
+                    //    break;
+                    //case "Health_Globe_Bonus_Health":
+                    //    globes += attributeRaw.Value.Min;
+                    //    break;
+                    //default:
+                    //    if (name.match(/^Damage_Weapon_Min#/) || name.match(/^Damage_Weapon_Bonus_Min#/)) {
+                    //        minBonusDmg += parseFloat(values.min);
+                    //    } else if (name.match(/^Damage_Weapon_Delta#/ || name.match(/^Damage_Weapon_Bonus_Delta#/))) {
+                    //        deltaBonusDmg += parseFloat(values.min);
+                    //    }
                 }
+            }
+        }
+
+        private static double GetMainStatFromClass(string charClass, double totalStr, double totalDex, double totalInt)
+        {
+            switch (charClass)
+            {
+                case D3Client.Barbarian:
+                    return totalStr;
+                case D3Client.Monk:
+                case D3Client.DemonHunter:
+                    return totalDex;
+                default:
+                    return totalInt;
             }
         }
     }
