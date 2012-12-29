@@ -189,7 +189,10 @@ namespace HeroHelper.Domain
             totalAllRes = allResFromItems + (totalInt / 10);
 
             // Class Mainstat.
-            double mainStat = GetMainStatFromClass(hero.Class, totalStr, totalDex, totalInt);
+            double mainStat;
+            string mainStatName;
+            GetMainStatFromClass(hero.Class, totalStr, totalDex, totalInt,
+                out mainStat, out mainStatName);
 
             // Class passive skills
             foreach (SkillRune passive in hero.Skills.Passive)
@@ -271,6 +274,8 @@ namespace HeroHelper.Domain
             calcStats.BaseStats.Add(new CalculatedStat("Armor", new double[] { totalArmor }, "{0:N0}"));
 
             // Offense
+            calcStats.DamageStats.Add(new CalculatedStat("Damage Increased by " + mainStatName, new double[] { mainStat }, "{0:N}"));
+            calcStats.DamageStats.Add(new CalculatedStat("Damage Increased by Skills", new double[] { skillDmg }, "{0:P}"));
             aps = CalculateR(hero.Items["mainHand"], hero.Items["offHand"], ias);
             calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", new double[] { aps }, "{0:N}"));
             calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", new double[] { ias }, "{0:P}"));
@@ -495,17 +500,24 @@ namespace HeroHelper.Domain
             return dodgeChance / 100;
         }
 
-        private static double GetMainStatFromClass(string charClass, double totalStr, double totalDex, double totalInt)
+        private static void GetMainStatFromClass(string charClass, double totalStr, double totalDex, double totalInt,
+            out double mainStat, out string mainStatName)
         {
             switch (charClass)
             {
                 case D3Client.Barbarian:
-                    return totalStr;
+                    mainStat = totalStr;
+                    mainStatName = "Strength";
+                    break;
                 case D3Client.Monk:
                 case D3Client.DemonHunter:
-                    return totalDex;
+                    mainStat = totalDex;
+                    mainStatName = "Dexterity";
+                    break;
                 default:
-                    return totalInt;
+                    mainStat = totalInt;
+                    mainStatName = "Intelligence";
+                    break;
             }
         }
 
