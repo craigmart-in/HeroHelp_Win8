@@ -73,6 +73,10 @@ namespace HeroHelper.Domain
             double ls = 0;
             double lifeRegen = 0;
 
+            double blockChance = 0;
+            double blockMin = 0;
+            double blockMax = 0;
+
             // Class bonuses.
             switch (hero.Class)
             {
@@ -104,7 +108,8 @@ namespace HeroHelper.Domain
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
                             ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
                             ref eleDmg, ref loh, ref minDmg, ref maxDmg,
-                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen);
+                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen,
+                            ref blockChance, ref blockMin, ref blockMax);
 
                 // Get stats from gems
                 foreach (SocketedGem gem in hero.Items[item.Key].Gems)
@@ -113,7 +118,8 @@ namespace HeroHelper.Domain
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
                             ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
                             ref eleDmg, ref loh, ref minDmg, ref maxDmg,
-                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen);
+                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen,
+                            ref blockChance, ref blockMin, ref blockMax);
                 }
 
                 // Monitor sets
@@ -150,7 +156,8 @@ namespace HeroHelper.Domain
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
                             ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
                             ref eleDmg, ref loh, ref minDmg, ref maxDmg,
-                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen);
+                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen,
+                            ref blockChance, ref blockMin, ref blockMax);
                     }
                 }
             }
@@ -250,37 +257,37 @@ namespace HeroHelper.Domain
                 hero.Items["mainHand"], hero.Items["offHand"], ias, minDmg, maxDmg, eleDmg);
 
             // Base stats
-            calcStats.BaseStats.Add(new CalculatedStat("Strength", totalStr, "N0"));
-            calcStats.BaseStats.Add(new CalculatedStat("Dexterity", totalDex, "N0"));
-            calcStats.BaseStats.Add(new CalculatedStat("Intelligence", totalInt, "N0"));
-            calcStats.BaseStats.Add(new CalculatedStat("Vitality", totalVit, "N0"));
-            calcStats.BaseStats.Add(new CalculatedStat("Armor", totalArmor, "N0"));
+            calcStats.BaseStats.Add(new CalculatedStat("Strength", new object[] {totalStr}, "{0:N0}"));
+            calcStats.BaseStats.Add(new CalculatedStat("Dexterity", new object[] { totalDex }, "{0:N0}"));
+            calcStats.BaseStats.Add(new CalculatedStat("Intelligence", new object[] { totalInt }, "{0:N0}"));
+            calcStats.BaseStats.Add(new CalculatedStat("Vitality", new object[] { totalVit }, "{0:N0}"));
+            calcStats.BaseStats.Add(new CalculatedStat("Armor", new object[] { totalArmor }, "{0:N0}"));
 
             // Offense
             aps = CalculateR(hero.Items["mainHand"], hero.Items["offHand"], ias);
-            calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", aps, "N"));
-            calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", ias, "P"));
-            calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Chance", critChance, "P"));
-            calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Damage", critDamage, "P"));
+            calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", new object[] { aps }, "{0:N}"));
+            calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", new object[] { ias }, "{0:P}"));
+            calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Chance", new object[] { critChance }, "{0:P}"));
+            calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Damage", new object[] { critDamage }, "{0:P}"));
 
             // Defense
-            //calcStats.DefenseStats.Add(new CalculatedStat("Block Amount", 0, "N"));
-            //calcStats.DefenseStats.Add(new CalculatedStat("Block Chance", totalAllRes, "P1"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Block Amount", new object[] { blockMin, blockMax }, "{0:N0} - {1:N0}"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Block Chance", new object[] { blockChance }, "{0:P}"));
             //calcStats.DefenseStats.Add(new CalculatedStat("Dodge Chance", totalAllRes, "P"));
-            calcStats.DefenseStats.Add(new CalculatedStat("Armor Damage Reduction", armDR, "P"));
-            calcStats.DefenseStats.Add(new CalculatedStat("Resist Damage Reduction", resDR, "P"));
-            calcStats.DefenseStats.Add(new CalculatedStat("Damage Reduction", dr, "P"));
-            calcStats.DefenseStats.Add(new CalculatedStat("All Resist", totalAllRes, "N0"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Armor Damage Reduction", new object[] { armDR }, "{0:P}"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Resist Damage Reduction", new object[] { resDR }, "{0:P}"));
+            calcStats.DefenseStats.Add(new CalculatedStat("Damage Reduction", new object[] { dr }, "{0:P}"));
+            calcStats.DefenseStats.Add(new CalculatedStat("All Resist", new object[] { totalAllRes }, "{0:N0}"));
 
             // Life
-            calcStats.LifeStats.Add(new CalculatedStat("Maximum Life", hp, "N0"));
-            calcStats.LifeStats.Add(new CalculatedStat("Total Life Bonus", lifePctFromItems, "P0"));
-            calcStats.LifeStats.Add(new CalculatedStat("Life per Second", lifeRegen, "N"));
-            calcStats.LifeStats.Add(new CalculatedStat("Life Steal", ls, "P"));
-            //calcStats.LifeStats.Add(new CalculatedStat("Life per Kill", lifePctFromItems, "N"));
-            calcStats.LifeStats.Add(new CalculatedStat("Life per Hit", loh, "N"));
-            //calcStats.LifeStats.Add(new CalculatedStat("Health Globe Healing Bonus", lifePctFromItems, "N"));
-            //calcStats.LifeStats.Add(new CalculatedStat("Bonus to Gold/Globe radius", lifePctFromItems, "N"));
+            calcStats.LifeStats.Add(new CalculatedStat("Maximum Life", new object[] { hp }, "{0:N0}"));
+            calcStats.LifeStats.Add(new CalculatedStat("Total Life Bonus", new object[] { lifePctFromItems }, "{0:P0}"));
+            calcStats.LifeStats.Add(new CalculatedStat("Life per Second", new object[] { lifeRegen }, "{0:N}"));
+            calcStats.LifeStats.Add(new CalculatedStat("Life Steal", new object[] { ls }, "{0:P}"));
+            //calcStats.LifeStats.Add(new CalculatedStat("Life per Kill", lifePctFromItems, "{0:N}"));
+            calcStats.LifeStats.Add(new CalculatedStat("Life per Hit", new object[] { loh }, "{0:N}"));
+            //calcStats.LifeStats.Add(new CalculatedStat("Health Globe Healing Bonus", lifePctFromItems, "{0:N}"));
+            //calcStats.LifeStats.Add(new CalculatedStat("Bonus to Gold/Globe radius", lifePctFromItems, "{0:N}"));
 
             return calcStats;
         }
@@ -290,7 +297,8 @@ namespace HeroHelper.Domain
             ref double vitFromItems, ref double lifePctFromItems, ref double armFromItems, ref double critDamage,
             ref double critChance, ref double ias, ref double aps, ref Dictionary<string, double> resFromItems,
             ref double eleDmg, ref double loh, ref double minDmg, ref double maxDmg,
-            ref double eliteBonus, ref double demonBonus, ref double ls, ref double lifeRegen)
+            ref double eliteBonus, ref double demonBonus, ref double ls, ref double lifeRegen,
+            ref double blockChance, ref double blockMin, ref double blockMax)
         {
             foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
             {
@@ -369,10 +377,10 @@ namespace HeroHelper.Domain
                     case "Hitpoints_Regen_Per_Second":
                         lifeRegen += attributeRaw.Value.Min;
                         break;
-                    //case "Block_Chance_Item":
-                    //case "Block_Chance_Bonus_Item":
-                    //    blockChance += attributeRaw.Value.Min;
-                    //    break;
+                    case "Block_Chance_Item":
+                    case "Block_Chance_Bonus_Item":
+                        blockChance += attributeRaw.Value.Min;
+                        break;
                     //case "Damage_Percent_Reduction_From_Melee":
                     //    meleeDR += attributeRaw.Value.Min;
                     //    break;
@@ -382,13 +390,13 @@ namespace HeroHelper.Domain
                     //case "Damage_Percent_Reduction_From_Ranged":
                     //    rangedDR += attributeRaw.Value.Min;
                     //    break;
-                    //case "Block_Amount_Item_Min":
-                    //    blockMin += attributeRaw.Value.Min;
-                    //    break;
-                    //case "Block_Amount_Item_Delta":
-                    //    blockMin += attributeRaw.Value.Min;
-                    //    blockMax += attributeRaw.Value.Min;
-                    //    break;
+                    case "Block_Amount_Item_Min":
+                        blockMin += attributeRaw.Value.Min;
+                        blockMax += attributeRaw.Value.Min;
+                        break;
+                    case "Block_Amount_Item_Delta":
+                        blockMax += attributeRaw.Value.Min;
+                        break;
                     //case "Health_Globe_Bonus_Health":
                     //    globes += attributeRaw.Value.Min;
                     //    break;
