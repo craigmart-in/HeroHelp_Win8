@@ -113,7 +113,9 @@ namespace HeroHelper
                 // navigation is being used (see the logical page navigation #region below.)
                 if (!this.UsingLogicalPageNavigation() && this.itemsViewSource.View != null)
                 {
-                    //this.itemsViewSource.View.MoveCurrentToPosition(selectedHero.HeroIndex);
+                    if (_isLoading && selectedHero.HeroIndex == 0)
+                        LoadHero(itemListView.Items[0] as ProfileHero, 0);
+
                     _isLoading = false;
                     itemListView.SelectedIndex = selectedHero.HeroIndex;
                 }
@@ -178,8 +180,10 @@ namespace HeroHelper
         /// <param name="sender">The GridView (or ListView when the application is Snapped)
         /// displaying the selected item.</param>
         /// <param name="e">Event data that describes how the selection was changed.</param>
-        async void ItemListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void ItemListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_isLoading)
+                return;
             // Invalidate the view state when logical page navigation is in effect, as a change
             // in selection may cause a corresponding change in the current logical page.  When
             // an item is selected this has the effect of changing from displaying the item list
@@ -195,33 +199,35 @@ namespace HeroHelper
                 Selector list = sender as Selector;
                 ProfileHero selectedItem = list.SelectedItem as ProfileHero;
 
-                if (_isLoading && list.SelectedIndex != 0)
-                    return;
-
                 if (selectedItem != null)
                 {
-                    if (_heroes[list.SelectedIndex] == null)
-                    {
-                        Hero hero = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
-                        hero.PaperdollPath = "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg";
-                        
-                        LoadHeroSkills(hero);
-
-                        await LoadHeroItems(hero);
-
-                        _heroes[list.SelectedIndex] = hero;
-
-                        // Clear out previous hero details
-                        itemDetail.DataContext = null;
-
-                        SaveHeroes();
-                    }
-
-                    // Clear out previous hero details
-                    itemDetail.DataContext = null;
-                    itemDetail.DataContext = _heroes[list.SelectedIndex];
+                    LoadHero(selectedItem, list.SelectedIndex);
                 }
             }
+        }
+
+        private async void LoadHero(ProfileHero selectedItem, int selectedHero)
+        {
+            if (_heroes[selectedHero] == null)
+            {
+                Hero hero = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
+                hero.PaperdollPath = "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg";
+
+                LoadHeroSkills(hero);
+
+                await LoadHeroItems(hero);
+
+                _heroes[selectedHero] = hero;
+
+                // Clear out previous hero details
+                itemDetail.DataContext = null;
+
+                SaveHeroes();
+            }
+
+            // Clear out previous hero details
+            itemDetail.DataContext = null;
+            itemDetail.DataContext = _heroes[selectedHero];
         }
 
         /// <summary>

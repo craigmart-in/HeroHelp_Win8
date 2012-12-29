@@ -98,9 +98,9 @@ namespace HeroHelper.Domain
 
             foreach (KeyValuePair<string, Item> item in hero.Items)
             {
-                bool isOffHand = item.Key == "offHand";
+                bool isWeapon = (item.Key == "offHand" && hero.Items[item.Key].AttacksPerSecond != null) || item.Key == "mainHand";
                 // Get stats from item
-                CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, isOffHand, ref allResFromItems, ref strFromItems,
+                CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, isWeapon, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
                             ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
                             ref eleDmg, ref loh, ref minDmg, ref maxDmg,
@@ -191,6 +191,12 @@ namespace HeroHelper.Domain
                         break;
                     case "bloodthirst":
                         ls += 0.03;
+                        break;
+                    case "nerves-of-steel":
+                        totalArmor += totalVit;
+                        break;
+                    case "tough-as-nails":
+                        totalArmor += totalArmor * 0.25;
                         break;
                     case "archery":
                     case "weapons-master":
