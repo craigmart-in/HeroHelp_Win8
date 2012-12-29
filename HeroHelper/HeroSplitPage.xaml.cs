@@ -306,9 +306,9 @@ namespace HeroHelper
             return true;
         }
 
-        private Dictionary<string, double> CalculateStats(Hero hero)
+        private CalculatedStats CalculateStats(Hero hero)
         {
-            Dictionary<string, double> calcStats = new Dictionary<string, double>();
+            CalculatedStats calcStats = new CalculatedStats();
             Dictionary<string, Set> charSets = new Dictionary<string, Set>();
 
             double totalArmor = 0;
@@ -437,35 +437,35 @@ namespace HeroHelper
             // Calculate Strength
             strFromChar = baseStr + (strPerLvl * (hero.Level - 1)) + (strPerLvl * hero.ParagonLevel);
             totalStr = strFromChar + strFromItems;
-            calcStats.Add("str", totalStr);
+            calcStats.BaseStats.Add(new CalculatedStat("Strength", totalStr, totalStr.ToString("N0")));
 
             // Calculate Dexterity
             dexFromChar = baseDex + (dexPerLvl * (hero.Level - 1)) + (dexPerLvl * hero.ParagonLevel);
             totalDex = dexFromChar + dexFromItems;
-            calcStats.Add("dex", totalDex);
+            calcStats.BaseStats.Add(new CalculatedStat("Dexterity", totalDex, totalDex.ToString("N0")));
 
-            // Calculate Dexterity
+            // Calculate Intelligence
             intFromChar = baseInt + (intPerLvl * (hero.Level - 1)) + (intPerLvl * hero.ParagonLevel);
             totalInt = intFromChar + intFromItems;
-            calcStats.Add("int", totalInt);
+            calcStats.BaseStats.Add(new CalculatedStat("Intelligence", totalInt, totalInt.ToString("N0")));
 
             // Calculate Vitality
             vitFromChar = baseVit + (vitPerLvl * (hero.Level - 1)) + (vitPerLvl * hero.ParagonLevel);
             totalVit = vitFromChar + vitFromItems;
-            calcStats.Add("vit", totalVit);
+            calcStats.BaseStats.Add(new CalculatedStat("Vitality", totalVit, totalVit.ToString("N0")));
 
             // Calculate Armor
             totalArmor = armFromItems + totalStr;
-            calcStats.Add("arm", totalArmor);
+            calcStats.DefenseStats.Add(new CalculatedStat("Armor", totalArmor, totalArmor.ToString("N0")));
 
             // Calculate All Res
             totalAllRes = allResFromItems + (totalInt / 10); ;
-            calcStats.Add("allRes", totalAllRes);
+            calcStats.DefenseStats.Add(new CalculatedStat("All Resist", totalAllRes, totalAllRes.ToString("N")));
 
             armDR = totalArmor / ((50 * 63) + totalArmor);
-            calcStats.Add("armDR", armDR);
+            calcStats.DefenseStats.Add(new CalculatedStat("Armor Damage Reduction", armDR, armDR.ToString("P")));
             resDR = totalAllRes / ((5 * 63) + totalAllRes);
-            calcStats.Add("resDR", resDR);
+            calcStats.DefenseStats.Add(new CalculatedStat("Resist Damage Reduction", resDR, resDR.ToString("P")));
 
             double multDR = ((1 - armDR) * (1 - resDR) * (1 - baseDR));
 
@@ -473,15 +473,15 @@ namespace HeroHelper
             double hp = (36 + (4 * hero.Level) + (healthVitMult * totalVit)) * lifePctFromItems;
             double ehp = hp / multDR;
 
-            calcStats.Add("dr", dr);
-            calcStats.Add("hp", hp);
-            calcStats.Add("ehp", ehp);
+            calcStats.DefenseStats.Add(new CalculatedStat("Total Damage Reduction", dr, dr.ToString("P")));
+            calcStats.BaseStats.Add(new CalculatedStat("Hit Points", hp, hp.ToString("N")));
+            calcStats.EHP = ehp;
 
-            calcStats.Add("dps", 0);
-            calcStats.Add("ias", ias);
-            calcStats.Add("aps", aps);
-            calcStats.Add("chc", critChance);
-            calcStats.Add("chd", critDamage);
+            calcStats.DPS = 0;
+            calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", aps, aps.ToString("N")));
+            calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", ias, ias.ToString("P")));
+            calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Chance", critChance, critChance.ToString("P")));
+            calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Damage", critDamage, critDamage.ToString("P")));
 
             return calcStats;
         }
@@ -689,7 +689,17 @@ namespace HeroHelper
 
         private void DamStatsTab_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-        	// TODO: Add event handler implementation here.
+            switch (DamStatDetails.Visibility)
+            {
+                case Windows.UI.Xaml.Visibility.Collapsed:
+                    DamStatDetails.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    DamStatTabText.Text = "-";
+                    break;
+                case Windows.UI.Xaml.Visibility.Visible:
+                    DamStatDetails.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    DamStatTabText.Text = "+";
+                    break;
+            }
         }
     }
 }
