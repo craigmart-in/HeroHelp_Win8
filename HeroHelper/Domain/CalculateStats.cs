@@ -20,6 +20,12 @@ namespace HeroHelper.Domain
 
             double allResFromItems = 0;
             Dictionary<string, double> resFromItems = new Dictionary<string, double>();
+            resFromItems.Add("Fire", 0);
+            resFromItems.Add("Lightning", 0);
+            resFromItems.Add("Poison", 0);
+            resFromItems.Add("Physical", 0);
+            resFromItems.Add("Arcane", 0);
+            resFromItems.Add("Cold", 0);
             double totalAllRes = 0;
 
             double baseDR = 0;
