@@ -421,7 +421,7 @@
                 				ItemTemplate="{StaticResource CalcStatItemTemplate}"
                 				ItemsSource="{Binding CalculatedStats.DefenseStats}"
 								ItemContainerStyle="{StaticResource CalcStatListViewItemStyle}"
-                				IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0" IsSwipeEnabled="False" IsHitTestVisible="False"/>
+                				IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0" IsSwipeEnabled="False" IsHitTestVisible="False" Visibility="Collapsed"/>
                 		</StackPanel>
                         <StackPanel x:Name="LifeStats" Orientation="Vertical" Margin="0,0,0,5">
                             <StackPanel x:Name="LifeStatsTab" Orientation="Horizontal" Tapped="LifeStatsTab_Tapped">
@@ -438,7 +438,7 @@
                 				ItemTemplate="{StaticResource CalcStatItemTemplate}"
                 				ItemsSource="{Binding CalculatedStats.LifeStats}"
 								ItemContainerStyle="{StaticResource CalcStatListViewItemStyle}"
-                				IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0" IsSwipeEnabled="False" IsHitTestVisible="False"/>
+                				IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0" IsSwipeEnabled="False" IsHitTestVisible="False" Visibility="Collapsed"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
