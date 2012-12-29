@@ -68,8 +68,12 @@ namespace HeroHelper.Domain
             double loh = 0;
             double minDmg = 0;
             double maxDmg = 0;
+
+            double skillDmg = 0;
+
             double eliteBonus = 0;
             double demonBonus = 0;
+            
             double ls = 0;
             double lifeRegen = 0;
 
@@ -223,6 +227,9 @@ namespace HeroHelper.Domain
                             case "Spear":
                                 ias += .1;
                                 break;
+                            case "Bow":
+                                skillDmg += 0.15;
+                                break;
                         }
                         break;
                     case "perfectionist":
@@ -254,7 +261,7 @@ namespace HeroHelper.Domain
 
             calcStats.EHP = ehp;
             calcStats.DPS = CalculateDPS(mainStat, critChance, critDamage,
-                hero.Items["mainHand"], hero.Items["offHand"], ias, minDmg, maxDmg, eleDmg);
+                hero.Items["mainHand"], hero.Items["offHand"], ias, minDmg, maxDmg, eleDmg, skillDmg);
 
             // Base stats
             calcStats.BaseStats.Add(new CalculatedStat("Strength", new double[] { totalStr }, "{0:N0}"));
@@ -360,11 +367,19 @@ namespace HeroHelper.Domain
                         eleDmg += attributeRaw.Value.Min;
                         break;
                     case "Damage_Min#Physical":
-                        minDmg += attributeRaw.Value.Min;
-                        maxDmg += attributeRaw.Value.Min;
+                        if (!isAWeapon) // Don't add for weapons.
+                        {
+                            minDmg += attributeRaw.Value.Min;
+                            maxDmg += attributeRaw.Value.Min;
+                        }
+                        break;
+                    case "Damage_Bonus_Min#Physical":
+                        if (!isAWeapon) // Don't add for weapons.
+                            minDmg += attributeRaw.Value.Min;
                         break;
                     case "Damage_Delta#Physical":
-                        maxDmg += attributeRaw.Value.Min;
+                        if (!isAWeapon) // Don't add for weapons.
+                            maxDmg += attributeRaw.Value.Min;
                         break;
                     case "Damage_Percent_Bonus_Vs_Elites":
                         eliteBonus += attributeRaw.Value.Min;
@@ -495,13 +510,13 @@ namespace HeroHelper.Domain
         }
 
         private static double CalculateDPS(double mainStat, double critChance, double critDamage,
-            Item mh, Item oh, double ias, double minDmg, double maxdmg, double eleDmg)
+            Item mh, Item oh, double ias, double minDmg, double maxdmg, double eleDmg, double skillDmg)
         {
             double s = 1 + (mainStat * 0.01);
             double c = 1 + (critChance * critDamage);
             double r = CalculateR(mh, oh, ias);
             double a = CalculateA(mh, oh, minDmg, maxdmg, eleDmg);
-            double m = 1;
+            double m = 1 + skillDmg;
 
             return s * c * r * a * m;
         }
