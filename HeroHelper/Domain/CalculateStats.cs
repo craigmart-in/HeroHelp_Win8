@@ -218,6 +218,11 @@ namespace HeroHelper.Domain
                                 break;
                         }
                         break;
+                    case "perfectionist":
+                        lifePctFromItems += 0.1;
+                        totalArmor += totalArmor * 0.1;
+                        totalAllRes += totalAllRes * 0.1;
+                        break;
                     case "one-with-everything":
                         double highRes = 0;
                         foreach (KeyValuePair<string, double> res in resFromItems)

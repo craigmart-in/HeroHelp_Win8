@@ -36,7 +36,7 @@ namespace HeroHelper
 
         private List<CompareStat> _compareStats;
 
-        private bool _isLoading = true;
+        private bool _isFirstLoad = true;
 
         public HeroSplitPage()
         {
@@ -113,10 +113,10 @@ namespace HeroHelper
                 // navigation is being used (see the logical page navigation #region below.)
                 if (!this.UsingLogicalPageNavigation() && this.itemsViewSource.View != null)
                 {
-                    if (_isLoading && selectedHero.HeroIndex == 0)
+                    if (_isFirstLoad && itemListView.SelectedIndex == selectedHero.HeroIndex)
                         LoadHero(itemListView.Items[0] as ProfileHero, 0);
 
-                    _isLoading = false;
+                    _isFirstLoad = false;
                     itemListView.SelectedIndex = selectedHero.HeroIndex;
                 }
             }
@@ -125,6 +125,7 @@ namespace HeroHelper
                 // Restore the previously saved state associated with this page
                 if (pageState.ContainsKey("SelectedHero") && this.itemsViewSource.View != null)
                 {
+                    _isFirstLoad = false;
                     itemListView.SelectedIndex = (int)pageState["SelectedHero"];
                 }
             }
@@ -182,7 +183,7 @@ namespace HeroHelper
         /// <param name="e">Event data that describes how the selection was changed.</param>
         void ItemListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_isLoading)
+            if (_isFirstLoad)
                 return;
             // Invalidate the view state when logical page navigation is in effect, as a change
             // in selection may cause a corresponding change in the current logical page.  When
