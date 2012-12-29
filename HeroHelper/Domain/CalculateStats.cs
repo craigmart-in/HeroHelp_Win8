@@ -66,11 +66,8 @@ namespace HeroHelper.Domain
 
             double eleDmg = 0;
             double loh = 0;
-            double minBaseDmg = 0;
-            double minPhysBonusDmg = 0;
-            double deltaBaseDmg = 0;
-            double deltaPhysBonusDmg = 0;
-            double dmgPercent = 0;
+            double minDmg = 0;
+            double maxDmg = 0;
             double eliteBonus = 0;
             double demonBonus = 0;
             double ls = 0;
@@ -101,23 +98,22 @@ namespace HeroHelper.Domain
 
             foreach (KeyValuePair<string, Item> item in hero.Items)
             {
+                bool isOffHand = item.Key == "offHand";
                 // Get stats from item
-                CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, ref allResFromItems, ref strFromItems,
+                CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, isOffHand, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
                             ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
-                            ref eleDmg, ref loh, ref minBaseDmg, ref minPhysBonusDmg,
-                            ref deltaBaseDmg, ref deltaPhysBonusDmg, ref dmgPercent, ref eliteBonus,
-                            ref demonBonus, ref ls, ref lifeRegen);
+                            ref eleDmg, ref loh, ref minDmg, ref maxDmg,
+                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen);
 
                 // Get stats from gems
                 foreach (SocketedGem gem in hero.Items[item.Key].Gems)
                 {
-                    CalculateStatsFromRawAttributes(gem.AttributesRaw, ref allResFromItems, ref strFromItems,
+                    CalculateStatsFromRawAttributes(gem.AttributesRaw, false, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
                             ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
-                            ref eleDmg, ref loh, ref minBaseDmg, ref minPhysBonusDmg,
-                            ref deltaBaseDmg, ref deltaPhysBonusDmg, ref dmgPercent, ref eliteBonus,
-                            ref demonBonus, ref ls, ref lifeRegen);
+                            ref eleDmg, ref loh, ref minDmg, ref maxDmg,
+                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen);
                 }
 
                 // Monitor sets
@@ -150,12 +146,11 @@ namespace HeroHelper.Domain
                         Dictionary<string, MinMax> attributesRaw = D3Client.ParseAttributesRawFromAttributes(rank.Attributes);
 
                         // Get stats from Set Bonuses
-                        CalculateStatsFromRawAttributes(attributesRaw, ref allResFromItems, ref strFromItems,
+                        CalculateStatsFromRawAttributes(attributesRaw, false, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
                             ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
-                            ref eleDmg, ref loh, ref minBaseDmg, ref minPhysBonusDmg,
-                            ref deltaBaseDmg, ref deltaPhysBonusDmg, ref dmgPercent, ref eliteBonus,
-                            ref demonBonus, ref ls, ref lifeRegen);
+                            ref eleDmg, ref loh, ref minDmg, ref maxDmg,
+                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen);
                     }
                 }
             }
@@ -228,7 +223,8 @@ namespace HeroHelper.Domain
             double ehp = hp / multDR;
 
             calcStats.EHP = ehp;
-            calcStats.DPS = 0;
+            calcStats.DPS = CalculateDPS(mainStat, critChance, critDamage,
+                hero.Items["mainHand"], hero.Items["offHand"], ias, minDmg, maxDmg, eleDmg);
 
             calcStats.BaseStats.Add(new CalculatedStat("Strength", totalStr, "N0"));
             calcStats.BaseStats.Add(new CalculatedStat("Dexterity", totalDex, "N0"));
@@ -250,13 +246,12 @@ namespace HeroHelper.Domain
             return calcStats;
         }
 
-        private static void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw,
+        private static void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw, bool isOffHand,
             ref double allResFromItems, ref double strFromItems, ref double dexFromItems, ref double intFromItems,
             ref double vitFromItems, ref double lifePctFromItems, ref double armFromItems, ref double critDamage,
             ref double critChance, ref double ias, ref double aps, ref Dictionary<string, double> resFromItems,
-            ref double eleDmg, ref double loh, ref double minBaseDmg, ref double minPhysBonusDmg,
-            ref double deltaBaseDmg, ref double deltaPhysBonusDmg, ref double dmgPercent, ref double eliteBonus,
-            ref double demonBonus, ref double ls, ref double lifeRegen)
+            ref double eleDmg, ref double loh, ref double minDmg, ref double maxDmg,
+            ref double eliteBonus, ref double demonBonus, ref double ls, ref double lifeRegen)
         {
             foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
             {
@@ -300,7 +295,8 @@ namespace HeroHelper.Domain
                         break;
                     case "Attacks_Per_Second_Percent":
                     case "Attacks_Per_Second_Item_Percent":
-                        ias += attributeRaw.Value.Min;
+                        if (!isOffHand) // Don't add off hand ias.
+                            ias += attributeRaw.Value.Min;
                         break;
                     case "Attacks_Per_Second_Item_Bonus":
                         aps += attributeRaw.Value.Min;
@@ -315,30 +311,27 @@ namespace HeroHelper.Domain
                     case "Damage_Type_Percent_Bonus#Cold":
                         eleDmg += attributeRaw.Value.Min;
                         break;
-                    case "Damage_Weapon_Min#Physical":
+                    //case "Damage_Weapon_Min#Physical":
                     case "Damage_Min#Physical":
-                        minBaseDmg += attributeRaw.Value.Min;
-                        //minJewelryDmg += parseFloat(values.min);
-                        //maxJewelryDmg += parseFloat(values.min);
+                        minDmg += attributeRaw.Value.Min;
+                        maxDmg += attributeRaw.Value.Min;
                         break;
-                    case "Damage_Bonus_Min#Physical":
-                        minBaseDmg += attributeRaw.Value.Min;
-                        //minJewelryDmg += parseFloat(values.min);
-                        break;
-                    case "Damage_Weapon_Bonus_Min#Physical":
-                        minPhysBonusDmg += attributeRaw.Value.Min;
-                        break;
-                    case "Damage_Weapon_Delta#Physical":
+                    //case "Damage_Bonus_Min#Physical":
+                    //    minDmg += attributeRaw.Value.Min;
+                    //    break;
+                    //case "Damage_Weapon_Bonus_Min#Physical":
+                    //    minPhysBonusDmg += attributeRaw.Value.Min;
+                    //    break;
+                    //case "Damage_Weapon_Delta#Physical":
                     case "Damage_Delta#Physical":
-                        deltaBaseDmg += attributeRaw.Value.Min;
-                        //maxJewelryDmg += parseFloat(values.min);
+                        maxDmg += attributeRaw.Value.Min;
                         break;
-                    case "Damage_Weapon_Bonus_Delta#Physical":
-                        deltaPhysBonusDmg += attributeRaw.Value.Min;
-                        break;
-                    case "Damage_Weapon_Percent_Bonus#Physical":
-                        dmgPercent += attributeRaw.Value.Min;
-                        break;
+                    //case "Damage_Weapon_Bonus_Delta#Physical":
+                    //    deltaPhysBonusDmg += attributeRaw.Value.Min;
+                    //    break;
+                    //case "Damage_Weapon_Percent_Bonus#Physical":
+                    //    dmgPercent += attributeRaw.Value.Min;
+                    //    break;
                     case "Damage_Percent_Bonus_Vs_Elites":
                         eliteBonus += attributeRaw.Value.Min;
                         break;
@@ -384,6 +377,57 @@ namespace HeroHelper.Domain
             }
         }
 
+        private static void CalculateWeaponDamageFromRawAttributes(Dictionary<string, MinMax> attributesRaw,
+            out double physMinDmg, out double physMaxDmg, out double totMinDmg, out double totMaxDmg)
+        {
+            double minBaseDmg = 0;
+            double minBonusDmg = 0;
+            double minPhysBonusDmg = 0;
+            double deltaBaseDmg = 0;
+            double deltaBonusDmg = 0;
+            double deltaPhysBonusDmg = 0;
+            double dmgPercent = 0;
+
+            foreach (KeyValuePair<string, MinMax> attributeRaw in attributesRaw)
+            {
+                switch (attributeRaw.Key)
+                {
+                    case "Damage_Weapon_Min#Physical":
+                    case "Damage_Min#Physical":
+                        minBaseDmg += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Bonus_Min#Physical":
+                        minBaseDmg += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Weapon_Bonus_Min#Physical":
+                        minPhysBonusDmg += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Weapon_Delta#Physical":
+                    case "Damage_Delta#Physical":
+                        deltaBaseDmg += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Weapon_Bonus_Delta#Physical":
+                        deltaPhysBonusDmg += attributeRaw.Value.Min;
+                        break;
+                    case "Damage_Weapon_Percent_Bonus#Physical":
+                        dmgPercent += attributeRaw.Value.Min;
+                        break;
+                    default:
+                        if (attributeRaw.Key.StartsWith("Damage_Weapon_Min#") || attributeRaw.Key.StartsWith("Damage_Weapon_Bonus_Min#")) {
+                            minBonusDmg += attributeRaw.Value.Min;
+                        } else if (attributeRaw.Key.StartsWith("Damage_Weapon_Delta#") || attributeRaw.Key.StartsWith("Damage_Weapon_Bonus_Delta")) {
+                            deltaBonusDmg += attributeRaw.Value.Min;
+                        }
+                    break;
+                }
+            }
+
+            physMinDmg = (minBaseDmg + minPhysBonusDmg) * (1 + dmgPercent);
+            physMaxDmg = (Math.Max(minBaseDmg + minPhysBonusDmg, minBaseDmg + deltaBaseDmg - 1) + 1 + deltaPhysBonusDmg) * (1 + dmgPercent);
+            totMinDmg = physMinDmg + minBonusDmg;
+            totMaxDmg = physMaxDmg + minBonusDmg + deltaBonusDmg;
+        }
+
         private static double GetMainStatFromClass(string charClass, double totalStr, double totalDex, double totalInt)
         {
             switch (charClass)
@@ -399,16 +443,53 @@ namespace HeroHelper.Domain
         }
 
         private static double CalculateDPS(double mainStat, double critChance, double critDamage,
-            double mhSpeed, double ohSpeed, double ias)
+            Item mh, Item oh, double ias, double minDmg, double maxdmg, double eleDmg)
         {
             double s = 0;
             double c = 0;
             double r = 0;
             double a = 0;
-            double m = 0;
+            double m = 1;
 
             s = 1 + (mainStat * 0.01);
+            
             c = 1 + (critChance * critDamage);
+
+            if (oh.AttacksPerSecond.Min > 0)
+            {
+                double mhaps = mh.AttacksPerSecond.Min * (1.15 + ias);
+                double ohaps = oh.AttacksPerSecond.Min * (1.15 + ias);
+                r = (mhaps + ohaps) / 2;
+            }
+            else
+            {
+                r = mh.AttacksPerSecond.Min * ias;
+            }
+
+            double mhPhysMinDmg;
+            double mhPhysMaxDmg;
+            double mhTotMinDmg;
+            double mhTotMaxDmg;
+            CalculateWeaponDamageFromRawAttributes(mh.AttributesRaw, out mhPhysMinDmg, out mhPhysMaxDmg, out mhTotMinDmg, out mhTotMaxDmg);
+
+            double mhBonusDmg = (mhPhysMinDmg + minDmg + mhPhysMaxDmg + maxdmg) / 2 * (eleDmg * 100);
+            double mhAvg = ((mhTotMinDmg + minDmg + mhTotMaxDmg + maxdmg) / 2) + mhBonusDmg;
+
+            a = mhAvg;
+
+            if (oh.AttacksPerSecond.Min > 0)
+            {
+                double ohPhysMinDmg;
+                double ohPhysMaxDmg;
+                double ohTotMinDmg;
+                double ohTotMaxDmg;
+                CalculateWeaponDamageFromRawAttributes(oh.AttributesRaw, out ohPhysMinDmg, out ohPhysMaxDmg, out ohTotMinDmg, out ohTotMaxDmg);
+
+                double ohBonusDmg = (ohPhysMinDmg + minDmg + ohPhysMaxDmg + maxdmg) / 2 * (eleDmg * 100);
+                double ohAvg = ((ohTotMinDmg + minDmg + ohTotMaxDmg + maxdmg) / 2) + ohBonusDmg;
+
+                a = (mhAvg + ohAvg) / 2;
+            }
 
             return s * c * r * a * m;
         }
