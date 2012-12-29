@@ -171,6 +171,11 @@ namespace HeroHelper.Domain
             vitFromChar = baseVit + (vitPerLvl * (hero.Level - 1)) + (vitPerLvl * hero.ParagonLevel);
             totalVit = vitFromChar + vitFromItems;
 
+            // Calculate Armor
+            totalArmor = armFromItems + totalStr;
+
+            // Calculate All Res
+            totalAllRes = allResFromItems + (totalInt / 10);
 
             // Class Mainstat.
             double mainStat = GetMainStatFromClass(hero.Class, totalStr, totalDex, totalInt);
@@ -204,14 +209,18 @@ namespace HeroHelper.Domain
                                 break;
                         }
                         break;
+                    case "one-with-everything":
+                        double highRes = 0;
+                        foreach (KeyValuePair<string, double> res in resFromItems)
+                            if (res.Value > highRes)
+                                highRes = res.Value;
+                        totalAllRes += highRes;
+                        break;
+                    case "seize-the-initiative":
+                        totalArmor += totalDex * 0.5;
+                        break;
                 }
             }
-
-            // Calculate Armor
-            totalArmor = armFromItems + totalStr;
-
-            // Calculate All Res
-            totalAllRes = allResFromItems + (totalInt / 10);
 
             armDR = totalArmor / ((50 * 63) + totalArmor);
             resDR = totalAllRes / ((5 * 63) + totalAllRes);
