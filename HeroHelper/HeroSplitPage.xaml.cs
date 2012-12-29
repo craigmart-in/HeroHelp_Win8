@@ -180,8 +180,6 @@ namespace HeroHelper
         /// <param name="e">Event data that describes how the selection was changed.</param>
         async void ItemListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_isLoading)
-                return;
             // Invalidate the view state when logical page navigation is in effect, as a change
             // in selection may cause a corresponding change in the current logical page.  When
             // an item is selected this has the effect of changing from displaying the item list
@@ -196,6 +194,10 @@ namespace HeroHelper
 
                 Selector list = sender as Selector;
                 ProfileHero selectedItem = list.SelectedItem as ProfileHero;
+
+                if (_isLoading && list.SelectedIndex != 0)
+                    return;
+
                 if (selectedItem != null)
                 {
                     if (_heroes[list.SelectedIndex] == null)
