@@ -76,10 +76,10 @@
     <DataTemplate x:Key="CalcStatItemTemplate">
         <Grid Width="300">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="130*"/>
                 <ColumnDefinition Width="170*"/>
+                <ColumnDefinition Width="130*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding Name}" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="13"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Name}" Margin="0,0,5,0" Foreground="#FFA99877" FontSize="13"/>
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding DisplayValue}" Grid.Column="1" Margin="5,0,0,0" FontSize="13"/>
         </Grid>
     </DataTemplate>
@@ -450,7 +450,7 @@
     							</VisualState>
     						</VisualStateGroup>
     					</VisualStateManager.VisualStateGroups>
-    					<Grid x:Name="ReorderHintContent" Background="Transparent" Height="25">
+    					<Grid x:Name="ReorderHintContent" Background="Transparent" Height="30">
     						<Path x:Name="SelectingGlyph" Data="F1 M133.1,17.9 L137.2,13.2 L144.6,19.6 L156.4,5.8 L161.2,9.9 L145.6,28.4 z" Fill="{StaticResource ListViewItemCheckSelectingThemeBrush}" FlowDirection="LeftToRight" HorizontalAlignment="Right" Height="13" Margin="0,9.5,9.5,0" Opacity="0" Stretch="Fill" VerticalAlignment="Top" Width="15"/>
     						<Border x:Name="HintGlyphBorder" HorizontalAlignment="Right" Height="40" Margin="4" Opacity="0" VerticalAlignment="Top" Width="40">
     							<Path x:Name="HintGlyph" Data="F1 M133.1,17.9 L137.2,13.2 L144.6,19.6 L156.4,5.8 L161.2,9.9 L145.6,28.4 z" Fill="{StaticResource ListViewItemCheckHintThemeBrush}" FlowDirection="LeftToRight" HorizontalAlignment="Right" Height="13" Margin="0,5.5,5.5,0" Opacity="0" Stretch="Fill" VerticalAlignment="Top" Width="15"/>

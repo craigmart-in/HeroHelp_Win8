@@ -370,77 +370,78 @@
                 			ItemTemplate="{StaticResource StatItemTemplate}"
                 			IsTapEnabled="False" SelectionMode="None" Grid.Row="2" Margin="0,0,0,10"/>
                 	</Grid>
-                	<StackPanel x:Name="CalculatedStats" Margin="0,10,0,0" Background="#CC222222">
-                		<StackPanel x:Name="BaseStats" Orientation="Vertical" Margin="0,0,0,5">
-                			<StackPanel x:Name="BaseStatsTab" Orientation="Horizontal" Tapped="BaseStatsTab_Tapped">
-                				<StackPanel.Background>
-                					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                						<GradientStop Color="#FF2F0600"/>
-                						<GradientStop Color="#FF1F0400" Offset="1"/>
-                					</LinearGradientBrush>
-                				</StackPanel.Background>
-                				<TextBlock x:Name="BaseStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
-                				<TextBlock TextWrapping="Wrap" Text="Base Stats" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
-                			</StackPanel>
-                			<ListView x:Name="BaseStatDetails"
-                				ItemTemplate="{StaticResource CalcStatItemTemplate}"
-                				ItemsSource="{Binding CalculatedStats.BaseStats}"
-								ItemContainerStyle="{StaticResource CalcStatListViewItemStyle}"
-                				IsTapEnabled="False" SelectionMode="None"
-                				Margin="20,0,0,0" IsSwipeEnabled="False" IsHitTestVisible="False"/>
-                		</StackPanel>
-                		<StackPanel x:Name="DamStats" Orientation="Vertical" Margin="0,0,0,5">
-                			<StackPanel x:Name="DamStatsTab" Orientation="Horizontal" Tapped="DamStatsTab_Tapped">
-                				<StackPanel.Background>
-                					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                						<GradientStop Color="#FF2F0600"/>
-                						<GradientStop Color="#FF1F0400" Offset="1"/>
-                					</LinearGradientBrush>
-                				</StackPanel.Background>
-                				<TextBlock x:Name="DamStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
-                				<TextBlock TextWrapping="Wrap" Text="Offense" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
-                			</StackPanel>
-                			<ListView x:Name="DamStatDetails"
-                				ItemTemplate="{StaticResource CalcStatItemTemplate}"
-                				ItemsSource="{Binding CalculatedStats.DamageStats}"
-								ItemContainerStyle="{StaticResource CalcStatListViewItemStyle}"
-                				IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0"/>
-                		</StackPanel>
-                		<StackPanel x:Name="DefStats" Orientation="Vertical" Margin="0,0,0,5">
-                			<StackPanel x:Name="DefStatsTab" Orientation="Horizontal" Tapped="DefStatsTab_Tapped">
-                				<StackPanel.Background>
-                					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                						<GradientStop Color="#FF2F0600"/>
-                						<GradientStop Color="#FF1F0400" Offset="1"/>
-                					</LinearGradientBrush>
-                				</StackPanel.Background>
-                				<TextBlock x:Name="DefStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
-                				<TextBlock TextWrapping="Wrap" Text="Defense" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
-                			</StackPanel>
-                			<ListView x:Name="DefStatDetails"
-                				ItemTemplate="{StaticResource CalcStatItemTemplate}"
-                				ItemsSource="{Binding CalculatedStats.DefenseStats}"
-								ItemContainerStyle="{StaticResource CalcStatListViewItemStyle}"
-                				IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0" IsSwipeEnabled="False" IsHitTestVisible="False" Visibility="Collapsed"/>
-                		</StackPanel>
-                        <StackPanel x:Name="LifeStats" Orientation="Vertical" Margin="0,0,0,5">
-                            <StackPanel x:Name="LifeStatsTab" Orientation="Horizontal" Tapped="LifeStatsTab_Tapped">
-                                <StackPanel.Background>
-                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="#FF2F0600"/>
-                                        <GradientStop Color="#FF1F0400" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </StackPanel.Background>
-                                <TextBlock x:Name="LifeStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
-                                <TextBlock TextWrapping="Wrap" Text="Life" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
+                    <ScrollViewer Margin="0,10,0,0" Height="784" HorizontalScrollMode="Disabled" >
+                        <StackPanel x:Name="CalculatedStats" Background="#CC222222" Height="900" Width="300" VerticalAlignment="Top">
+                            <StackPanel x:Name="BaseStats" Orientation="Vertical" Margin="0,0,0,5">
+                                <StackPanel x:Name="BaseStatsTab" Orientation="Horizontal" Tapped="BaseStatsTab_Tapped">
+                                    <StackPanel.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF2F0600"/>
+                                            <GradientStop Color="#FF1F0400" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </StackPanel.Background>
+                                    <TextBlock x:Name="BaseStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
+                                    <TextBlock TextWrapping="Wrap" Text="Base Stats" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
+                                </StackPanel>
+                                <ListView x:Name="BaseStatDetails"
+                					ItemTemplate="{StaticResource CalcStatItemTemplate}"
+                					ItemsSource="{Binding CalculatedStats.BaseStats}"
+                					ItemContainerStyle="{StaticResource CalcStatListViewItemStyle}"
+                					IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0"/>
                             </StackPanel>
-                            <ListView x:Name="LifeStatDetails"
-                				ItemTemplate="{StaticResource CalcStatItemTemplate}"
-                				ItemsSource="{Binding CalculatedStats.LifeStats}"
-								ItemContainerStyle="{StaticResource CalcStatListViewItemStyle}"
-                				IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0" IsSwipeEnabled="False" IsHitTestVisible="False" Visibility="Collapsed"/>
+                            <StackPanel x:Name="DamStats" Orientation="Vertical" Margin="0,0,0,5">
+                                <StackPanel x:Name="DamStatsTab" Orientation="Horizontal" Tapped="DamStatsTab_Tapped">
+                                    <StackPanel.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF2F0600"/>
+                                            <GradientStop Color="#FF1F0400" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </StackPanel.Background>
+                                    <TextBlock x:Name="DamStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
+                                    <TextBlock TextWrapping="Wrap" Text="Offense" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
+                                </StackPanel>
+                                <ListView x:Name="DamStatDetails"
+                					ItemTemplate="{StaticResource CalcStatItemTemplate}"
+                					ItemsSource="{Binding CalculatedStats.DamageStats}"
+                					ItemContainerStyle="{StaticResource CalcStatListViewItemStyle}"
+                					IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0"/>
+                            </StackPanel>
+                            <StackPanel x:Name="DefStats" Orientation="Vertical" Margin="0,0,0,5">
+                                <StackPanel x:Name="DefStatsTab" Orientation="Horizontal" Tapped="DefStatsTab_Tapped">
+                                    <StackPanel.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF2F0600"/>
+                                            <GradientStop Color="#FF1F0400" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </StackPanel.Background>
+                                    <TextBlock x:Name="DefStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
+                                    <TextBlock TextWrapping="Wrap" Text="Defense" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
+                                </StackPanel>
+                                <ListView x:Name="DefStatDetails"
+                					ItemTemplate="{StaticResource CalcStatItemTemplate}"
+                					ItemsSource="{Binding CalculatedStats.DefenseStats}"
+                					ItemContainerStyle="{StaticResource CalcStatListViewItemStyle}"
+                					IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0" Visibility="Collapsed"/>
+                            </StackPanel>
+                            <StackPanel x:Name="LifeStats" Orientation="Vertical" Margin="0,0,0,5">
+                                <StackPanel x:Name="LifeStatsTab" Orientation="Horizontal" Tapped="LifeStatsTab_Tapped">
+                                    <StackPanel.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF2F0600"/>
+                                            <GradientStop Color="#FF1F0400" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </StackPanel.Background>
+                                    <TextBlock x:Name="LifeStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
+                                    <TextBlock TextWrapping="Wrap" Text="Life" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
+                                </StackPanel>
+                                <ListView x:Name="LifeStatDetails"
+                					ItemTemplate="{StaticResource CalcStatItemTemplate}"
+                					ItemsSource="{Binding CalculatedStats.LifeStats}"
+                					ItemContainerStyle="{StaticResource CalcStatListViewItemStyle}"
+                					IsTapEnabled="False" SelectionMode="None" Margin="20,0,0,0" Visibility="Collapsed"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+                    </ScrollViewer>
                 </StackPanel>
 
             </Grid>

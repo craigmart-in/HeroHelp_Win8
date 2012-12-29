@@ -274,7 +274,7 @@ namespace HeroHelper.Domain
             calcStats.BaseStats.Add(new CalculatedStat("Armor", new double[] { totalArmor }, "{0:N0}"));
 
             // Offense
-            calcStats.DamageStats.Add(new CalculatedStat("Damage Increased by " + mainStatName, new double[] { mainStat }, "{0:N}"));
+            calcStats.DamageStats.Add(new CalculatedStat("Damage Increased by " + mainStatName, new double[] { mainStat / 100 }, "{0:P}"));
             calcStats.DamageStats.Add(new CalculatedStat("Damage Increased by Skills", new double[] { skillDmg }, "{0:P}"));
             aps = CalculateR(hero.Items["mainHand"], hero.Items["offHand"], ias);
             calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", new double[] { aps }, "{0:N}"));
@@ -507,16 +507,16 @@ namespace HeroHelper.Domain
             {
                 case D3Client.Barbarian:
                     mainStat = totalStr;
-                    mainStatName = "Strength";
+                    mainStatName = "Str";
                     break;
                 case D3Client.Monk:
                 case D3Client.DemonHunter:
                     mainStat = totalDex;
-                    mainStatName = "Dexterity";
+                    mainStatName = "Dex";
                     break;
                 default:
                     mainStat = totalInt;
-                    mainStatName = "Intelligence";
+                    mainStatName = "Int";
                     break;
             }
         }
