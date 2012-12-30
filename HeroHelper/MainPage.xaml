@@ -20,7 +20,7 @@
     
     <common:LayoutAwarePage.BottomAppBar>
         <AppBar>
-            <Grid HorizontalAlignment="Left" Height="100" Width="1346">
+            <Grid>
                 <Button x:Name="DeleteProfileButton"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"

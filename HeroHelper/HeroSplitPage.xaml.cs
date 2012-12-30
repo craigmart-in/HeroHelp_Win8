@@ -1,5 +1,6 @@
 ﻿using BattleNet.D3;
 using BattleNet.D3.Models;
+using Callisto.Controls;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -501,6 +502,42 @@ namespace HeroHelper
                     LifeStatTabText.Text = "+";
                     break;
             }
+        }
+
+        private void ItemUserControl_ItemCompare(object sender, HoldingRoutedEventArgs e)
+        {
+            // create the Flyout
+            Flyout f = new Flyout();
+
+            // creating some content
+            // this could be just an instance of a UserControl of course
+            Border b = new Border();
+            b.Width = 300;
+            b.Height = 125;
+
+            TextBlock tb = new TextBlock();
+            tb.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Center;
+            tb.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
+            tb.TextWrapping = TextWrapping.Wrap;
+            tb.FontSize = 24.667;
+            tb.Text = "This is a basic ContentControl so put anything you want in here.";
+
+            b.Child = tb;
+
+            // set the Flyout content
+            f.Content = b;
+
+            // set the placement
+            f.Placement = PlacementMode.Left;
+            f.PlacementTarget = sender as UIElement;
+
+            // open the flyout
+            f.IsOpen = true;
+        }
+
+        private void RefreshHeroButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -34,8 +34,17 @@
             	</Border>
             </Grid>
         </DataTemplate>
-    </Page.Resources>    
-    
+    </Page.Resources>
+    <common:LayoutAwarePage.BottomAppBar>
+        <AppBar>
+            <Grid>
+                <Button x:Name="RefreshHeroButton"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource RefreshAppBarButtonStyle}" Click="RefreshHeroButton_Click"/>
+            </Grid>
+        </AppBar>
+    </common:LayoutAwarePage.BottomAppBar>
+
     <!--
         This grid acts as a root panel for the page that defines two rows:
         * Row 0 contains the back button and page title
@@ -134,7 +143,7 @@
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[head]}"
-        						Tapped="ItemUserControl_Tapped"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_ItemCompare"/>
                             <local:ItemUserControl
         						Margin="113,74,0,0"
         						Height="113" Width="82"
