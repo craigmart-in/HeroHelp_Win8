@@ -143,7 +143,7 @@
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[head]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_ItemCompare"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl
         						Margin="113,74,0,0"
         						Height="113" Width="82"
@@ -258,15 +258,28 @@
                         <TextBlock Style="{StaticResource slot-mainHand}" Text="{Binding Items[mainHand].Name}"
         					Foreground="{Binding Items[mainHand].DisplayColor}"/>
                     </Grid>
-
-                    <WebView x:Name="toolTip" 
-        				Visibility="Collapsed"
-        				HorizontalAlignment="Left" 
-        				Height="350"
-        				Margin="50,50,0,0"
-        				VerticalAlignment="Top" 
-        				Width="354"
-        				LoadCompleted="toolTip_LoadCompleted"/>
+                    <Popup x:Name="ItemTooltipPopup" IsLightDismissEnabled="True">
+                        <Popup.ChildTransitions>
+                            <TransitionCollection>
+                                <PopupThemeTransition />
+                            </TransitionCollection>
+                        </Popup.ChildTransitions>
+                        <WebView x:Name="toolTip"
+        				    HorizontalAlignment="Left" 
+        				    Height="350"
+        				    Margin="50,50,0,0"
+        				    VerticalAlignment="Top" 
+        				    Width="354"
+        				    LoadCompleted="toolTip_LoadCompleted"/>
+                    </Popup>
+                    <Popup x:Name="ItemComparePopup" IsLightDismissEnabled="True">
+                        <Popup.ChildTransitions>
+                            <TransitionCollection>
+                                <PaneThemeTransition />
+                            </TransitionCollection>
+                        </Popup.ChildTransitions>
+                        <local:ItemCompareUserControl x:Name="ItemCompareUC" />
+                    </Popup>
                 </Grid>
 
                 <Grid Height="698" Margin="0,645,0,1">

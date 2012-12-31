@@ -1,6 +1,5 @@
 ﻿using BattleNet.D3;
 using BattleNet.D3.Models;
-using Callisto.Controls;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -405,6 +404,8 @@ namespace HeroHelper
                 string tooltipParams = equippedItem.TooltipParams;
                 UpdateTooltip(tooltipParams);
 
+                if (!ItemTooltipPopup.IsOpen) { ItemTooltipPopup.IsOpen = true; }
+
                 // Reposition the tooltip to be next to the cursor.
                 //Point point = e.GetPosition(itemDetail);
                 //double newY = point.Y;
@@ -419,14 +420,14 @@ namespace HeroHelper
         private async void UpdateTooltip(string tooltipParams)
         {
             // Don't show tool tip in portrait
-            if (Windows.UI.ViewManagement.ApplicationView.Value == Windows.UI.ViewManagement.ApplicationViewState.FullScreenPortrait)
-            {
-                toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                return;
-            }
+            //if (Windows.UI.ViewManagement.ApplicationView.Value == Windows.UI.ViewManagement.ApplicationViewState.FullScreenPortrait)
+            //{
+            //    toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            //    return;
+            //}
 
-            if (toolTip.Visibility != Windows.UI.Xaml.Visibility.Visible)
-            {
+            //if (toolTip.Visibility != Windows.UI.Xaml.Visibility.Visible)
+            //{
                 string tooltipHtml = await _d3Client.GetItemToolTip(tooltipParams);
                 tooltipHtml =
                             "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" +
@@ -437,11 +438,11 @@ namespace HeroHelper
                             tooltipHtml +
                             "</body>";
                 toolTip.NavigateToString(tooltipHtml);
-            }
-            else
-            {
-                toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            }
+            //}
+            //else
+            //{
+            //    toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            //}
         }
 
         private void BaseStatsTab_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -504,16 +505,36 @@ namespace HeroHelper
             }
         }
 
-        private void ItemUserControl_ItemCompare(object sender, HoldingRoutedEventArgs e)
-        {
-            Popup myPopup = new Popup();
-            myPopup.Child = new HeroHelper.Controls.ItemCompareUserControl();
-            myPopup.IsOpen = true;
-        }
-
         private void RefreshHeroButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ItemUserControl_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            ShowItemCompare();
+        }
+
+        private void ItemUserControl_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            ShowItemCompare();
+        }
+
+        private void ShowItemCompare()
+        {
+            if (!ItemComparePopup.IsOpen)
+            {
+                /* The UI guidelines for a proper 'Settings' flyout are such that it should fill the height of the 
+                current Window and be either narrow (346px) or wide (646px)
+                Using the measurements of the Window.Curent.Bounds will help you position correctly.
+                This sample here shows a simple *example* of this using the Width to get the HorizontalOffset but
+                the app developer will have to perform these measurements depending on the structure of the app's 
+                views in their code */
+                ItemCompareUC.Width = 346;
+                ItemComparePopup.HorizontalOffset = grid.Width - 346;
+
+                ItemComparePopup.IsOpen = true;
+            }
         }
     }
 }
