@@ -121,7 +121,7 @@
 				</Grid>
 			</StackPanel>
 			<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button Content="Reset" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click_1"/>
+				<Button Content="Reset" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 				<Button Content="Equip" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 			</StackPanel>
 			
