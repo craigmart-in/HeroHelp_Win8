@@ -114,6 +114,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ItemCompareUserControl.xaml.cs">
+      <DependentUpon>ItemCompareUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Domain\CalculateStats.cs" />
     <Compile Include="Common\BindableBase.cs" />
     <Compile Include="Common\BooleanNegationConverter.cs" />
@@ -207,6 +210,10 @@
     <Page Include="Common\StandardStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ItemCompareUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ItemUserControl.xaml">
       <SubType>Designer</SubType>

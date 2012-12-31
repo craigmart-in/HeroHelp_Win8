@@ -1,0 +1,130 @@
+﻿<UserControl
+    x:Class="HeroHelper.Controls.ItemCompareUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HeroHelper.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="525"
+    d:DesignWidth="400">
+    
+    <Border>
+    	<Border.Background>
+    		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+    			<GradientStop Color="#FF2F0600"/>
+    			<GradientStop Color="#FF1F0400" Offset="1"/>
+    		</LinearGradientBrush>
+    	</Border.Background>
+    
+		<Grid Margin="10">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="26*"/>
+				<RowDefinition Height="3*"/>
+			</Grid.RowDefinitions>
+			<StackPanel>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="Min Dmg" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="MinDTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="Max Dmg" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="MaxDTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="Armor" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="ArmTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="Strength" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="StrTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="Dexterity" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="DexTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="Intelligence" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="IntTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="Vitality" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="VitTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="All Resist" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="ResTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="Life %" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="LifeTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="Crit Dmg" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="CritDTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="Crit Chance" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="CritCTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+				<Grid Margin="0,0,0,5">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="137*"/>
+						<ColumnDefinition Width="263*"/>
+					</Grid.ColumnDefinitions>
+					<TextBlock TextWrapping="Wrap" Text="IAS" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					<TextBox x:Name="IasTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+				</Grid>
+			</StackPanel>
+			<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+				<Button Content="Reset" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="Button_Click_1"/>
+				<Button Content="Equip" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+			</StackPanel>
+			
+		</Grid>
+	</Border>
+</UserControl>
