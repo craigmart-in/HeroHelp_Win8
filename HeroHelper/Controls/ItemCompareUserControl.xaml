@@ -29,7 +29,7 @@
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
 					<TextBlock TextWrapping="Wrap" Text="Min Dmg" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="MinDTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+					<TextBox x:Name="MinDTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
@@ -37,7 +37,7 @@
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
 					<TextBlock TextWrapping="Wrap" Text="Max Dmg" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="MaxDTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+                    <TextBox x:Name="MaxDTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
@@ -45,7 +45,7 @@
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
 					<TextBlock TextWrapping="Wrap" Text="Armor" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="ArmTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+                    <TextBox x:Name="ArmTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
@@ -53,7 +53,7 @@
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
 					<TextBlock TextWrapping="Wrap" Text="Strength" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="StrTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+                    <TextBox x:Name="StrTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
@@ -61,7 +61,7 @@
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
 					<TextBlock TextWrapping="Wrap" Text="Dexterity" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="DexTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+                    <TextBox x:Name="DexTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
@@ -69,7 +69,7 @@
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
 					<TextBlock TextWrapping="Wrap" Text="Intelligence" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="IntTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+                    <TextBox x:Name="IntTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
@@ -77,7 +77,7 @@
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
 					<TextBlock TextWrapping="Wrap" Text="Vitality" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="VitTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+                    <TextBox x:Name="VitTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
@@ -85,7 +85,7 @@
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
 					<TextBlock TextWrapping="Wrap" Text="All Resist" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="ResTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+                    <TextBox x:Name="ResTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
@@ -93,36 +93,36 @@
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
 					<TextBlock TextWrapping="Wrap" Text="Life %" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="LifeTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+                    <TextBox x:Name="LifeTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="137*"/>
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
-					<TextBlock TextWrapping="Wrap" Text="Crit Dmg" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="CritDTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+					<TextBlock TextWrapping="Wrap" Text="Crit Dmg %" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="CritDTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="137*"/>
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
-					<TextBlock TextWrapping="Wrap" Text="Crit Chance" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="CritCTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+					<TextBlock TextWrapping="Wrap" Text="Crit Chance %" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="CritCTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 				<Grid Margin="0,0,0,5">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="137*"/>
 						<ColumnDefinition Width="263*"/>
 					</Grid.ColumnDefinitions>
-					<TextBlock TextWrapping="Wrap" Text="IAS" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-					<TextBox x:Name="IasTextBox" TextWrapping="Wrap" Grid.Column="1"/>
+					<TextBlock TextWrapping="Wrap" Text="IAS %" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="IasTextBox" TextWrapping="Wrap" Grid.Column="1" TextChanged="OnTextChanged" KeyUp="TextBox_KeyUp"/>
 				</Grid>
 			</StackPanel>
 			<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button Content="Reset" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-				<Button Content="Equip" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+				<Button x:Name="ResetButton" Content="Reset" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="ResetButton_Click"/>
+				<Button x:Name="EquipButton" Content="Equip" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="EquipButton_Click"/>
 			</StackPanel>
 			
 		</Grid>

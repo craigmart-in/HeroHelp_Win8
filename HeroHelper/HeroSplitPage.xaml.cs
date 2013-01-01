@@ -314,6 +314,7 @@ namespace HeroHelper
             }
 
             hero.Items = temp;
+            hero.CompareItems = temp;
 
             hero.CalculatedStats = Domain.CalculateStats.CalculateStatsFromHero(hero);
 
@@ -512,15 +513,17 @@ namespace HeroHelper
 
         private void ItemUserControl_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            ShowItemCompare();
+            Item previousItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
+            ShowItemCompare(previousItem);
         }
 
         private void ItemUserControl_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            ShowItemCompare();
+            Item previousItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
+            ShowItemCompare(previousItem);
         }
 
-        private void ShowItemCompare()
+        private void ShowItemCompare(Item previousItem)
         {
             if (!ItemComparePopup.IsOpen)
             {
@@ -531,10 +534,40 @@ namespace HeroHelper
                 the app developer will have to perform these measurements depending on the structure of the app's 
                 views in their code */
                 ItemCompareUC.Width = 346;
+
+                int selectedIndex = itemListView.SelectedIndex;
+                foreach (KeyValuePair<string, Item> item in _heroes[selectedIndex].CompareItems)
+                {
+                    if (item.Value.Id == previousItem.Id)
+                    {
+                        ItemCompareUC.CompareItem = item.Value;
+                        break;
+                    }
+                }
+                ItemCompareUC.PreviousItem = previousItem;
+
                 ItemComparePopup.HorizontalOffset = grid.Width - 346;
 
                 ItemComparePopup.IsOpen = true;
             }
+        }
+
+        private void ItemCompareUC_EquipButtonTapped(object sender, EventArgs e)
+        {
+            ItemComparePopup.IsOpen = false;
+
+            int selectedIndex = itemListView.SelectedIndex;
+            string key = String.Empty;
+
+            foreach (KeyValuePair<string, Item> item in _heroes[selectedIndex].Items)
+            {
+                if (item.Value.Id == ItemCompareUC.PreviousItem.Id)
+                {
+                    key = item.Key;
+                }
+            }
+
+            _heroes[selectedIndex].CompareItems[key] = ItemCompareUC.CompareItem;
         }
     }
 }
