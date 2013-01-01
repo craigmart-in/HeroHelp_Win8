@@ -508,22 +508,21 @@ namespace HeroHelper
 
         private void RefreshHeroButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // Hide the bottom app bar.
+            BottomAppBar.IsOpen = false;
         }
 
         private void ItemUserControl_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            Item previousItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
-            ShowItemCompare(previousItem);
+            ShowItemCompare(sender);
         }
 
         private void ItemUserControl_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            Item previousItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
-            ShowItemCompare(previousItem);
+            ShowItemCompare(sender);
         }
 
-        private void ShowItemCompare(Item previousItem)
+        private void ShowItemCompare(object sender)
         {
             if (!ItemComparePopup.IsOpen)
             {
@@ -534,6 +533,8 @@ namespace HeroHelper
                 the app developer will have to perform these measurements depending on the structure of the app's 
                 views in their code */
                 ItemCompareUC.Width = 346;
+
+                Item previousItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
 
                 int selectedIndex = itemListView.SelectedIndex;
                 foreach (KeyValuePair<string, Item> item in _heroes[selectedIndex].CompareItems)

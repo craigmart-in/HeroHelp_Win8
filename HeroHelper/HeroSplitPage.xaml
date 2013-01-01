@@ -150,84 +150,84 @@
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[torso]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="121,0,0,14"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[feet]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="13,127,0,0"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[hands]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="39,28,0,0"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[shoulders]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="121,0,0,106"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[legs]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="0,127,10,0"
         						Height="88" Width="66"
         						HorizontalAlignment="Right"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[bracers]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="13,0,0,13"
         						Height="130" Width="66"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[mainHand]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="0,0,10,13"
         						Height="130" Width="66"
         						HorizontalAlignment="Right"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[offHand]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="113,193,10,0"
         						Height="34" Width="82"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[waist]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="0,0,22,156"
         						Height="42" Width="42"
         						HorizontalAlignment="Right"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[rightFinger]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="25,0,0,156"
         						Height="42" Width="42"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[leftFinger]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                             <local:ItemUserControl 
         						Margin="0,48,44,0"
         						Height="56" Width="56"
         						HorizontalAlignment="Right"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[neck]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding"/>
+        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
                         </Grid>
 
                         <TextBlock Style="{StaticResource slot-head}" Text="{Binding Items[head].Name}"
