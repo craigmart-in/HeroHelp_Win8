@@ -181,6 +181,10 @@
     </Style>
 
 
+    <SolidColorBrush x:Key="RedBackgroundBrush" Color="#FFF50000"></SolidColorBrush>
+    <SolidColorBrush x:Key="GreenBackgroundBrush" Color="#FF55FF00"></SolidColorBrush>
+
+
     <ItemsPanelTemplate x:Key="HorizontalItemsPanelTemplate">
         <VirtualizingStackPanel Orientation="Horizontal"/>
     </ItemsPanelTemplate>

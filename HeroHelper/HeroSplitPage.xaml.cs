@@ -3,6 +3,7 @@ using BattleNet.D3.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,7 +35,7 @@ namespace HeroHelper
 
         private Hero[] _heroes;
 
-        private List<CompareStat> _compareStats;
+        private ObservableCollection<CompareStat> _compareStats;
 
         private bool _isFirstLoad = true;
 
@@ -63,32 +64,8 @@ namespace HeroHelper
             _heroes = new Hero[_profile.Heroes.Count];
             _d3Client = new D3Client(_profile.Region);
 
-            _compareStats = new List<CompareStat>();
-            _compareStats.Add(new CompareStat { Name = "Strength", Before = "2,000", After = "2,100", Difference = "100", DifferenceColor = "Green"});
-            _compareStats.Add(new CompareStat { Name = "Dexterity", Before = "2,000", After = "1,900", Difference = "-100", DifferenceColor = "Red" });
-            _compareStats.Add(new CompareStat { Name = "Intelligence", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "Vitality", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "Armor", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "Resistance", Before = "600", After = "", Difference = "", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "DR From Armor", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "DR from RES:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "DR from Dodge:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "Reliable DR:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "Unreliable DR:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "HP:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "Reliable EHP:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "Unreliable EHP:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "R weapon DPS:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "L weapon DPS:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "D from items:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "D from weapons:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "Attack speed:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "Crit. chance:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "Crit. damage:", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "DPS", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-            _compareStats.Add(new CompareStat { Name = "DPS w/ Buffs", Before = "2000", After = "2100", Difference = "100", DifferenceColor = "Green" });
-
-            CompareStatsListView.ItemsSource = _compareStats;
+            _compareStats = new ObservableCollection<CompareStat>();
+            compareStatsItemsViewSource.Source = _compareStats;
 
             try
             {
@@ -313,10 +290,10 @@ namespace HeroHelper
                 temp[item.Key].BackgroundImage = GetItemBackgroundImage(item.Value.DisplayColor);
             }
 
-            hero.Items = temp;
-            hero.CompareItems = temp;
+            hero.Items = new Dictionary<string, Item>(temp);
+            hero.CompareItems = new Dictionary<string, Item>(temp);
 
-            hero.CalculatedStats = Domain.CalculateStats.CalculateStatsFromHero(hero);
+            hero.CalculatedStats = Domain.CalculateStats.CalculateStatsFromHero(hero, hero.Items);
 
             return true;
         }
@@ -556,6 +533,11 @@ namespace HeroHelper
         private void ItemCompareUC_EquipButtonTapped(object sender, EventArgs e)
         {
             ItemComparePopup.IsOpen = false;
+            int count = _compareStats.Count;
+            for (int i = 0; i < count; i++)
+            {
+                _compareStats.RemoveAt(0);
+            }
 
             int selectedIndex = itemListView.SelectedIndex;
             string key = String.Empty;
@@ -569,6 +551,88 @@ namespace HeroHelper
             }
 
             _heroes[selectedIndex].CompareItems[key] = ItemCompareUC.CompareItem;
+
+            CalculatedStats compareItemStats = Domain.CalculateStats.CalculateStatsFromHero(_heroes[selectedIndex], _heroes[selectedIndex].CompareItems);
+            
+            for (int i = 0; i < _heroes[selectedIndex].CalculatedStats.BaseStats.Count; i++)
+            {
+                CalculateCompareStat(compareItemStats, _heroes[selectedIndex].CalculatedStats.BaseStats[i], compareItemStats.BaseStats[i]);
+            }
+
+            for (int i = 0; i < _heroes[selectedIndex].CalculatedStats.DamageStats.Count; i++)
+            {
+                CalculateCompareStat(compareItemStats, _heroes[selectedIndex].CalculatedStats.DamageStats[i], compareItemStats.DamageStats[i]);
+            }
+
+            for (int i = 0; i < _heroes[selectedIndex].CalculatedStats.DefenseStats.Count; i++)
+            {
+                CalculateCompareStat(compareItemStats, _heroes[selectedIndex].CalculatedStats.DefenseStats[i], compareItemStats.DefenseStats[i]);
+            }
+
+            for (int i = 0; i < _heroes[selectedIndex].CalculatedStats.LifeStats.Count; i++)
+            {
+                CalculateCompareStat(compareItemStats, _heroes[selectedIndex].CalculatedStats.LifeStats[i], compareItemStats.LifeStats[i]);
+            }
+
+            for (int i = 0; i < _heroes[selectedIndex].CalculatedStats.AdventureStats.Count; i++)
+            {
+                CalculateCompareStat(compareItemStats, _heroes[selectedIndex].CalculatedStats.AdventureStats[i], compareItemStats.AdventureStats[i]);
+            }
+
+            if (_compareStats.Count > 0)
+            {
+                CompareResultsGrid.Visibility = Visibility.Visible;
+                CalculatedStatsScrollViewer.Visibility = Visibility.Collapsed;
+
+                double dpsChange = compareItemStats.DPS - _heroes[selectedIndex].CalculatedStats.DPS;
+                dpsChangeTextBlock.Text = String.Format("{0:N}", dpsChange);
+                dpsChangeTextBlock.Foreground = dpsChange > 0 ? new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 245, 0)) : new SolidColorBrush(Windows.UI.Color.FromArgb(255, 245, 0, 0));
+                dpsTextBlock.Text = String.Format("{0:N}", compareItemStats.DPS);
+
+                double ehpChange = compareItemStats.EHP - _heroes[selectedIndex].CalculatedStats.EHP;
+                ehpChangeTextBlock.Text = String.Format("{0:N}", ehpChange);
+                ehpChangeTextBlock.Foreground = ehpChange > 0 ? new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 245, 0)) : new SolidColorBrush(Windows.UI.Color.FromArgb(255, 245, 0, 0));
+                ehpTextBlock.Text = String.Format("{0:N}", compareItemStats.EHP);
+            }
+            else
+            {
+                CompareResultsGrid.Visibility = Visibility.Collapsed;
+                CalculatedStatsScrollViewer.Visibility = Visibility.Visible;
+
+                dpsTextBlock.Text = String.Format("{0:N}", _heroes[selectedIndex].CalculatedStats.DPS);
+                ehpTextBlock.Text = String.Format("{0:N}", _heroes[selectedIndex].CalculatedStats.EHP);
+            }
+        }
+
+        private void CalculateCompareStat(CalculatedStats compareItemStats, CalculatedStat oldStat, CalculatedStat newStat)
+        {
+            //for (int j = 0; j < oldStat.Values.Length; j++)
+            //{
+            //    if (oldStat.Values[j] != newStat.Values[j])
+            //    {
+            //        double[] values = new double[oldStat.Values.Length];
+
+            //        for (int k = 0; k < oldStat.Values.Length; k++)
+            //        {
+            //            values[k] = newStat.Values[k] - oldStat.Values[k];
+            //        }
+
+            //        object[] obj = new object[values.Length];
+            //        for (int l = 0; l < values.Length; l++)
+            //            obj[i] = values[l];
+
+            //        double diffValue
+            //    }
+            //}
+
+            if (oldStat.Value != newStat.Value)
+            {
+                double diffValue = newStat.Value - oldStat.Value;
+
+                string diff = String.Format(oldStat.Format, new object[] { diffValue });
+                string color = diffValue < 0 ? "Red" : "Green";
+                _compareStats.Add(new CompareStat() { Name = oldStat.Name, Before = oldStat.DisplayValue, After = newStat.DisplayValue, Difference = diff.ToString(), DifferenceColor = color });
+            }
         }
     }
 }

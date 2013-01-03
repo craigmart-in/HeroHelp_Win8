@@ -10,7 +10,7 @@ namespace HeroHelper.Domain
 {
     public class CalculateStats
     {
-        public static CalculatedStats CalculateStatsFromHero(Hero hero)
+        public static CalculatedStats CalculateStatsFromHero(Hero hero, Dictionary<string, Item> items)
         {
             CalculatedStats calcStats = new CalculatedStats();
             Dictionary<string, Set> charSets = new Dictionary<string, Set>();
@@ -104,11 +104,11 @@ namespace HeroHelper.Domain
                     break;
             }
 
-            foreach (KeyValuePair<string, Item> item in hero.Items)
+            foreach (KeyValuePair<string, Item> item in items)
             {
-                bool isWeapon = (item.Key == "offHand" && hero.Items[item.Key].AttacksPerSecond != null) || item.Key == "mainHand";
+                bool isWeapon = (item.Key == "offHand" && items[item.Key].AttacksPerSecond != null) || item.Key == "mainHand";
                 // Get stats from item
-                CalculateStatsFromRawAttributes(hero.Items[item.Key].AttributesRaw, isWeapon, ref allResFromItems, ref strFromItems,
+                CalculateStatsFromRawAttributes(items[item.Key].AttributesRaw, isWeapon, ref allResFromItems, ref strFromItems,
                             ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
                             ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
                             ref eleDmg, ref loh, ref minDmg, ref maxDmg,
@@ -116,33 +116,34 @@ namespace HeroHelper.Domain
                             ref blockChance, ref blockMin, ref blockMax);
 
                 // Get stats from gems
-                foreach (SocketedGem gem in hero.Items[item.Key].Gems)
-                {
-                    CalculateStatsFromRawAttributes(gem.AttributesRaw, false, ref allResFromItems, ref strFromItems,
-                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
-                            ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
-                            ref eleDmg, ref loh, ref minDmg, ref maxDmg,
-                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen,
-                            ref blockChance, ref blockMin, ref blockMax);
-                }
+                if (items[item.Key].Gems != null)
+                    foreach (SocketedGem gem in items[item.Key].Gems)
+                    {
+                        CalculateStatsFromRawAttributes(gem.AttributesRaw, false, ref allResFromItems, ref strFromItems,
+                                ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
+                                ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
+                                ref eleDmg, ref loh, ref minDmg, ref maxDmg,
+                                ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen,
+                                ref blockChance, ref blockMin, ref blockMax);
+                    }
 
                 // Monitor sets
-                if (hero.Items[item.Key].Set != null)
+                if (items[item.Key].Set != null)
                 {
                     Set tempSet = new Set();
                     // If set is already monitored, increment the count.
-                    if (charSets.ContainsKey(hero.Items[item.Key].Set.Slug))
+                    if (charSets.ContainsKey(items[item.Key].Set.Slug))
                     {
-                        tempSet = charSets[hero.Items[item.Key].Set.Slug];
+                        tempSet = charSets[items[item.Key].Set.Slug];
                         tempSet.CharCount++;
                     }
                     else // Else create a new monitor
                     {
-                        tempSet = hero.Items[item.Key].Set;
+                        tempSet = items[item.Key].Set;
                         tempSet.CharCount = 1;
                     }
 
-                    charSets[hero.Items[item.Key].Set.Slug] = tempSet;
+                    charSets[items[item.Key].Set.Slug] = tempSet;
                 }
             }
 
@@ -217,7 +218,7 @@ namespace HeroHelper.Domain
                         break;
                     case "archery":
                     case "weapons-master":
-                        switch (hero.Items["mainHand"].Type.Id)
+                        switch (items["mainHand"].Type.Id)
                         {
                             case "Mace":
                             case "Axe":
@@ -278,7 +279,7 @@ namespace HeroHelper.Domain
 
             calcStats.EHP = ehp;
             calcStats.DPS = CalculateDPS(mainStat, critChance, critDamage,
-                hero.Items["mainHand"], hero.Items["offHand"], ias, minDmg, maxDmg, eleDmg, skillDmg);
+                items["mainHand"], items["offHand"], ias, minDmg, maxDmg, eleDmg, skillDmg);
 
             // Base stats
             calcStats.BaseStats.Add(new CalculatedStat("Strength", new double[] { totalStr }, "{0:N0}"));
@@ -290,7 +291,7 @@ namespace HeroHelper.Domain
             // Offense
             calcStats.DamageStats.Add(new CalculatedStat("Damage Increased by " + mainStatName, new double[] { mainStat / 100 }, "{0:P}"));
             calcStats.DamageStats.Add(new CalculatedStat("Damage Increased by Skills", new double[] { skillDmg }, "{0:P}"));
-            aps = CalculateR(hero.Items["mainHand"], hero.Items["offHand"], ias);
+            aps = CalculateR(items["mainHand"], items["offHand"], ias);
             calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", new double[] { aps }, "{0:N}"));
             calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", new double[] { ias }, "{0:P}"));
             calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Chance", new double[] { critChance }, "{0:P}"));
