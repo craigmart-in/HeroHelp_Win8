@@ -514,17 +514,27 @@ namespace HeroHelper
 
                 ItemCompareUC.ItemUserControl = (sender as HeroHelper.Controls.ItemUserControl);
 
-                int selectedIndex = itemListView.SelectedIndex;
-                foreach (KeyValuePair<string, Item> item in _heroes[selectedIndex].CompareItems)
+                if (previousItem != null)
                 {
-                    if (item.Value.Id == previousItem.Id)
+
+                    int selectedIndex = itemListView.SelectedIndex;
+                    foreach (KeyValuePair<string, Item> item in _heroes[selectedIndex].CompareItems)
                     {
-                        ItemCompareUC.CompareItem = item.Value;
-                        ItemCompareUC.Title = item.Key;
-                        break;
+                        if (item.Value.Id == previousItem.Id)
+                        {
+                            ItemCompareUC.CompareItem = item.Value;
+                            break;
+                        }
                     }
                 }
+                else
+                {
+                    ItemCompareUC.CompareItem = new Item();
+                }
+
                 ItemCompareUC.PreviousItem = previousItem;
+                ItemCompareUC.Title = (sender as HeroHelper.Controls.ItemUserControl).DisplayTitle;
+                ItemCompareUC.Key = (sender as HeroHelper.Controls.ItemUserControl).Key;
 
                 ItemComparePopup.HorizontalOffset = grid.Width - 346;
 
@@ -544,17 +554,8 @@ namespace HeroHelper
             ResetCompareStats();
 
             int selectedIndex = itemListView.SelectedIndex;
-            string key = String.Empty;
 
-            foreach (KeyValuePair<string, Item> item in _heroes[selectedIndex].Items)
-            {
-                if (item.Value.Id == ItemCompareUC.PreviousItem.Id)
-                {
-                    key = item.Key;
-                }
-            }
-
-            _heroes[selectedIndex].CompareItems[key] = ItemCompareUC.CompareItem;
+            _heroes[selectedIndex].CompareItems[ItemCompareUC.Key] = ItemCompareUC.CompareItem;
 
             CalculateAndShowCompareStats();
         }

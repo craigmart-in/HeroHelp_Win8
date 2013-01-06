@@ -41,52 +41,11 @@ namespace HeroHelper.Controls
             get { return _title; }
             set
             {
-                switch(value)
-                {
-                    case "head":
-                        _title = "Head";
-                        break;
-                    case "neck":
-                        _title = "Neck";
-                        break;
-                    case "bracers":
-                        _title = "Bracers";
-                        break;
-                    case "waist":
-                        _title = "Waist";
-                        break;
-                    case "rightFinger":
-                        _title = "Right Finger";
-                        break;
-                    case "offHand":
-                        _title = "Off-Hand";
-                        break;
-                    case "feet":
-                        _title = "Feet";
-                        break;
-                    case "shoulders":
-                        _title = "Shoulders";
-                        break;
-                    case "torso":
-                        _title = "Torso";
-                        break;
-                    case "hands":
-                        _title = "Hands";
-                        break;
-                    case "leftFinger":
-                        _title = "Left Finger";
-                        break;
-                    case "legs":
-                        _title = "Legs";
-                        break;
-                    case "mainHand":
-                        _title = "Main Hand";
-                        break;
-                }
-
-                TitleTextBlock.Text = _title;
+                TitleTextBlock.Text = _title = value;
             }
         }
+
+        public string Key { get; set; }
 
         public HeroHelper.Controls.ItemUserControl ItemUserControl { get; set; }
 
@@ -136,6 +95,10 @@ namespace HeroHelper.Controls
             {
                 tb.Text = String.Empty;
             }
+
+            // Don't set values if there aren't any.
+            if (_compareItem == null || _compareItem.AttributesRaw == null)
+                return;
 
             foreach (KeyValuePair<string, MinMax> rawAttribute in _compareItem.AttributesRaw)
             {
