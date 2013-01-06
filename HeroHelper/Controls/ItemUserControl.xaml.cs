@@ -18,6 +18,25 @@ namespace HeroHelper.Controls
 {
     public sealed partial class ItemUserControl : UserControl
     {
+        private bool _isDirty;
+
+        public bool IsDirty
+        {
+            get
+            {
+                return _isDirty;
+            }
+            set
+            {
+                _isDirty = value;
+
+                if (_isDirty)
+                    DirtyBorder.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                else
+                    DirtyBorder.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+        }
+
         public ItemUserControl()
         {
             this.InitializeComponent();

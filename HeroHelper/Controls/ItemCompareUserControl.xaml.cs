@@ -34,6 +34,9 @@ namespace HeroHelper.Controls
                 UpdateTexboxValues();
             }
         }
+
+        public HeroHelper.Controls.ItemUserControl ItemUserControl { get; set; }
+
         public Dictionary<string, MinMax> AttributesRaw;
 
         public delegate void EquipButtonTappedEventHandler(object sender, EventArgs e);
@@ -134,6 +137,9 @@ namespace HeroHelper.Controls
             }
 
             CompareItem = PreviousItem.DeepCopyForCompare();
+
+            ItemUserControl.IsDirty = false;
+
             EquipButtonTapped(this, EventArgs.Empty);
         }
 
@@ -204,6 +210,8 @@ namespace HeroHelper.Controls
             }
 
             CompareItem.AttributesRaw = AttributesRaw;
+
+            ItemUserControl.IsDirty = true;
 
             EquipButtonTapped(this, EventArgs.Empty);
         }

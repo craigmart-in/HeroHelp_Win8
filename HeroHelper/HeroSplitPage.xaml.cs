@@ -527,6 +527,8 @@ namespace HeroHelper
 
                 Item previousItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
 
+                ItemCompareUC.ItemUserControl = (sender as HeroHelper.Controls.ItemUserControl);
+
                 int selectedIndex = itemListView.SelectedIndex;
                 foreach (KeyValuePair<string, Item> item in _heroes[selectedIndex].CompareItems)
                 {
