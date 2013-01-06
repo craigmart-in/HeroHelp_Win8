@@ -359,29 +359,19 @@ namespace HeroHelper
             }
         }
 
-        private void ItemUserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            Item equippedItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
-            if (equippedItem != null)
-            {
-                string tooltipParams = equippedItem.TooltipParams;
-                UpdateTooltip(tooltipParams);
-            }
-        }
-
-        private void ItemUserControl_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-        }
-
         private void toolTip_LoadCompleted(object sender, NavigationEventArgs e)
         {
             toolTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
 
-        private void ItemUserControl_Tapped(object sender, TappedRoutedEventArgs e)
+        private void ItemNameTextBlock_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Item equippedItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
+            LoadToolTip(sender);
+        }
+
+        private void LoadToolTip(object sender)
+        {
+            Item equippedItem = (sender as TextBlock).DataContext as Item;
             if (equippedItem != null)
             {
                 string tooltipParams = equippedItem.TooltipParams;
@@ -503,12 +493,7 @@ namespace HeroHelper
             }
         }
 
-        private void ItemUserControl_Holding(object sender, HoldingRoutedEventArgs e)
-        {
-            ShowItemCompare(sender);
-        }
-
-        private void ItemUserControl_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void ItemUserControl_Tapped(object sender, TappedRoutedEventArgs e)
         {
             ShowItemCompare(sender);
         }
@@ -535,6 +520,7 @@ namespace HeroHelper
                     if (item.Value.Id == previousItem.Id)
                     {
                         ItemCompareUC.CompareItem = item.Value;
+                        ItemCompareUC.Title = item.Key;
                         break;
                     }
                 }

@@ -129,120 +129,120 @@
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[head]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl
         						Margin="113,74,0,0"
         						Height="113" Width="82"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[torso]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="121,0,0,14"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[feet]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="13,127,0,0"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[hands]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="39,28,0,0"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[shoulders]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="121,0,0,106"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[legs]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="0,127,10,0"
         						Height="88" Width="66"
         						HorizontalAlignment="Right"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[bracers]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="13,0,0,13"
         						Height="130" Width="66"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[mainHand]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="0,0,10,13"
         						Height="130" Width="66"
         						HorizontalAlignment="Right"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[offHand]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="113,193,10,0"
         						Height="34" Width="82"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[waist]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="0,0,22,156"
         						Height="42" Width="42"
         						HorizontalAlignment="Right"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[rightFinger]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="25,0,0,156"
         						Height="42" Width="42"
         						HorizontalAlignment="Left"
         						VerticalAlignment="Bottom"
         						DataContext="{Binding Items[leftFinger]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                             <local:ItemUserControl 
         						Margin="0,48,44,0"
         						Height="56" Width="56"
         						HorizontalAlignment="Right"
         						VerticalAlignment="Top"
         						DataContext="{Binding Items[neck]}"
-        						Tapped="ItemUserControl_Tapped" Holding="ItemUserControl_Holding" RightTapped="ItemUserControl_RightTapped"/>
+        						Tapped="ItemUserControl_Tapped"/>
                         </Grid>
 
-                        <TextBlock Style="{StaticResource slot-head}" Text="{Binding Items[head].Name}"
-        					Foreground="{Binding Items[head].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-neck}" Text="{Binding Items[neck].Name}"
-        					Foreground="{Binding Items[neck].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-bracers}" Text="{Binding Items[bracers].Name}"
-        					Foreground="{Binding Items[bracers].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-waist}" Text="{Binding Items[waist].Name}"
-        					Foreground="{Binding Items[waist].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-rightFinger}" Text="{Binding Items[rightFinger].Name}"
-        					Foreground="{Binding Items[rightFinger].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-offHand}" Text="{Binding Items[offHand].Name}"
-        					Foreground="{Binding Items[offHand].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-feet}" Text="{Binding Items[feet].Name}"
-        					Foreground="{Binding Items[feet].DisplayColor}"/>
+                        <TextBlock Style="{StaticResource slot-head}" DataContext="{Binding Items[head]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-neck}" DataContext="{Binding Items[neck]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-bracers}" DataContext="{Binding Items[bracers]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-waist}" DataContext="{Binding Items[waist]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-rightFinger}" DataContext="{Binding Items[rightFinger]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-offHand}" DataContext="{Binding Items[offHand]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-feet}" DataContext="{Binding Items[feet]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
 
-                        <TextBlock Style="{StaticResource slot-shoulders}" Text="{Binding Items[shoulders].Name}"
-        					Foreground="{Binding Items[shoulders].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-torso}" Text="{Binding Items[torso].Name}"
-        					Foreground="{Binding Items[torso].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-hands}" Text="{Binding Items[hands].Name}"
-        					Foreground="{Binding Items[hands].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-leftFinger}" Text="{Binding Items[leftFinger].Name}"
-        					Foreground="{Binding Items[leftFinger].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-legs}" Text="{Binding Items[legs].Name}"
-        					Foreground="{Binding Items[legs].DisplayColor}"/>
-                        <TextBlock Style="{StaticResource slot-mainHand}" Text="{Binding Items[mainHand].Name}"
-        					Foreground="{Binding Items[mainHand].DisplayColor}"/>
+                        <TextBlock Style="{StaticResource slot-shoulders}" DataContext="{Binding Items[shoulders]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-torso}" DataContext="{Binding Items[torso]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-hands}" DataContext="{Binding Items[hands]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-leftFinger}" DataContext="{Binding Items[leftFinger]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-legs}" DataContext="{Binding Items[legs]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
+                        <TextBlock Style="{StaticResource slot-mainHand}" DataContext="{Binding Items[mainHand]}" Text="{Binding Name}"
+        					Foreground="{Binding DisplayColor}" Tapped="ItemNameTextBlock_Tapped"/>
                     </Grid>
                     <Popup x:Name="ItemTooltipPopup" IsLightDismissEnabled="True">
                         <Popup.ChildTransitions>
