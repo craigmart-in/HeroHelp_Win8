@@ -44,7 +44,7 @@
             <Grid>
                 <Button x:Name="RefreshHeroButton"
                         HorizontalAlignment="Right"
-                        Style="{StaticResource RefreshAppBarButtonStyle}" Click="RefreshHeroButton_Click"/>
+                        Style="{StaticResource ResyncAppBarButtonStyle}" Click="RefreshHeroButton_Click"/>
             </Grid>
         </AppBar>
     </common:LayoutAwarePage.BottomAppBar>

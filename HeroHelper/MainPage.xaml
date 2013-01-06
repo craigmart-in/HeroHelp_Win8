@@ -29,7 +29,7 @@
                 <Button x:Name="RefreshProfileButton"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
-                        Style="{StaticResource RefreshAppBarButtonStyle}"
+                        Style="{StaticResource ResyncAppBarButtonStyle}"
                         Click="RefreshProfileButton_Click"/>
             </Grid>
         </AppBar>
