@@ -26,5 +26,13 @@ namespace BattleNet.D3.Models
         public MinMax AttacksPerSecond { get; set; }
         public MinMax MinDamage { get; set; }
         public MinMax MaxDamage { get; set; }
+
+        public Item DeepCopyForCompare()
+        {
+            Item other = (Item)this.MemberwiseClone();
+            other.AttributesRaw = new Dictionary<string, MinMax>(this.AttributesRaw);
+
+            return other;
+        }
     }
 }

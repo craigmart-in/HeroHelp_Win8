@@ -76,6 +76,11 @@ namespace HeroHelper.Controls
 
         private void UpdateTexboxValues()
         {
+            foreach (TextBox tb in _inputs)
+            {
+                tb.Text = String.Empty;
+            }
+
             foreach (KeyValuePair<string, MinMax> rawAttribute in _compareItem.AttributesRaw)
             {
                 switch (rawAttribute.Key)
@@ -128,7 +133,7 @@ namespace HeroHelper.Controls
                 tb.Text = String.Empty;
             }
 
-            CompareItem = PreviousItem;
+            CompareItem = PreviousItem.DeepCopyForCompare();
             EquipButtonTapped(this, EventArgs.Empty);
         }
 
@@ -193,7 +198,7 @@ namespace HeroHelper.Controls
                 }
                 else
                 {
-                    CompareItem = PreviousItem;
+                    CompareItem = PreviousItem.DeepCopyForCompare();
                     return;
                 }
             }

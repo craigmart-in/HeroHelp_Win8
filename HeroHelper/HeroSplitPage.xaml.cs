@@ -290,11 +290,10 @@ namespace HeroHelper
                 temp[item.Key].BackgroundImage = GetItemBackgroundImage(item.Value.DisplayColor);
             }
 
-            hero.Items = (from x in temp
-                          select x).ToDictionary(x => x.Key, x => x.Value);
+            hero.Items = temp;
             // Clone original hero items to compare items to start off.
             hero.CompareItems = (from x in temp
-                                 select x).ToDictionary(x => x.Key, x => x.Value);
+                                 select x).ToDictionary(x => x.Key, x => x.Value.DeepCopyForCompare());
 
             hero.CalculatedStats = Domain.CalculateStats.CalculateStatsFromHero(hero, hero.Items);
 
