@@ -91,7 +91,7 @@ namespace HeroHelper
                 if (!this.UsingLogicalPageNavigation() && this.itemsViewSource.View != null)
                 {
                     if (_isFirstLoad && itemListView.SelectedIndex == selectedHero.HeroIndex)
-                        LoadHero(itemListView.Items[0] as ProfileHero, 0);
+                        LoadHero(itemListView.Items[0] as ProfileHero, 0, false);
 
                     _isFirstLoad = false;
                     itemListView.SelectedIndex = selectedHero.HeroIndex;
@@ -179,14 +179,14 @@ namespace HeroHelper
 
                 if (selectedItem != null)
                 {
-                    LoadHero(selectedItem, list.SelectedIndex);
+                    LoadHero(selectedItem, list.SelectedIndex, false);
                 }
             }
         }
 
-        private async void LoadHero(ProfileHero selectedItem, int selectedHero)
+        private async void LoadHero(ProfileHero selectedItem, int selectedHero, bool isRefresh)
         {
-            if (_heroes[selectedHero] == null)
+            if (_heroes[selectedHero] == null || isRefresh)
             {
                 Hero hero = await _d3Client.GetHeroAsync(_profile.BattleTag.Replace("#", "-"), selectedItem.Id);
                 hero.PaperdollPath = "Assets/paperdoll-" + selectedItem.Class + "-" + selectedItem.Gender + ".jpg";
@@ -206,6 +206,9 @@ namespace HeroHelper
             // Clear out previous hero details
             itemDetail.DataContext = null;
             itemDetail.DataContext = _heroes[selectedHero];
+
+            ResetCompareStats();
+            CalculateAndShowCompareStats();
         }
 
         /// <summary>
@@ -489,6 +492,15 @@ namespace HeroHelper
         {
             // Hide the bottom app bar.
             BottomAppBar.IsOpen = false;
+
+            toolTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+            ProfileHero selectedItem = itemListView.SelectedItem as ProfileHero;
+
+            if (selectedItem != null)
+            {
+                LoadHero(selectedItem, itemListView.SelectedIndex, true);
+            }
         }
 
         private void ItemUserControl_Holding(object sender, HoldingRoutedEventArgs e)
@@ -534,12 +546,14 @@ namespace HeroHelper
 
         private void ItemCompareUC_EquipButtonTapped(object sender, EventArgs e)
         {
+            CompareStats();
+        }
+
+        private void CompareStats()
+        {
             ItemComparePopup.IsOpen = false;
-            int count = _compareStats.Count;
-            for (int i = 0; i < count; i++)
-            {
-                _compareStats.RemoveAt(0);
-            }
+
+            ResetCompareStats();
 
             int selectedIndex = itemListView.SelectedIndex;
             string key = String.Empty;
@@ -554,8 +568,24 @@ namespace HeroHelper
 
             _heroes[selectedIndex].CompareItems[key] = ItemCompareUC.CompareItem;
 
+            CalculateAndShowCompareStats();
+        }
+
+        private void ResetCompareStats()
+        {
+            int count = _compareStats.Count;
+            for (int i = 0; i < count; i++)
+            {
+                _compareStats.RemoveAt(0);
+            }
+        }
+
+        private void CalculateAndShowCompareStats()
+        {
+            int selectedIndex = itemListView.SelectedIndex;
+
             CalculatedStats compareItemStats = Domain.CalculateStats.CalculateStatsFromHero(_heroes[selectedIndex], _heroes[selectedIndex].CompareItems);
-            
+
             for (int i = 0; i < _heroes[selectedIndex].CalculatedStats.BaseStats.Count; i++)
             {
                 CalculateCompareStat(compareItemStats, _heroes[selectedIndex].CalculatedStats.BaseStats[i], compareItemStats.BaseStats[i]);

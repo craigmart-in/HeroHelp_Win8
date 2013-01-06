@@ -441,7 +441,7 @@
                                             <GradientStop Color="#FF1F0400" Offset="1"/>
                                         </LinearGradientBrush>
                                     </StackPanel.Background>
-                                    <TextBlock x:Name="DefStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
+                                    <TextBlock x:Name="DefStatTabText" TextWrapping="Wrap" Text="+" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
                                     <TextBlock TextWrapping="Wrap" Text="Defense" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
                                 </StackPanel>
                                 <ListView x:Name="DefStatDetails"
@@ -458,7 +458,7 @@
                                             <GradientStop Color="#FF1F0400" Offset="1"/>
                                         </LinearGradientBrush>
                                     </StackPanel.Background>
-                                    <TextBlock x:Name="LifeStatTabText" TextWrapping="Wrap" Text="-" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
+                                    <TextBlock x:Name="LifeStatTabText" TextWrapping="Wrap" Text="+" FontSize="26.667" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="#FFA99877" FontWeight="Bold" Margin="5,0,0,0"/>
                                     <TextBlock TextWrapping="Wrap" Text="Life" Margin="25,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFA99877" FontWeight="Bold" FontSize="16"/>
                                 </StackPanel>
                                 <ListView x:Name="LifeStatDetails"
