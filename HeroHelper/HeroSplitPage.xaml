@@ -19,25 +19,7 @@
 
         <CollectionViewSource
             x:Name="compareStatsItemsViewSource"/>
-
-        <DataTemplate x:Key="StatItemTemplate">
-            <Grid Width="400" Margin="10,0" Height="35">
-            	<Border VerticalAlignment="Top" Height="35" >
-            		<Border.Background>
-            			<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            				<GradientStop Color="#AA2B2A2A" Offset="1"/>
-            				<GradientStop Color="#AA343333"/>
-            			</LinearGradientBrush>
-            		</Border.Background>
-            		<StackPanel Orientation="Horizontal" Margin="10,0">
-                        <TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Text="{Binding Name}" Width="150"/>
-            			<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="{Binding Before}" Width="75"/>
-            			<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="{Binding After}" Width="75"/>
-            			<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="{Binding Difference}" Width="75" Foreground="{Binding DifferenceColor}"/>
-            		</StackPanel>
-            	</Border>
-            </Grid>
-        </DataTemplate>
+        
     </Page.Resources>
     <common:LayoutAwarePage.BottomAppBar>
         <AppBar>
@@ -366,37 +348,39 @@
                 			</StackPanel>
                 		</StackPanel>
                 	</Border>
-                	<Grid x:Name="CompareResultsGrid" HorizontalAlignment="Left" Height="332" Margin="0" VerticalAlignment="Top" Width="300" Visibility="Collapsed">
-                		<Grid.RowDefinitions>
-                			<RowDefinition Height="33*"/>
-                			<RowDefinition Height="21*"/>
-                			<RowDefinition Height="112*"/>
-                		</Grid.RowDefinitions>
-                		<Border BorderThickness="1" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="300" BorderBrush="Black" Background="#FF222222">
-                			<StackPanel Orientation="Horizontal" Width="300">
-                				<StackPanel Width="150" VerticalAlignment="Center">
-                					<TextBlock x:Name="dpsChangeTextBlock" TextWrapping="Wrap" Text="910,671.57" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="#FF55FF00"/>
-                					<TextBlock TextWrapping="Wrap" Text="DPS Change" HorizontalAlignment="Center"/>
-                				</StackPanel>
-                				<StackPanel Width="150" VerticalAlignment="Center">
-                					<TextBlock x:Name="ehpChangeTextBlock" TextWrapping="Wrap" Text="358,292,.27" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Foreground="#FF55FF00"/>
-                					<TextBlock TextWrapping="Wrap" Text="EHP Change" HorizontalAlignment="Center"/>
-                				</StackPanel>
+                	<StackPanel x:Name="CompareResultsStackPanel" HorizontalAlignment="Left" Height="332" Margin="0,10,0,0" VerticalAlignment="Top" Width="300" Background="#CC222222">
+                		
+                		<StackPanel Orientation="Horizontal" Width="300" Margin="0,10">
+                			<StackPanel Width="150" VerticalAlignment="Center">
+                				<TextBlock x:Name="dpsChangeTextBlock" TextWrapping="Wrap" Text="910,671.57" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="#FF55FF00"/>
+                				<TextBlock TextWrapping="Wrap" Text="DPS Change" HorizontalAlignment="Center"/>
                 			</StackPanel>
-                		</Border>
+                			<StackPanel Width="150" VerticalAlignment="Center">
+                				<TextBlock x:Name="ehpChangeTextBlock" TextWrapping="Wrap" Text="358,292,.27" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Foreground="#FF55FF00"/>
+                				<TextBlock TextWrapping="Wrap" Text="EHP Change" HorizontalAlignment="Center"/>
+                			</StackPanel>
+                		</StackPanel>
 
-                		<StackPanel VerticalAlignment="Top" Margin="10,0" Orientation="Horizontal" Grid.Row="1">
-                			<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap" Margin="0,0,0,20" Text="Stat" Width="100"/>
-                			<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="Before" Width="75"/>
-                			<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="After" Width="75"/>
-                			<TextBlock Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" Text="Diff" Width="75" Foreground="{Binding DifferenceColor}"/>
+                		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="30" Width="300">
+                            <StackPanel.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF2F0600"/>
+                                    <GradientStop Color="#FF1F0400" Offset="1"/>
+                                </LinearGradientBrush>
+                            </StackPanel.Background>
+                            <TextBlock Style="{StaticResource TitleTextStyle}" Text="Stat" Width="80" Margin="5,0,0,0" Foreground="#FFA99877"/>
+                            <TextBlock Style="{StaticResource TitleTextStyle}" Text="Diff" Width="75" Foreground="#FFA99877"/>
+                            <TextBlock Style="{StaticResource TitleTextStyle}" Text="Before" Width="75" Foreground="#FFA99877"/>
+                            <TextBlock Style="{StaticResource TitleTextStyle}" Text="After" Width="75" Foreground="#FFA99877"/>
                 		</StackPanel>
                 		<ListView
                 			x:Name="ChangedStatsListView"
                 			ItemTemplate="{StaticResource StatItemTemplate}"
                             ItemsSource="{Binding Source={StaticResource compareStatsItemsViewSource}}"
-                			IsTapEnabled="False" SelectionMode="None" Grid.Row="2" Margin="0,0,0,10"/>
-                	</Grid>
+                			IsTapEnabled="False" SelectionMode="None" Height="240"
+                            ItemContainerStyle="{StaticResource StatItemContainerStyle}"/>
+                    </StackPanel>
+                    
                     <ScrollViewer x:Name="CalculatedStatsScrollViewer" Margin="0,10,0,0" Height="784" HorizontalScrollMode="Disabled" >
                         <StackPanel x:Name="CalculatedStats" Background="#CC222222" Height="900" Width="300" VerticalAlignment="Top">
                             <StackPanel x:Name="BaseStats" Orientation="Vertical" Margin="0,0,0,5">

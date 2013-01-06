@@ -613,7 +613,7 @@ namespace HeroHelper
 
             if (_compareStats.Count > 0)
             {
-                CompareResultsGrid.Visibility = Visibility.Visible;
+                CompareResultsStackPanel.Visibility = Visibility.Visible;
                 CalculatedStatsScrollViewer.Visibility = Visibility.Collapsed;
 
                 double dpsChange = compareItemStats.DPS - _heroes[selectedIndex].CalculatedStats.DPS;
@@ -628,7 +628,7 @@ namespace HeroHelper
             }
             else
             {
-                CompareResultsGrid.Visibility = Visibility.Collapsed;
+                CompareResultsStackPanel.Visibility = Visibility.Collapsed;
                 CalculatedStatsScrollViewer.Visibility = Visibility.Visible;
 
                 dpsTextBlock.Text = String.Format("{0:N}", _heroes[selectedIndex].CalculatedStats.DPS);
