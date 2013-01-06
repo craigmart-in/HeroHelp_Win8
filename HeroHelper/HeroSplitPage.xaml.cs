@@ -543,6 +543,8 @@ namespace HeroHelper
         private void ItemCompareUC_EquipButtonTapped(object sender, EventArgs e)
         {
             CompareStats();
+
+            SaveHeroes();
         }
 
         private void CompareStats()
