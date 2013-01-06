@@ -512,8 +512,6 @@ namespace HeroHelper
 
                 Item previousItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
 
-                ItemCompareUC.ItemUserControl = (sender as HeroHelper.Controls.ItemUserControl);
-
                 if (previousItem != null)
                 {
 
@@ -600,6 +598,8 @@ namespace HeroHelper
                 CalculateCompareStat(compareItemStats, _heroes[selectedIndex].CalculatedStats.AdventureStats[i], compareItemStats.AdventureStats[i]);
             }
 
+            ShowIsDirtyOnItem();
+
             if (_compareStats.Count > 0)
             {
                 CompareResultsStackPanel.Visibility = Visibility.Visible;
@@ -622,6 +622,62 @@ namespace HeroHelper
 
                 dpsTextBlock.Text = String.Format("{0:N}", _heroes[selectedIndex].CalculatedStats.DPS);
                 ehpTextBlock.Text = String.Format("{0:N}", _heroes[selectedIndex].CalculatedStats.EHP);
+            }
+        }
+
+        private void ShowIsDirtyOnItem()
+        {
+            int selectedIndex = itemListView.SelectedIndex;
+
+            foreach (KeyValuePair<string, Item> item in _heroes[selectedIndex].CompareItems)
+            {
+                HeroHelper.Controls.ItemUserControl temp;
+
+                switch (item.Key)
+                {
+                    default:
+                    case "head":
+                        temp = HeadItemUserControl;
+                        break;
+                    case "torso":
+                        temp = TorsoItemUserControl;
+                        break;
+                    case "feet":
+                        temp = FeetItemUserControl;
+                        break;
+                    case "hands":
+                        temp = HandsItemUserControl;
+                        break;
+                    case "shoulders":
+                        temp = ShouldersItemUserControl;
+                        break;
+                    case "legs":
+                        temp = LegsItemUserControl;
+                        break;
+                    case "bracers":
+                        temp = BracersItemUserControl;
+                        break;
+                    case "mainHand":
+                        temp = MainHandItemUserControl;
+                        break;
+                    case "offHand":
+                        temp = OffHandItemUserControl;
+                        break;
+                    case "waist":
+                        temp = WaistItemUserControl;
+                        break;
+                    case "rightFinger":
+                        temp = RightFingerItemUserControl;
+                        break;
+                    case "leftFinger":
+                        temp = LeftFingerItemUserControl;
+                        break;
+                    case "neck":
+                        temp = NeckItemUserControl;
+                        break;
+                }
+
+                temp.IsDirty = item.Value.IsDirty;
             }
         }
 

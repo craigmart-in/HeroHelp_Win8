@@ -27,6 +27,13 @@ namespace BattleNet.D3.Models
         public MinMax MinDamage { get; set; }
         public MinMax MaxDamage { get; set; }
 
+        private bool _isDirty = false;
+        public bool IsDirty
+        {
+            get { return _isDirty; }
+            set { _isDirty = value; }
+        }
+
         public Item DeepCopyForCompare()
         {
             Item other = (Item)this.MemberwiseClone();

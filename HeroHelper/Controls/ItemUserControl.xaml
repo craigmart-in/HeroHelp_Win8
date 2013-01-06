@@ -34,6 +34,9 @@
     		VerticalAlignment="Center"
             Source="{Binding DisplayIcon}"
             Stretch="None"/>
-        <Border x:Name="DirtyBorder" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="25" Background="Black" Canvas.ZIndex="1" Visibility="Collapsed"/>
+        <Border x:Name="DirtyBorder" BorderBrush="Black" 
+                BorderThickness="1" HorizontalAlignment="Left"
+                Height="25" VerticalAlignment="Top" Width="25"
+                Background="Black" Canvas.ZIndex="1" Visibility="Collapsed"/>
     </Grid>
 </UserControl>

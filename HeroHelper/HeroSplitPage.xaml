@@ -123,7 +123,7 @@
         					Margin="209,0,0,0"
         					HorizontalAlignment="Left"
         					VerticalAlignment="Top">
-                            <local:ItemUserControl DisplayTitle="Head"
+                            <local:ItemUserControl x:Name="HeadItemUserControl" DisplayTitle="Head"
         						Margin="121,4,0,0"
         						Height="66" Width="66"
         						HorizontalAlignment="Left"
@@ -131,7 +131,7 @@
         						DataContext="{Binding Items[head]}"
                                 Key="head"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Torso"
+                            <local:ItemUserControl x:Name="TorsoItemUserControl" DisplayTitle="Torso"
         						Margin="113,74,0,0"
         						Height="113" Width="82"
         						HorizontalAlignment="Left"
@@ -139,7 +139,7 @@
         						DataContext="{Binding Items[torso]}"
                                 Key="torso"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Feet"
+                            <local:ItemUserControl x:Name="FeetItemUserControl" DisplayTitle="Feet"
         						Margin="121,0,0,14"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
@@ -147,7 +147,7 @@
         						DataContext="{Binding Items[feet]}"
                                 Key="feet"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Hands"
+                            <local:ItemUserControl x:Name="HandsItemUserControl" DisplayTitle="Hands"
         						Margin="13,127,0,0"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
@@ -155,7 +155,7 @@
         						DataContext="{Binding Items[hands]}"
                                 Key="hands"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Shoulders"
+                            <local:ItemUserControl x:Name="ShouldersItemUserControl" DisplayTitle="Shoulders"
         						Margin="39,28,0,0"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
@@ -163,7 +163,7 @@
         						DataContext="{Binding Items[shoulders]}"
                                 Key="shoulders"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Legs"
+                            <local:ItemUserControl x:Name="LegsItemUserControl" DisplayTitle="Legs"
         						Margin="121,0,0,106"
         						Height="88" Width="66"
         						HorizontalAlignment="Left"
@@ -171,7 +171,7 @@
         						DataContext="{Binding Items[legs]}"
                                 Key="legs"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Bracers"
+                            <local:ItemUserControl x:Name="BracersItemUserControl" DisplayTitle="Bracers"
         						Margin="0,127,10,0"
         						Height="88" Width="66"
         						HorizontalAlignment="Right"
@@ -179,7 +179,7 @@
         						DataContext="{Binding Items[bracers]}"
                                 Key="bracers"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Main Hand"
+                            <local:ItemUserControl x:Name="MainHandItemUserControl" DisplayTitle="Main Hand"
         						Margin="13,0,0,13"
         						Height="130" Width="66"
         						HorizontalAlignment="Left"
@@ -187,7 +187,7 @@
         						DataContext="{Binding Items[mainHand]}"
                                 Key="mainHand"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Off Hand"
+                            <local:ItemUserControl x:Name="OffHandItemUserControl" DisplayTitle="Off Hand"
         						Margin="0,0,10,13"
         						Height="130" Width="66"
         						HorizontalAlignment="Right"
@@ -195,7 +195,7 @@
         						DataContext="{Binding Items[offHand]}"
                                 Key="offHand"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Waist"
+                            <local:ItemUserControl x:Name="WaistItemUserControl" DisplayTitle="Waist"
         						Margin="113,193,10,0"
         						Height="34" Width="82"
         						HorizontalAlignment="Left"
@@ -203,7 +203,7 @@
         						DataContext="{Binding Items[waist]}"
                                 Key="waist"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Right Finger"
+                            <local:ItemUserControl x:Name="RightFingerItemUserControl" DisplayTitle="Right Finger"
         						Margin="0,0,22,156"
         						Height="42" Width="42"
         						HorizontalAlignment="Right"
@@ -211,7 +211,7 @@
         						DataContext="{Binding Items[rightFinger]}"
                                 Key="rightFinger"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Left Finger"
+                            <local:ItemUserControl x:Name="LeftFingerItemUserControl" DisplayTitle="Left Finger"
         						Margin="25,0,0,156"
         						Height="42" Width="42"
         						HorizontalAlignment="Left"
@@ -219,7 +219,7 @@
         						DataContext="{Binding Items[leftFinger]}"
                                 Key="leftFinger"
         						Tapped="ItemUserControl_Tapped"/>
-                            <local:ItemUserControl DisplayTitle="Neck"
+                            <local:ItemUserControl x:Name="NeckItemUserControl" DisplayTitle="Neck"
         						Margin="0,48,44,0"
         						Height="56" Width="56"
         						HorizontalAlignment="Right"
