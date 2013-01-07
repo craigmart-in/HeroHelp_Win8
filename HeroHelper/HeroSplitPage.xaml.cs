@@ -511,24 +511,16 @@ namespace HeroHelper
                 ItemCompareUC.Width = 346;
 
                 Item previousItem = (sender as HeroHelper.Controls.ItemUserControl).DataContext as Item;
+                string key = (sender as HeroHelper.Controls.ItemUserControl).Key;
+                int selectedIndex = itemListView.SelectedIndex;
 
-                if (previousItem != null)
+                if (_heroes[selectedIndex].CompareItems == null ||
+                    !_heroes[selectedIndex].CompareItems.ContainsKey(key))
                 {
+                    _heroes[selectedIndex].CompareItems[key] = new Item();
+                }
 
-                    int selectedIndex = itemListView.SelectedIndex;
-                    foreach (KeyValuePair<string, Item> item in _heroes[selectedIndex].CompareItems)
-                    {
-                        if (item.Value.Id == previousItem.Id)
-                        {
-                            ItemCompareUC.CompareItem = item.Value;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    ItemCompareUC.CompareItem = new Item();
-                }
+                ItemCompareUC.CompareItem = _heroes[selectedIndex].CompareItems[key];
 
                 ItemCompareUC.PreviousItem = previousItem;
                 ItemCompareUC.Title = (sender as HeroHelper.Controls.ItemUserControl).DisplayTitle;
@@ -631,6 +623,22 @@ namespace HeroHelper
         {
             int selectedIndex = itemListView.SelectedIndex;
 
+            // Reset IsDirty first
+            HeadItemUserControl.IsDirty = false;
+            TorsoItemUserControl.IsDirty = false;
+            FeetItemUserControl.IsDirty = false;
+            HandsItemUserControl.IsDirty = false;
+            ShouldersItemUserControl.IsDirty = false;
+            BracersItemUserControl.IsDirty = false;
+            MainHandItemUserControl.IsDirty = false;
+            OffHandItemUserControl.IsDirty = false;
+            WaistItemUserControl.IsDirty = false;
+            RightFingerItemUserControl.IsDirty = false;
+            LeftFingerItemUserControl.IsDirty = false;
+            NeckItemUserControl.IsDirty = false;
+
+
+            // Now get the value from the item
             foreach (KeyValuePair<string, Item> item in _heroes[selectedIndex].CompareItems)
             {
                 HeroHelper.Controls.ItemUserControl temp;
