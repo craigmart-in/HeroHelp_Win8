@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="1884b47f-2c57-40f2-a3af-c8b2aff4a717" Publisher="CN=Craig" Version="1.0.0.0" />
+  <Identity Name="8894craigmart.in.HeroHelper" Publisher="CN=10A65AE7-D9EC-47BE-9CF3-AF75C15D9517" Version="1.0.0.0" />
   <Properties>
-    <DisplayName>HeroHelper</DisplayName>
-    <PublisherDisplayName>Craig</PublisherDisplayName>
+    <DisplayName>Hero Helper</DisplayName>
+    <PublisherDisplayName>craigmart.in</PublisherDisplayName>
     <Logo>Assets\store_logo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -15,12 +15,9 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="HeroHelper.App">
-      <VisualElements DisplayName="Hero Helper" Logo="Assets\logo.png" SmallLogo="Assets\small_logo.png" Description="Diablo 3 Utility to help plan your hero.  Compare items and see the effects on your EHP and DPS." ForegroundText="dark" BackgroundColor="#464646">
+      <VisualElements DisplayName="Hero Helper" Logo="Assets\logo.png" SmallLogo="Assets\small_logo.png" Description="Diablo 3 Utility to help plan your hero.  Compare items and see the effects on your EHP and DPS. Simply click an item to modify the stats or click an item name to view the details." ForegroundText="dark" BackgroundColor="#464646">
         <DefaultTile ShowName="noLogos" ShortName="Hero Helper" WideLogo="Assets\wide_logo.png" />
         <SplashScreen Image="Assets/splash.jpg" BackgroundColor="#000000" />
-        <InitialRotationPreference>
-          <Rotation Preference="landscape" />
-        </InitialRotationPreference>
       </VisualElements>
     </Application>
   </Applications>

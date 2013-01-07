@@ -41,7 +41,10 @@ local.properties
 *.user
 *.sln.docstates
 
+Package.StoreAssociation.xml
+
 # Build results
+[Aa]ppPackages/
 [Dd]ebug/
 [Rr]elease/
 *_i.c
@@ -62,6 +65,7 @@ local.properties
 *.vspscc
 .builds
 *.dotCover
+*.pfx
 
 ## TODO: If you have NuGet Package Restore enabled, uncomment this
 #packages/

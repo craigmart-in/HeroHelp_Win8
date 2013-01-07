@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BattleNet
 {
-    public abstract class BaseClient
+    public abstract class BaseClient : IDisposable
     {
         HttpClient _httpClient;
 
@@ -39,6 +39,12 @@ namespace BattleNet
             HttpResponseMessage response = await _httpClient.GetAsync(uri);
 
             return await response.Content.ReadAsStringAsync();
+        }
+
+        public void Dispose()
+        {
+            _httpClient.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
