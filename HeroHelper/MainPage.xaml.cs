@@ -93,7 +93,8 @@ namespace HeroHelper
                 // Restore the previously saved state associated with this page
                 if (pageState.ContainsKey("SelectedProfile"))
                 {
-                    itemListView.SelectedIndex = (int) pageState["SelectedProfile"];
+                    if (_recentProfiles.Count > 0)
+                        itemListView.SelectedIndex = (int) pageState["SelectedProfile"];
                 }
             }
         }
