@@ -564,6 +564,9 @@ namespace HeroHelper
         private void CalculateAndShowCompareStats()
         {
             int selectedIndex = itemListView.SelectedIndex;
+            
+            if (_heroes[selectedIndex] == null || _heroes[selectedIndex].CompareItems == null)
+                return;
 
             CalculatedStats compareItemStats = Domain.CalculateStats.CalculateStatsFromHero(_heroes[selectedIndex], _heroes[selectedIndex].CompareItems);
 
