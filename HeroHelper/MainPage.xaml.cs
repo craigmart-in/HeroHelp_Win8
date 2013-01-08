@@ -50,7 +50,7 @@ namespace HeroHelper
         private void SettingsCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
         {
             var privacyStatement = new SettingsCommand("privacy", "Privacy Statement", x => Windows.System.Launcher.LaunchUriAsync(
-                    new Uri("http://craigmart.in")));
+                    new Uri("http://craigmart.in/hero-helper/privacy-policy/")));
 
             args.Request.ApplicationCommands.Clear();
             args.Request.ApplicationCommands.Add(privacyStatement);
