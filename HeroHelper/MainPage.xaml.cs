@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.ApplicationSettings;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -36,12 +37,23 @@ namespace HeroHelper
 
         private D3Client _d3Client;
         private ObservableCollection<Profile> _recentProfiles;
-
+        
         public MainPage()
         {
             this.InitializeComponent();
 
             itemListView.AddHandler(Control.DropEvent, new DragEventHandler(itemListView_Drop), true);
+
+            SettingsPane.GetForCurrentView().CommandsRequested += SettingsCommandsRequested;
+        }
+
+        private void SettingsCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        {
+            var privacyStatement = new SettingsCommand("privacy", "Privacy Statement", x => Windows.System.Launcher.LaunchUriAsync(
+                    new Uri("http://craigmart.in")));
+
+            args.Request.ApplicationCommands.Clear();
+            args.Request.ApplicationCommands.Add(privacyStatement);
         }
 
         #region Page state management

@@ -1,0 +1,21 @@
+----------------------
+| App Privacy Policy |
+----------------------
+
+Personal information
+--------------------
+This application does not collect or transmit any user's personally identifiable information.
+No personal information is used, stored, secured or disclosed by services this application works with.
+
+
+Technical information
+---------------------
+Limited technical information is sent (such as IP addresses included in the HTTP calls the application makes) but none of that is used or stored.
+Information downloaded from the Diablo 3 API is stored as cache to enable a more fluid experience for the user.
+This data is kept on the users local machine and is not disclosed to any other service.
+
+
+Third parties
+-------------
+This app makes use of the Diablo 3 API provided by Blizzard, their usage of information is excluded from this privacy policy.
+To view their privacy policy, please visit: http://us.blizzard.com/en-us/company/about/privacy.html
