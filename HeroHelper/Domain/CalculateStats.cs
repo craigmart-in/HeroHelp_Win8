@@ -319,7 +319,7 @@ namespace HeroHelper.Domain
             return calcStats;
         }
 
-        private static void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw, bool isAWeapon,
+        public static void CalculateStatsFromRawAttributes(Dictionary<string, MinMax> attributesRaw, bool isAWeapon,
             ref double allResFromItems, ref double strFromItems, ref double dexFromItems, ref double intFromItems,
             ref double vitFromItems, ref double lifePctFromItems, ref double armFromItems, ref double critDamage,
             ref double critChance, ref double ias, ref double aps, ref Dictionary<string, double> resFromItems,
@@ -439,7 +439,7 @@ namespace HeroHelper.Domain
             }
         }
 
-        private static void CalculateWeaponDamageFromRawAttributes(Dictionary<string, MinMax> attributesRaw,
+        public static void CalculateWeaponDamageFromRawAttributes(Dictionary<string, MinMax> attributesRaw,
             out double physMinDmg, out double physMaxDmg, out double totMinDmg, out double totMaxDmg)
         {
             double minBaseDmg = 0;

@@ -98,49 +98,86 @@ namespace HeroHelper.Controls
             if (_compareItem == null || _compareItem.AttributesRaw == null)
                 return;
 
-            foreach (KeyValuePair<string, MinMax> rawAttribute in _compareItem.AttributesRaw)
+            // Get all of the raw attributes
+            List<Dictionary<string, MinMax>> rawAttributes = new List<Dictionary<string, MinMax>>();
+            rawAttributes.Add(_compareItem.AttributesRaw);
+
+            if (_compareItem.Gems != null)
             {
-                switch (rawAttribute.Key)
+                foreach (SocketedGem gem in _compareItem.Gems)
                 {
-                    case "Damage_Min#Physical":
-                        MinDTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
-                    case "Damage_Delta#Physical":
-                        double value = rawAttribute.Value.Min + _compareItem.AttributesRaw["Damage_Min#Physical"].Min;
-                        MaxDTextBox.Text = value.ToString();
-                        break;
-                    case "Armor_Item":
-                        ArmTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
-                    case "Strength_Item":
-                        StrTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
-                    case "Dexterity_Item":
-                        DexTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
-                    case "Intelligence_Item":
-                        IntTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
-                    case "Vitality_Item":
-                        VitTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
-                    case "Resistance_All":
-                        ResTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
-                    case "Hitpoints_Max_Percent_Bonus_Item":
-                        LifeTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
-                    case "Crit_Damage_Percent":
-                        CritDTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
-                    case "Crit_Percent_Bonus_Capped":
-                        CritCTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
-                    case "Attacks_Per_Second_Percent":
-                        IasTextBox.Text = rawAttribute.Value.Min.ToString();
-                        break;
+                    rawAttributes.Add(gem.AttributesRaw);
                 }
             }
+
+            double armFromItems = 0;
+
+            double allResFromItems = 0;
+            Dictionary<string, double> resFromItems = new Dictionary<string, double>();
+            resFromItems.Add("Fire", 0);
+            resFromItems.Add("Lightning", 0);
+            resFromItems.Add("Poison", 0);
+            resFromItems.Add("Physical", 0);
+            resFromItems.Add("Arcane", 0);
+            resFromItems.Add("Cold", 0);
+            double strFromItems = 0;
+            double dexFromItems = 0;
+            double intFromItems = 0;
+            double vitFromItems = 0;
+            double lifePctFromItems = 0;
+
+            double critDamage = 0;
+            double critChance = 0;
+            double ias = 0;
+            double aps = 1;
+
+            double eleDmg = 0;
+            double loh = 0;
+            double minDmg = 0;
+            double maxDmg = 0;
+
+            double eliteBonus = 0;
+            double demonBonus = 0;
+
+            double ls = 0;
+            double lifeRegen = 0;
+
+            double blockChance = 0;
+            double blockMin = 0;
+            double blockMax = 0;
+
+            foreach (Dictionary<string, MinMax> raw in rawAttributes)
+            {
+                Domain.CalculateStats.CalculateStatsFromRawAttributes(raw, false, ref allResFromItems, ref strFromItems,
+                            ref dexFromItems, ref intFromItems, ref vitFromItems, ref lifePctFromItems, ref armFromItems,
+                            ref critDamage, ref critChance, ref ias, ref aps, ref resFromItems,
+                            ref eleDmg, ref loh, ref minDmg, ref maxDmg,
+                            ref eliteBonus, ref demonBonus, ref ls, ref lifeRegen,
+                            ref blockChance, ref blockMin, ref blockMax);
+            }
+
+
+            if (_compareItem.Dps != null)
+            {
+                double mhPhysMinDmg;
+                double mhPhysMaxDmg;
+                Domain.CalculateStats.CalculateWeaponDamageFromRawAttributes(
+                    _compareItem.AttributesRaw, out mhPhysMinDmg, out mhPhysMaxDmg,
+                    out minDmg, out maxDmg);
+            }
+
+            MinDTextBox.Text = minDmg.ToString();
+            MaxDTextBox.Text = maxDmg.ToString();
+            ArmTextBox.Text = armFromItems.ToString();
+            StrTextBox.Text = strFromItems.ToString();
+            DexTextBox.Text = dexFromItems.ToString();
+            IntTextBox.Text = intFromItems.ToString();
+            VitTextBox.Text = vitFromItems.ToString();
+            ResTextBox.Text = allResFromItems.ToString();
+            LifeTextBox.Text = (lifePctFromItems * 100).ToString();
+            CritDTextBox.Text = (critDamage * 100).ToString();
+            CritCTextBox.Text = (critChance * 100).ToString();
+            IasTextBox.Text = (ias * 100).ToString();
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -204,13 +241,13 @@ namespace HeroHelper.Controls
                         value -= AttributesRaw["Damage_Min#Physical"].Min;
                     }
 
-                    //if (_attributeStrings[i] == "Hitpoints_Max_Percent_Bonus_Item" ||
-                    //    _attributeStrings[i] == "Crit_Damage_Percent" ||
-                    //    _attributeStrings[i] == "Crit_Percent_Bonus_Capped" ||
-                    //    _attributeStrings[i] == "Attacks_Per_Second_Percent")
-                    //{
-                    //    value = value / 100;
-                    //}
+                    if (_attributeStrings[i] == "Hitpoints_Max_Percent_Bonus_Item" ||
+                        _attributeStrings[i] == "Crit_Damage_Percent" ||
+                        _attributeStrings[i] == "Crit_Percent_Bonus_Capped" ||
+                        _attributeStrings[i] == "Attacks_Per_Second_Percent")
+                    {
+                        value = value / 100;
+                    }
 
                     AttributesRaw[_attributeStrings[i]] = new MinMax() { Min = value, Max = value };
                 }
