@@ -64,16 +64,16 @@
             <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource ApplicationName}" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
         <StackPanel Orientation="Vertical" Margin="0,0,20,0" Grid.Row="1" Height="200" VerticalAlignment="Top">
-        	<StackPanel x:Name="stackPanel" Margin="100,0,0,15">
-        		<StackPanel Orientation="Horizontal">
-        			<TextBlock TextWrapping="Wrap" Text="Battle Tag" Style="{StaticResource BasicTextStyle}" Width="200" Margin="0,0,0,10"/>
-        			<TextBlock x:Name="invalidBattleTagTextBlock" TextWrapping="Wrap" Text="Invalid Battle Tag" Style="{StaticResource BasicTextStyle}" Foreground="#DEFF0000" Visibility="Collapsed"/>
-        		</StackPanel>
-        		<TextBox x:Name="battleTagTextBox" TextWrapping="Wrap" HorizontalAlignment="Right" Width="267" KeyUp="battleTagTextBox_KeyUp"/>
+        	<StackPanel x:Name="stackPanel" Margin="61,0,0,15" Height="67">
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBlock TextWrapping="Wrap" Text="Battle Tag" Style="{StaticResource BasicTextStyle}" Margin="0,0,0,10"/>
+        		    <TextBox x:Name="battleTagTextBox" TextWrapping="Wrap" HorizontalAlignment="Right" Width="208" KeyUp="battleTagTextBox_KeyUp" Margin="134,0,0,0"/>
+                </StackPanel>
+                <TextBlock x:Name="invalidBattleTagTextBlock" TextWrapping="Wrap" Text="Invalid Battle Tag" Style="{StaticResource BasicTextStyle}" Foreground="#DEFF0000" Visibility="Collapsed" HorizontalAlignment="Right"/>
             </StackPanel>
-        	<StackPanel x:Name="stackPanel1" Margin="100,0,0,15">
+        	<StackPanel x:Name="stackPanel1" Margin="76,0,0,15" Orientation="Horizontal">
         		<TextBlock TextWrapping="Wrap" Text="Region" Style="{StaticResource BasicTextStyle}" Margin="0,0,0,10"/>
-        		<ComboBox x:Name="regionComboBox" Margin="265,0,0,0">
+                <ComboBox x:Name="regionComboBox" Margin="228,0,0,0" Width="132">
                     <ComboBox.RenderTransform>
                         <CompositeTransform/>
                     </ComboBox.RenderTransform>
@@ -135,7 +135,14 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="regionComboBox">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
-                                    <Thickness>185,0,0,0</Thickness>
+                                    <Thickness>145,0,0,0</Thickness>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="battleTagTextBox">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Thickness>58,0,0,0</Thickness>
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
@@ -270,7 +277,7 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="regionComboBox">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
-                                    <Thickness>135,0,0,0</Thickness>
+                                    <Thickness>75,0,0,0</Thickness>
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
@@ -291,14 +298,14 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="battleTagTextBox">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
-                                    <x:Double>250</x:Double>
+                                    <x:Double>150</x:Double>
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="battleTagTextBox">
                             <DiscreteObjectKeyFrame KeyTime="0">
                                 <DiscreteObjectKeyFrame.Value>
-                                    <Thickness>0</Thickness>
+                                    <Thickness>22,0,0,0</Thickness>
                                 </DiscreteObjectKeyFrame.Value>
                             </DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
