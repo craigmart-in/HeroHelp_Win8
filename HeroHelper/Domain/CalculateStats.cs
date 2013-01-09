@@ -574,7 +574,7 @@ namespace HeroHelper.Domain
             double mhTotMaxDmg;
             CalculateWeaponDamageFromRawAttributes(mh.AttributesRaw, out mhPhysMinDmg, out mhPhysMaxDmg, out mhTotMinDmg, out mhTotMaxDmg);
 
-            double mhBonusDmg = (mhPhysMinDmg + minDmg + mhPhysMaxDmg + maxdmg) / 2 * (eleDmg * 100);
+            double mhBonusDmg = (mhPhysMinDmg + minDmg + mhPhysMaxDmg + maxdmg) / 2 * eleDmg;
             double mhAvg = ((mhTotMinDmg + minDmg + mhTotMaxDmg + maxdmg) / 2) + mhBonusDmg;
 
             a = mhAvg;
@@ -587,7 +587,7 @@ namespace HeroHelper.Domain
                 double ohTotMaxDmg;
                 CalculateWeaponDamageFromRawAttributes(oh.AttributesRaw, out ohPhysMinDmg, out ohPhysMaxDmg, out ohTotMinDmg, out ohTotMaxDmg);
 
-                double ohBonusDmg = (ohPhysMinDmg + minDmg + ohPhysMaxDmg + maxdmg) / 2 * (eleDmg * 100);
+                double ohBonusDmg = (ohPhysMinDmg + minDmg + ohPhysMaxDmg + maxdmg) / 2 * eleDmg;
                 double ohAvg = ((ohTotMinDmg + minDmg + ohTotMaxDmg + maxdmg) / 2) + ohBonusDmg;
 
                 a = (mhAvg + ohAvg) / 2;
