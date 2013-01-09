@@ -168,7 +168,7 @@ namespace HeroHelper.Controls
 
             MinDTextBox.Text = minDmg.ToString();
             MaxDTextBox.Text = maxDmg.ToString();
-            ArmTextBox.Text = armFromItems.ToString("N2");
+            ArmTextBox.Text = armFromItems.ToString();
             StrTextBox.Text = strFromItems.ToString();
             DexTextBox.Text = dexFromItems.ToString();
             IntTextBox.Text = intFromItems.ToString();
