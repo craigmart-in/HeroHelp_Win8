@@ -104,6 +104,15 @@ namespace HeroHelper.Domain
                     break;
             }
 
+            // Initialize hands
+            Item mainHand = null;
+            if (items.ContainsKey("mainHand"))
+                mainHand = items["mainHand"];
+
+            Item offHand = null;
+            if (items.ContainsKey("offHand"))
+                offHand = items["offHand"];
+
             foreach (KeyValuePair<string, Item> item in items)
             {
                 bool isWeapon = (item.Key == "offHand" && items[item.Key].AttacksPerSecond != null) || item.Key == "mainHand";
@@ -218,7 +227,7 @@ namespace HeroHelper.Domain
                         break;
                     case "archery":
                     case "weapons-master":
-                        switch (items["mainHand"].Type.Id)
+                        switch (mainHand.Type.Id)
                         {
                             case "Mace":
                             case "Axe":
@@ -278,8 +287,9 @@ namespace HeroHelper.Domain
             double ehp = hp / multDR;
 
             calcStats.EHP = ehp;
+
             calcStats.DPS = CalculateDPS(mainStat, critChance, critDamage,
-                items["mainHand"], items["offHand"], ias, minDmg, maxDmg, eleDmg, skillDmg);
+                    mainHand, offHand, ias, minDmg, maxDmg, eleDmg, skillDmg);
 
             // Base stats
             calcStats.BaseStats.Add(new CalculatedStat("Strength", new double[] { totalStr }, "{0:N0}"));
@@ -291,7 +301,7 @@ namespace HeroHelper.Domain
             // Offense
             calcStats.DamageStats.Add(new CalculatedStat("Damage Increased by " + mainStatName, new double[] { mainStat / 100 }, "{0:P}"));
             calcStats.DamageStats.Add(new CalculatedStat("Damage Increased by Skills", new double[] { skillDmg }, "{0:P}"));
-            aps = CalculateR(items["mainHand"], items["offHand"], ias);
+            aps = CalculateR(mainHand, offHand, ias);
             calcStats.DamageStats.Add(new CalculatedStat("Attacks per Second", new double[] { aps }, "{0:N}"));
             calcStats.DamageStats.Add(new CalculatedStat("+% Attack Speed", new double[] { ias }, "{0:P}"));
             calcStats.DamageStats.Add(new CalculatedStat("Critical Hit Chance", new double[] { critChance }, "{0:P}"));
@@ -551,7 +561,7 @@ namespace HeroHelper.Domain
         {
             double r = 0;
 
-            if (oh.AttacksPerSecond != null)
+            if (oh != null && oh.AttacksPerSecond != null)
             {
                 double mhaps = mh.AttacksPerSecond.Min * (1.15 + ias);
                 double ohaps = oh.AttacksPerSecond.Min * (1.15 + ias);
@@ -579,7 +589,7 @@ namespace HeroHelper.Domain
 
             a = mhAvg;
 
-            if (oh.AttacksPerSecond != null)
+            if (oh != null && oh.AttacksPerSecond != null)
             {
                 double ohPhysMinDmg;
                 double ohPhysMaxDmg;
