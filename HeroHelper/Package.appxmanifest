@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="8894craigmart.in.HeroHelper" Publisher="CN=10A65AE7-D9EC-47BE-9CF3-AF75C15D9517" Version="1.0.1.0" />
+  <Identity Name="8894craigmart.in.HeroHelper" Publisher="CN=10A65AE7-D9EC-47BE-9CF3-AF75C15D9517" Version="1.0.2.0" />
   <Properties>
     <DisplayName>Hero Helper</DisplayName>
     <PublisherDisplayName>craigmart.in</PublisherDisplayName>

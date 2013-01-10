@@ -245,7 +245,7 @@ namespace HeroHelper.Domain
                                 break;
                             case "Bow":
                             case "Sword":
-                            case "Swords2H":
+                            case "Sword2H":
                             case "Dagger":
                                 skillDmg += 0.15;
                                 break;
